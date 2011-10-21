@@ -26,6 +26,6 @@ public class ResourceTypeListener
                                                    @Nonnull final Annotation annotation,
                                                    @Nonnull final Field field )
   {
-    return new FieldBasedInjector<T>( typeEncounter, field );
+    return FieldBasedInjector.createFromEncounter( typeEncounter, field );
   }
 }

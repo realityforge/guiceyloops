@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops;
 
 import com.google.inject.MembersInjector;
+import com.google.inject.Provider;
 import com.google.inject.spi.TypeEncounter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -9,7 +10,7 @@ import javax.annotation.Nullable;
 
 /**
  * A field based injector that bases the injection of the field on the type of the field.
- *
+ * <p/>
  * <p>Designed to be sub-classed. Subclasses should override {@link #getValue()} to determine the value injected.</p>
  *
  * @param <T> the type of the object that declares the field
@@ -17,15 +18,35 @@ import javax.annotation.Nullable;
 public class FieldBasedInjector<T>
     implements MembersInjector<T>
 {
-  private final TypeEncounter<T> _typeEncounter;
   private final Field _field;
+  private final Provider<?> _provider;
 
-  public FieldBasedInjector( @Nonnull final TypeEncounter<T> typeEncounter,
-                             @Nonnull final Field field )
+  /**
+   * Create an injector based on a particular encounter with a field.
+   *
+   * @param typeEncounter the context of the encounter.
+   * @param field         the field.
+   * @param <T>           the type of the object that declares the field
+   * @return the injector for field.
+   */
+  public static <T> FieldBasedInjector<T> createFromEncounter( @Nonnull final TypeEncounter<T> typeEncounter,
+                                                               @Nonnull final Field field )
   {
-    _typeEncounter = typeEncounter;
+    final Provider<?> provider = typeEncounter.getProvider( field.getType() );
+    return new FieldBasedInjector<T>( provider, field );
+  }
+
+  /**
+   * Inject field by using specified provider.
+   *
+   * @param provider the provider to use to create value to inject.
+   * @param field    the field to inject.
+   */
+  public FieldBasedInjector( @Nonnull final Provider<?> provider, @Nonnull final Field field )
+  {
     _field = field;
     _field.setAccessible( true );
+    _provider = provider;
   }
 
   /**
@@ -44,14 +65,6 @@ public class FieldBasedInjector<T>
   }
 
   /**
-   * @return the context in which the indictable field was encountered.
-   */
-  protected final TypeEncounter<T> getTypeEncounter()
-  {
-    return _typeEncounter;
-  }
-
-  /**
    * @return the field on which the annotation was encountered.
    */
   protected final Field getField()
@@ -64,6 +77,6 @@ public class FieldBasedInjector<T>
    */
   protected Object getValue()
   {
-    return getTypeEncounter().getProvider( getField().getType() ).get();
+    return _provider.get();
   }
 }
