@@ -1,3 +1,5 @@
+require 'buildr/java/emma'
+
 desc "GuiceyLoops: Guice EE testing support to Guicey-fruit"
 define('guiceyloops') do
   project.version = '0.2'
@@ -13,5 +15,8 @@ define('guiceyloops') do
                :google_guice,
                :aopalliance,
                :google_guice_assistedinject
+
+  emma.include 'org.realityforge.*'
+
   package(:jar)
 end
