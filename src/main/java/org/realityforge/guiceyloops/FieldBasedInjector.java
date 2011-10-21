@@ -4,21 +4,33 @@ import com.google.inject.MembersInjector;
 import com.google.inject.spi.TypeEncounter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public abstract class FieldBasedInjector<T> implements MembersInjector<T>
+/**
+ * A field based injector that bases the injection of the field on the type of the field.
+ *
+ * <p>Designed to be sub-classed. Subclasses should override {@link #getValue()} to determine the value injected.</p>
+ *
+ * @param <T> the type of the object that declares the field
+ */
+public class FieldBasedInjector<T>
+    implements MembersInjector<T>
 {
   private final TypeEncounter<T> _typeEncounter;
-  private final Annotation _annotation;
   private final Field _field;
 
-  FieldBasedInjector( final TypeEncounter<T> typeEncounter, final Annotation annotation, final Field field )
+  public FieldBasedInjector( @Nonnull final TypeEncounter<T> typeEncounter,
+                             @Nonnull final Field field )
   {
     _typeEncounter = typeEncounter;
-    _annotation = annotation;
     _field = field;
     _field.setAccessible( true );
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void injectMembers( final T t )
   {
     try
@@ -31,20 +43,27 @@ public abstract class FieldBasedInjector<T> implements MembersInjector<T>
     }
   }
 
+  /**
+   * @return the context in which the indictable field was encountered.
+   */
   protected final TypeEncounter<T> getTypeEncounter()
   {
     return _typeEncounter;
   }
 
-  protected final Annotation getAnnotation()
-  {
-    return _annotation;
-  }
-
+  /**
+   * @return the field on which the annotation was encountered.
+   */
   protected final Field getField()
   {
     return _field;
   }
 
-  protected abstract Object getValue();
+  /**
+   * @return the value to bind to the field.
+   */
+  protected Object getValue()
+  {
+    return getTypeEncounter().getProvider( getField().getType() ).get();
+  }
 }
