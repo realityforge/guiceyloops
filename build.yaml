@@ -1,0 +1,19 @@
+gems:
+  - buildr = 1.4.6
+
+repositories:
+  remote:
+   - http://www.ibiblio.org/maven2
+
+artifacts:
+  javax_inject: javax.inject:javax.inject:jar:1
+  javax_ejb: org.apache.geronimo.specs:geronimo-ejb_3.1_spec:jar:1.0.2
+  javax_persistence: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.0.Final
+  javax_transaction: javax.transaction:jta:jar:1.1
+  javax_annotation: com.google.code.findbugs:jsr305:jar:1.3.9
+  javax_interceptor: org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.1_spec:jar:1.0.0.Final
+
+  google_guice: com.google.inject:guice:jar:3.0
+  google_guice_assistedinject: com.google.inject.extensions:guice-assistedinject:jar:3.0
+  aopalliance: aopalliance:aopalliance:jar:1.0 # Required for guice
+
