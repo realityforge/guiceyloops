@@ -16,6 +16,8 @@ define('guiceyloops') do
                :aopalliance,
                :google_guice_assistedinject
 
+  test.using :testng
+
   emma.include 'org.realityforge.*'
 
   package(:jar)
