@@ -3,10 +3,8 @@ package org.realityforge.guiceyloops;
 import com.google.inject.MembersInjector;
 import com.google.inject.Provider;
 import com.google.inject.spi.TypeEncounter;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * A field based injector that bases the injection of the field on the type of the field.
@@ -56,11 +54,11 @@ public class FieldBasedInjector<T>
   {
     try
     {
-      _field.set( t, getValue() );
+      getField().set( t, getValue() );
     }
-    catch( IllegalAccessException e )
+    catch( final IllegalAccessException iae )
     {
-      throw new RuntimeException( e );
+      throw new IllegalStateException( iae.getMessage(), iae );
     }
   }
 
