@@ -10,10 +10,10 @@ required to provide resources used in the test (i.e. an EntityManager module) as
 any module that defines the components under test into one injector and access the components
 under test from specified module. i.e.
 
-Injector injector =
-  Guice.createInjector( new MyTestModule(),
-                        new MyEntityManagerModule(),
-                        new JEETestingModule() );
+  Injector injector =
+    Guice.createInjector( new MyTestModule(),
+                          new MyEntityManagerModule(),
+                          new JEETestingModule() );
 
-MyEJBService objectToTest = injector.getInstance( MyEJBService.class );
-...
+  MyEJBService objectToTest = injector.getInstance( MyEJBService.class );
+  ...
