@@ -21,4 +21,5 @@ define('guiceyloops') do
   emma.include 'org.realityforge.*'
 
   package(:jar)
+  package(:sources)
 end
