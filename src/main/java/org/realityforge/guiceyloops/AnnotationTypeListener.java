@@ -50,24 +50,27 @@ public abstract class AnnotationTypeListener
   public <T> void hear( final TypeLiteral<T> typeLiteral,
                         final TypeEncounter<T> typeEncounter )
   {
-    for( final Field field : typeLiteral.getRawType().getDeclaredFields() )
+    for ( Class<?> rawType = typeLiteral.getRawType(); rawType != Object.class; rawType = rawType.getSuperclass() )
     {
-      if( field.isAnnotationPresent( _annotation ) )
+      for ( final Field field : rawType.getDeclaredFields() )
       {
-        boolean accepted = _acceptedTypes.length == 0;
-        for( final Class<?> type : _acceptedTypes )
+        if ( field.isAnnotationPresent( _annotation ) )
         {
-          if( field.getType() == type )
+          boolean accepted = _acceptedTypes.length == 0;
+          for ( final Class<?> type : _acceptedTypes )
           {
-            accepted = true;
-            break;
+            if ( field.getType() == type )
+            {
+              accepted = true;
+              break;
+            }
           }
-        }
-        if( accepted )
-        {
-          final Annotation annotation = field.getAnnotation( _annotation );
-          final MembersInjector<T> injector = createInjector( typeEncounter, annotation, field );
-          typeEncounter.register( injector );
+          if ( accepted )
+          {
+            final Annotation annotation = field.getAnnotation( _annotation );
+            final MembersInjector<T> injector = createInjector( typeEncounter, annotation, field );
+            typeEncounter.register( injector );
+          }
         }
       }
     }

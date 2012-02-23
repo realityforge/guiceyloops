@@ -27,38 +27,49 @@ public final class TypeListenerTest
   public void ensureThatTheCorrectFieldsAreInjected()
       throws Exception
   {
-    final ComponentA instance = getInjectedComponent();
-    assertFieldNotInjected( instance, "_componentB" );
-    assertFieldNotInjected( instance, "_componentBViaPersistenceContext" );
-    assertFieldInjected( instance, "_componentBViaEJB" );
-    assertFieldInjected( instance, "_componentBViaResource" );
-    assertFieldInjected( instance, "_entityManagerBViaPersistenceContext" );
+    final ComponentA instance = getInjectedComponent( ComponentA.class );
+    assertFieldNotInjected( instance, ComponentA.class, "_componentB" );
+    assertFieldNotInjected( instance, ComponentA.class, "_componentBViaPersistenceContext" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
+    assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
   }
 
-  private void assertFieldNotInjected( final ComponentA instance, final String fieldName )
+  @Test
+  public void ensureThatTheCorrectFieldsAreInjectedInSubclass()
       throws Exception
   {
-    assertNull( getFieldValue( instance, fieldName ) );
+    final SubclassOfComponentA instance = getInjectedComponent( SubclassOfComponentA.class );
+    assertFieldNotInjected( instance, ComponentA.class, "_componentB" );
+    assertFieldNotInjected( instance, ComponentA.class, "_componentBViaPersistenceContext" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
+    assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
   }
 
-  private void assertFieldInjected( final ComponentA instance, final String fieldName )
+  private void assertFieldNotInjected( final Object instance, final Class declaringType, final String fieldName )
       throws Exception
   {
-    assertNotNull( getFieldValue( instance, fieldName ) );
+    assertNull( getFieldValue( instance, declaringType, fieldName ) );
   }
 
-  private static Object getFieldValue( final ComponentA instance, final String fieldName )
+  private void assertFieldInjected( final Object instance, final Class declaringType, final String fieldName )
       throws Exception
   {
-    final Field field = instance.getClass().getDeclaredField( fieldName );
+    assertNotNull( getFieldValue( instance, declaringType, fieldName ) );
+  }
+
+  private static Object getFieldValue( final Object instance, final Class declaringType, final String fieldName )
+      throws Exception
+  {
+    final Field field = declaringType.getDeclaredField( fieldName );
     field.setAccessible( true );
     return field.get( instance );
   }
 
-  private static ComponentA getInjectedComponent()
+  private static <T> T getInjectedComponent(final Class<T> type)
   {
-    final Injector injector = createInjector();
-    return injector.getInstance( ComponentA.class );
+    return createInjector().getInstance( type );
   }
 
   private static Injector createInjector()
@@ -92,6 +103,11 @@ public final class TypeListenerTest
 
     @PersistenceContext
     private EntityManager _entityManagerBViaPersistenceContext;
+  }
+
+  public static class SubclassOfComponentA
+    extends ComponentA
+  {
   }
 
   public static class ComponentB
