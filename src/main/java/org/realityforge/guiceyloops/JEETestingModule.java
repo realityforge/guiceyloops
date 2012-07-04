@@ -17,5 +17,6 @@ public class JEETestingModule
     bindListener( Matchers.any(), new JpaTypeListener() );
     bindListener( Matchers.any(), new EjbTypeListener() );
     bindListener( Matchers.any(), new ResourceTypeListener() );
+    bindListener( Matchers.any(), new WebServiceRefTypeListener() );
   }
 }

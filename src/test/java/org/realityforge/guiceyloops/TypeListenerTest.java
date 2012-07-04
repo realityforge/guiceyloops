@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.metamodel.Metamodel;
+import javax.xml.ws.WebServiceRef;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -33,6 +34,7 @@ public final class TypeListenerTest
     assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
+    assertFieldInjected( instance, ComponentA.class, "_webServiceType" );
   }
 
   @Test
@@ -45,6 +47,7 @@ public final class TypeListenerTest
     assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
+    assertFieldInjected( instance, ComponentA.class, "_webServiceType" );
   }
 
   private void assertFieldNotInjected( final Object instance, final Class declaringType, final String fieldName )
@@ -103,6 +106,9 @@ public final class TypeListenerTest
 
     @PersistenceContext
     private EntityManager _entityManagerBViaPersistenceContext;
+
+    @WebServiceRef
+    private ComponentB _webServiceType;
   }
 
   public static class SubclassOfComponentA
