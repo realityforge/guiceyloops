@@ -1,5 +1,5 @@
 gems:
-  - buildr = 1.4.6
+  - buildr = 1.4.7
 
 repositories:
   remote:
