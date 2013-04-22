@@ -3,4 +3,5 @@
 /*.iws
 /target
 /reports
-_buildr.rb
+/_buildr.rb
+/Gemfile.lock
