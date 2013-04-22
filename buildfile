@@ -1,8 +1,8 @@
 require 'buildr/java/emma'
+require 'buildr/git_auto_version'
 
 desc "GuiceyLoops: Guice EE testing support to Guicey-fruit"
-define('guiceyloops') do
-  project.version = `git describe --tags --always`.strip
+define 'guiceyloops' do
   project.group = 'org.realityforge'
   compile.options.source = '1.6'
   compile.options.target = '1.6'
