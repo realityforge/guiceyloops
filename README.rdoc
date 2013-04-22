@@ -1,5 +1,7 @@
 = guiceyloops
 
+{<img src="https://travis-ci.org/realityforge/guiceyloops.png" />}[https://travis-ci.org/realityforge/guiceyloops]
+
 GuiceyLoops is a minimalistic library for aiding the testing of JEE applications
 using Guice. The library add some type listeners that are aware of the JEE annotations
 such as @EJB, @Resource, @WebServiceRef and @PersistenceContext so that fields marked with these
