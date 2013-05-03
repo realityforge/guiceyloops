@@ -3,6 +3,9 @@ package org.realityforge.guiceyloops.server;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * <p>Utilities for initializing database connections within tests.</p>
@@ -82,6 +85,13 @@ public final class DatabaseUtil
     {
       properties.put( key, value );
     }
+  }
+
+  public static EntityManager createEntityManager( final String persistenceUnitName )
+  {
+    final Properties properties = DatabaseUtil.initDatabaseProperties();
+    final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
+    return factory.createEntityManager();
   }
 
   /**

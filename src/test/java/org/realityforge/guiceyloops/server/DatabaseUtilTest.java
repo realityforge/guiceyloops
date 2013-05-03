@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.Properties;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.persistence.EntityManager;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -56,6 +57,25 @@ public final class DatabaseUtilTest
     }
   }
 
+   @Test
+  public void createEntityManager()
+    throws Exception
+  {
+    final File file = TestUtil.setupDatabase();
+    final EntityManager em = DatabaseUtil.createEntityManager( "TestUnit" );
+    assertTrue( em.isOpen() );
+
+    em.getTransaction().begin();
+    em.createNativeQuery( "SELECT 1" ).getFirstResult();
+    em.getTransaction().commit();
+
+    em.close();
+    assertFalse( em.isOpen() );
+    if ( !file.delete() )
+    {
+      file.deleteOnExit();
+    }
+  }
 
   private void assertDatabaseProperties( @Nonnull final String driver,
                                          @Nonnull final String url,
