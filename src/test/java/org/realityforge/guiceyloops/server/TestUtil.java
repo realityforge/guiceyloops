@@ -32,20 +32,16 @@ final class TestUtil
     }
   }
 
-  private static String genJdbcUrl()
+  static File setupDatabase()
     throws IOException
   {
-    return "jdbc:h2:" + File.createTempFile( "database", "h2" );
-  }
-
-  static void setupBasicDBProperties()
-    throws IOException
-  {
-    final String url = genJdbcUrl();
+    final File databaseFile = File.createTempFile( "database", "h2" );
+    final String url = "jdbc:h2:" + databaseFile;
     final String driver = org.h2.Driver.class.getName();
     final String user = null;
     final String password = null;
 
     setDBProperties( driver, url, user, password );
+    return databaseFile;
   }
 }

@@ -1,5 +1,6 @@
 package org.realityforge.guiceyloops.server;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.Properties;
 import javax.annotation.Nonnull;
@@ -42,13 +43,17 @@ public final class DatabaseUtilTest
   public void initConnection_disposeConnection()
     throws Exception
   {
-    TestUtil.setupBasicDBProperties();
+    final File file = TestUtil.setupDatabase();
     final Connection connection = DatabaseUtil.initConnection();
     connection.createStatement().execute( "SELECT 1" );
 
     assertFalse( connection.isClosed() );
     DatabaseUtil.disposeConnection( connection );
     assertTrue( connection.isClosed() );
+    if ( !file.delete() )
+    {
+      file.deleteOnExit();
+    }
   }
 
 
