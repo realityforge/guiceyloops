@@ -84,6 +84,11 @@ public final class DatabaseUtil
     }
   }
 
+  /**
+   * Dispose the specified database connection.
+   *
+   * @param connection the database connection.
+   */
   public static void disposeConnection( final Connection connection )
   {
     if ( null != connection )
@@ -99,6 +104,11 @@ public final class DatabaseUtil
     }
   }
 
+  /**
+   * Create a direct database connection. The user should follow with a subsequent {@link #disposeConnection(java.sql.Connection)} call.
+   *
+   * @return the database connection.
+   */
   public static Connection initConnection()
   {
     final Properties properties = initDatabaseProperties();
