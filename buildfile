@@ -9,13 +9,19 @@ define 'guiceyloops' do
   compile.options.lint = 'all'
 
   compile.with :javax_inject,
+               :testng,
+               :mockito,
+               :eclipselink,
+               :jndikit,
                :javax_ejb,
                :javax_persistence,
+               :javax_transaction,
                :javax_annotation,
                :google_guice,
                :aopalliance,
                :google_guice_assistedinject
 
+  test.with :h2db
   test.using :testng
 
   emma.include 'org.realityforge.*'
