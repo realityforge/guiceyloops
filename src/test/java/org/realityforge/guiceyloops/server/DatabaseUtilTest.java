@@ -1,23 +1,28 @@
 package org.realityforge.guiceyloops.server;
 
+import java.sql.Connection;
 import java.util.Properties;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public final class DatabaseUtilTest
 {
+  @BeforeMethod
+  @AfterMethod
+  public void clearDBProperties()
+  {
+    TestUtil.setDBProperties( null, null, null, null );
+  }
+
   @Test
   public void initDatabaseProperties_default()
     throws Exception
   {
-    final String url = "DATABASE_URL_UNSET" ;
-    final String driver = DatabaseUtil.MSSQL_DRIVER;
-    final String user = null;
-    final String password = null;
-
-    assertDatabaseProperties( driver, url, user, password );
+    assertDatabaseProperties( DatabaseUtil.MSSQL_DRIVER, "DATABASE_URL_UNSET", null, null );
   }
 
   @Test
@@ -29,20 +34,23 @@ public final class DatabaseUtilTest
     final String user = "MyUser" ;
     final String password = "MyPassword" ;
 
-    final String existingDriver = System.getProperty( "test.db.driver" );
-    final String existingUrl = System.getProperty( "test.db.url" );
-    final String existingUser = System.getProperty( "test.db.user" );
-    final String existingPassword = System.getProperty( "test.db.password" );
-    try
-    {
-      TestUtil.setDBProperties( driver, url, user, password );
-      assertDatabaseProperties( driver, url, user, password );
-    }
-    finally
-    {
-      TestUtil.setDBProperties( existingDriver, existingUrl, existingUser, existingPassword );
-    }
+    TestUtil.setDBProperties( driver, url, user, password );
+    assertDatabaseProperties( driver, url, user, password );
   }
+
+  @Test
+  public void initConnection_disposeConnection()
+    throws Exception
+  {
+    TestUtil.setupBasicDBProperties();
+    final Connection connection = DatabaseUtil.initConnection();
+    connection.createStatement().execute( "SELECT 1" );
+
+    assertFalse( connection.isClosed() );
+    DatabaseUtil.disposeConnection( connection );
+    assertTrue( connection.isClosed() );
+  }
+
 
   private void assertDatabaseProperties( @Nonnull final String driver,
                                          @Nonnull final String url,

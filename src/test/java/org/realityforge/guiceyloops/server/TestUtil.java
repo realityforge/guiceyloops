@@ -1,5 +1,8 @@
 package org.realityforge.guiceyloops.server;
 
+import java.io.File;
+import java.io.IOException;
+
 final class TestUtil
 {
   private TestUtil()
@@ -27,5 +30,22 @@ final class TestUtil
     {
       System.getProperties().remove( key );
     }
+  }
+
+  private static String genJdbcUrl()
+    throws IOException
+  {
+    return "jdbc:h2:" + File.createTempFile( "database", "h2" );
+  }
+
+  static void setupBasicDBProperties()
+    throws IOException
+  {
+    final String url = genJdbcUrl();
+    final String driver = org.h2.Driver.class.getName();
+    final String user = null;
+    final String password = null;
+
+    setDBProperties( driver, url, user, password );
   }
 }
