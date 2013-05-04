@@ -1,6 +1,5 @@
 repositories:
   remote:
-   - http://repo.fire.dse.vic.gov.au/content/groups/fisg
    - https://github.com/realityforge/repository/raw/master
    - http://repo1.maven.org/maven2
    - http://download.eclipse.org/rt/eclipselink/maven.repo
