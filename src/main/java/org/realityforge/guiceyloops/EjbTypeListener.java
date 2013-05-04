@@ -1,7 +1,6 @@
 package org.realityforge.guiceyloops;
 
 import com.google.inject.MembersInjector;
-import com.google.inject.Provider;
 import com.google.inject.spi.TypeEncounter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

@@ -2,7 +2,6 @@ package org.realityforge.guiceyloops.server;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import java.io.File;
 import java.lang.reflect.Field;
 import javax.persistence.EntityManager;
