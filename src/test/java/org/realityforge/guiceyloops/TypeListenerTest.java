@@ -3,6 +3,7 @@ package org.realityforge.guiceyloops;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.name.Names;
 import java.lang.reflect.Field;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ public final class TypeListenerTest
     assertFieldNotInjected( instance, ComponentA.class, "_componentBViaPersistenceContext" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaNamedResource" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
     assertFieldInjected( instance, ComponentA.class, "_webServiceType" );
   }
@@ -46,6 +48,7 @@ public final class TypeListenerTest
     assertFieldNotInjected( instance, ComponentA.class, "_componentBViaPersistenceContext" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaNamedResource" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
     assertFieldInjected( instance, ComponentA.class, "_webServiceType" );
   }
@@ -86,6 +89,7 @@ public final class TypeListenerTest
     protected void configure()
     {
       bind( EntityManager.class ).to( TestEntityManager.class );
+      bind( ComponentB.class ).annotatedWith( Names.named( "some/resource/name" ) ).toInstance( new ComponentB() );
     }
   }
 
@@ -99,6 +103,9 @@ public final class TypeListenerTest
 
     @Resource
     private ComponentB _componentBViaResource;
+
+    @Resource( name="some/resource/name" )
+    private ComponentB _componentBViaNamedResource;
 
     //Should not be injected
     @PersistenceContext

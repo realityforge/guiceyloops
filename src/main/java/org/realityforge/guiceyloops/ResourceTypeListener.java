@@ -26,6 +26,11 @@ public class ResourceTypeListener
                                                    @Nonnull final Annotation annotation,
                                                    @Nonnull final Field field )
   {
-    return FieldBasedInjector.createFromEncounter( typeEncounter, field );
+    final String name = ((Resource) annotation).name();
+    if ( "".equals( name ) )
+    {
+      return FieldBasedInjector.createFromEncounter( typeEncounter, field );
+    }
+    return FieldBasedInjector.createFromEncounter( typeEncounter, name, field );
   }
 }
