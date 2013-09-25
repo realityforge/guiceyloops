@@ -64,9 +64,14 @@ public abstract class AbstractServerTest
     modules.add( new JEETestingModule() );
     if ( enableMailServer() )
     {
-      modules.add( new GreenMailTestModule() );
+      modules.add( getMailTestModule() );
     }
     return modules.toArray( new Module[ modules.size() ] );
+  }
+
+  protected Module getMailTestModule()
+  {
+    throw new IllegalStateException();
   }
 
   protected abstract Module getEntityModule();
