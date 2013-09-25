@@ -19,6 +19,7 @@ define 'guiceyloops' do
                :javax_annotation,
                :google_guice,
                :aopalliance,
+               :greenmail,
                :google_guice_assistedinject
 
   test.with :h2db

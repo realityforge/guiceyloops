@@ -4,6 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.icegreen.greenmail.util.GreenMail;
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.naming.Context;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
@@ -31,21 +34,39 @@ public abstract class AbstractServerTest
     {
       //Ignored. Probably as the classes for the naming or transaction extensions are not on the classpath
     }
+
+    if ( enableMailServer() )
+    {
+      s( GreenMail.class ).start();
+    }
   }
 
   @AfterMethod
   public void postTest()
   {
+    if ( enableMailServer() )
+    {
+      s( GreenMail.class ).stop();
+    }
     getService( DbCleaner.class ).finish();
+  }
+
+  protected boolean enableMailServer()
+  {
+    return false;
   }
 
   protected Module[] getModules()
   {
-    return new Module[] {
-      getTestModule(),
-      getEntityModule(),
-      new JEETestingModule()
-    };
+    final ArrayList<Module> modules = new ArrayList<Module>();
+    modules.add( getTestModule() );
+    modules.add( getEntityModule() );
+    modules.add( new JEETestingModule() );
+    if ( enableMailServer() )
+    {
+      modules.add( new GreenMailTestModule() );
+    }
+    return modules.toArray( new Module[ modules.size() ] );
   }
 
   protected abstract Module getEntityModule();
