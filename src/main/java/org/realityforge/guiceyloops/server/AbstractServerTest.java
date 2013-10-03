@@ -7,6 +7,7 @@ import com.google.inject.Module;
 import com.icegreen.greenmail.util.GreenMail;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.annotation.Nullable;
 import javax.naming.Context;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
@@ -59,19 +60,25 @@ public abstract class AbstractServerTest
   protected Module[] getModules()
   {
     final ArrayList<Module> modules = new ArrayList<Module>();
-    modules.add( getTestModule() );
-    modules.add( getEntityModule() );
     modules.add( new JEETestingModule() );
-    if ( enableMailServer() )
-    {
-      modules.add( getMailTestModule() );
-    }
+    addModule( modules, getTestModule() );
+    addModule( modules, getEntityModule() );
+    addModule( modules, getMailTestModule() );
     return modules.toArray( new Module[ modules.size() ] );
   }
 
+  protected final void addModule( final ArrayList<Module> modules, @Nullable final Module module )
+  {
+    if ( null != module )
+    {
+      modules.add( module );
+    }
+  }
+
+  @Nullable
   protected Module getMailTestModule()
   {
-    throw new IllegalStateException();
+    throw null;
   }
 
   protected abstract Module getEntityModule();
