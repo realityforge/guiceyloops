@@ -78,7 +78,7 @@ public abstract class AbstractServerTest
   @Nullable
   protected Module getMailTestModule()
   {
-    throw null;
+    return null;
   }
 
   protected abstract Module getEntityModule();
