@@ -167,7 +167,6 @@ public final class GlassFishContainerUtil
     }
   }
 
-
   @Nonnull
   protected static String getProperty( @Nonnull final String name )
   {
