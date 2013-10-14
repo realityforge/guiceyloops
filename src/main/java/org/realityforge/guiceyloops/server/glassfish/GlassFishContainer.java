@@ -10,15 +10,15 @@ import java.util.logging.Logger;
 /**
  * A class that instantiates the glassfish app server in a separate classloader.
  */
-public final class GlassFishWrapper
+public final class GlassFishContainer
 {
-  private static final Logger LOG = Logger.getLogger( GlassFishWrapper.class.getName() );
+  private static final Logger LOG = Logger.getLogger( GlassFishContainer.class.getName() );
 
   private final int _port;
   private final URL[] _glassfishClasspath;
   private Object _glassfish;
 
-  public GlassFishWrapper( final int port, final URL[] glassfishClasspath )
+  public GlassFishContainer( final int port, final URL[] glassfishClasspath )
   {
     _port = port;
     _glassfishClasspath = glassfishClasspath;
