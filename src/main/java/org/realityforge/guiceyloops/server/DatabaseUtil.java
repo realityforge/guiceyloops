@@ -78,7 +78,8 @@ public final class DatabaseUtil
 
   private static void setProperty( final Properties properties,
                                    final String key,
-                                   final String systemPropertyKey, final String defaultValue )
+                                   final String systemPropertyKey,
+                                   final String defaultValue )
   {
     final String value = System.getProperty( systemPropertyKey, defaultValue );
     if ( null != value )
