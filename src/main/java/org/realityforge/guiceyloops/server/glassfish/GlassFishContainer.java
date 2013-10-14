@@ -23,7 +23,7 @@ public class GlassFishContainer
     throws Exception
   {
     this( GlassFishContainerUtil.getRandomPort(),
-          GlassFishContainerUtil.getEmbeddedGlassfishClasspath() );
+          GlassFishContainerUtil.getEmbeddedGlassFishClasspath() );
   }
 
   public GlassFishContainer( final int port, final URL[] glassfishClasspath )
