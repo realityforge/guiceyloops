@@ -3,6 +3,7 @@ package org.realityforge.guiceyloops.server.glassfish;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Logger;
@@ -10,13 +11,20 @@ import java.util.logging.Logger;
 /**
  * A class that instantiates the glassfish app server in a separate classloader.
  */
-public final class GlassFishContainer
+public class GlassFishContainer
 {
   private static final Logger LOG = Logger.getLogger( GlassFishContainer.class.getName() );
 
   private final int _port;
   private final URL[] _glassfishClasspath;
   private Object _glassfish;
+
+  public GlassFishContainer()
+    throws Exception
+  {
+    this( GlassFishContainerUtil.getRandomPort(),
+          GlassFishContainerUtil.getEmbeddedGlassfishClasspath() );
+  }
 
   public GlassFishContainer( final int port, final URL[] glassfishClasspath )
   {
@@ -29,41 +37,59 @@ public final class GlassFishContainer
     return _port;
   }
 
+  public String getBaseHttpURL()
+    throws Exception
+  {
+    final String hostAddress = InetAddress.getLocalHost().getHostAddress();
+    return "http://" + hostAddress + ":" + getPort();
+  }
+
   public void start()
     throws Exception
   {
-    final ClassLoader loader = ClassLoader.getSystemClassLoader().getParent();
-    assert null != loader;
-    final ClassLoader classLoader = new URLClassLoader( _glassfishClasspath, loader );
+    if ( null == _glassfish )
+    {
+      LOG.info( "Starting GlassFish." );
+      DerbyUtil.configureNullLogger();
 
-    final Object properties = classLoader.loadClass( "org.glassfish.embeddable.GlassFishProperties" ).newInstance();
+      final ClassLoader loader = ClassLoader.getSystemClassLoader().getParent();
+      assert null != loader;
+      final ClassLoader classLoader = new URLClassLoader( _glassfishClasspath, loader );
 
-    properties.getClass().
-      getMethod( "setPort", new Class[]{ String.class, int.class } ).
-      invoke( properties, "http-listener", _port );
+      final Object properties = classLoader.loadClass( "org.glassfish.embeddable.GlassFishProperties" ).newInstance();
 
-    LOG.info( "Configuring Glassfish on port: " + _port );
+      properties.getClass().
+        getMethod( "setPort", new Class[]{ String.class, int.class } ).
+        invoke( properties, "http-listener", _port );
 
-    final Object runtime =
-      classLoader.loadClass( "org.glassfish.embeddable.GlassFishRuntime" ).getMethod( "bootstrap" ).invoke( null );
+      LOG.info( "Configuring Glassfish on port: " + _port );
 
-    _glassfish = runtime.getClass().
-      getMethod( "newGlassFish", new Class[]{ properties.getClass() } ).invoke( runtime, properties );
+      final Object runtime =
+        classLoader.loadClass( "org.glassfish.embeddable.GlassFishRuntime" ).getMethod( "bootstrap" ).invoke( null );
 
-    _glassfish.getClass().getMethod( "start" ).invoke( _glassfish );
+      _glassfish = runtime.getClass().
+        getMethod( "newGlassFish", new Class[]{ properties.getClass() } ).invoke( runtime, properties );
 
-    // Need to set java.security.auth.login.config otherwise the embedded container will
-    // fail to find the login config ... even though it creates it...
-    final String instanceRoot = System.getProperty( "com.sun.aas.instanceRoot" );
-    System.setProperty( "java.security.auth.login.config",
-                        instanceRoot + File.separator + "config" + File.separator + "login.conf" );
+      _glassfish.getClass().getMethod( "start" ).invoke( _glassfish );
 
+      // Need to set java.security.auth.login.config otherwise the embedded container will
+      // fail to find the login config ... even though it creates it...
+      final String instanceRoot = System.getProperty( "com.sun.aas.instanceRoot" );
+      System.setProperty( "java.security.auth.login.config",
+                          instanceRoot + File.separator + "config" + File.separator + "login.conf" );
+      LOG.info( "GlassFish started." );
+    }
+    else
+    {
+      LOG.warning( "Attempted to start already started GlassFish instance." );
+    }
   }
 
   public void stop()
   {
     if ( null != _glassfish )
     {
+      LOG.info( "Stopping GlassFish." );
       try
       {
         _glassfish.getClass().getMethod( "stop" ).invoke( _glassfish );
@@ -74,13 +100,18 @@ public final class GlassFishContainer
         // Ignored
       }
       _glassfish = null;
+      LOG.info( "GlassFish stopped." );
+    }
+    else
+    {
+      LOG.warning( "Attempted to stop already stopped GlassFish instance." );
     }
   }
 
-  public void deploy( final String contextRoot, final String appName, final File warFile )
+  public String deploy( final String contextRoot, final String appName, final File warFile )
     throws Exception
   {
-    LOG.info( "Deploying planner warfile: " + warFile.getAbsolutePath() );
+    LOG.info( "Deploying warfile: " + warFile.getAbsolutePath() );
     final String output =
       execute( "deploy",
                "--contextroot=" + contextRoot,
@@ -91,22 +122,42 @@ public final class GlassFishContainer
     {
       throw new IllegalStateException( "Failed to deploy planner" );
     }
-
+    return getBaseHttpURL() + contextRoot;
   }
 
-  public void createCustomResource( final String service, final String value )
+  public void createJdbcResource( final String key,
+                                  final String databaseConnectionProperty )
     throws Exception
   {
+    LOG.info( "Creating jdbc resource: " + key );
+    final String poolID = key + "Pool";
+    execute( "create-jdbc-connection-pool",
+             "--datasourceclassname", "net.sourceforge.jtds.jdbcx.JtdsDataSource",
+             "--restype", "javax.sql.DataSource",
+             "--isconnectvalidatereq=true",
+             "--validationmethod", "auto-commit",
+             "--ping", "true",
+             "--property", databaseConnectionProperty,
+             poolID );
+
+    execute( "create-jdbc-resource", "--connectionpoolid", poolID, key );
+  }
+
+  public void createCustomResource( final String key, final String value )
+    throws Exception
+  {
+    LOG.info( "Creating custom resource: " + key + "=" + value );
     execute( "create-custom-resource",
              "--factoryclass", "org.glassfish.resources.custom.factory.PrimitivesAndStringFactory",
              "--restype", "java.lang.String",
              "--property", "value=" + value.replace( ":", "\\:" ),
-             service );
+             key );
   }
 
   public void createUser( final String username, final String password, final String[] groups )
     throws Exception
   {
+    LOG.info( "Creating user: " + username );
     final StringBuilder sb = new StringBuilder();
     for ( final String group : groups )
     {
