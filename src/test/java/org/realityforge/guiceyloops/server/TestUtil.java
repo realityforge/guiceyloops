@@ -3,7 +3,7 @@ package org.realityforge.guiceyloops.server;
 import java.io.File;
 import java.io.IOException;
 
-final class TestUtil
+public final class TestUtil
 {
   private TestUtil()
   {
@@ -32,7 +32,7 @@ final class TestUtil
     }
   }
 
-  static File setupDatabase()
+  public static File setupDatabase()
     throws IOException
   {
     final File databaseFile = File.createTempFile( "database", "h2" );
