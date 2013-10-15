@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -48,6 +46,117 @@ public class GlassFishContainerUtilTest
     {
       System.getProperties().remove( "war.filename" );
       System.getProperties().remove( "war.dir" );
+    }
+  }
+
+  @Test
+  public void getWarFile_withPrefix()
+    throws Exception
+  {
+    final File warDir = getWarDir();
+    final File warFile = createWar( warDir, "myfile" );
+    assertTrue( warFile.setLastModified( System.currentTimeMillis() - 8000 ) );
+    final File warFile2 = createWar( warDir, "myfile2" );
+    assertTrue( warFile2.setLastModified( System.currentTimeMillis() ) );
+
+    try
+    {
+      System.setProperty( "p.war.dir", warDir.getAbsolutePath() );
+      assertEquals( GlassFishContainerUtil.getWarFile( "p" ), warFile2 );
+
+      System.setProperty( "p.war.filename", warFile.getAbsolutePath() );
+      assertEquals( GlassFishContainerUtil.getWarFile( "p" ), warFile );
+    }
+    finally
+    {
+      System.getProperties().remove( "p.war.filename" );
+      System.getProperties().remove( "p.war.dir" );
+    }
+  }
+
+  @Test( expectedExceptions = { IllegalStateException.class } )
+  public void getWarFile_dirNoExist()
+    throws Exception
+  {
+    final File warDir = getWarDir();
+
+    try
+    {
+      System.setProperty( "war.dir", new File( warDir, "noexist" ).getAbsolutePath() );
+      GlassFishContainerUtil.getWarFile();
+    }
+    finally
+    {
+      System.getProperties().remove( "war.dir" );
+    }
+  }
+
+  @Test( expectedExceptions = { IllegalStateException.class } )
+  public void getWarFile_noFiles()
+    throws Exception
+  {
+    final File warDir = getWarDir();
+    try
+    {
+      System.setProperty( "war.dir", warDir.getAbsolutePath() );
+      GlassFishContainerUtil.getWarFile();
+    }
+    finally
+    {
+      System.getProperties().remove( "war.dir" );
+    }
+  }
+
+  @Test( expectedExceptions = { IllegalStateException.class } )
+  public void getWarFile_fileNotADir()
+    throws Exception
+  {
+    final File warDir = getWarDir();
+    final File warFile = createWar( warDir, "myfile" );
+
+    try
+    {
+      System.setProperty( "war.dir", warFile.getAbsolutePath() );
+      GlassFishContainerUtil.getWarFile();
+    }
+    finally
+    {
+      System.getProperties().remove( "war.dir" );
+    }
+  }
+
+  @Test( expectedExceptions = { IllegalStateException.class } )
+  public void getWarFile_filenameIsADir()
+    throws Exception
+  {
+    final File warDir = getWarDir();
+
+    try
+    {
+      System.setProperty( "war.filename", warDir.getAbsolutePath() );
+      GlassFishContainerUtil.getWarFile();
+    }
+    finally
+    {
+      System.getProperties().remove( "war.filename" );
+    }
+  }
+
+  @Test( expectedExceptions = { IllegalStateException.class } )
+  public void getWarFile_filenameNoExist()
+    throws Exception
+  {
+    final File warDir = getWarDir();
+
+    try
+    {
+      System.getProperties().remove( "war.dir" );
+      System.setProperty( "war.filename", new File( warDir, "noexist.war" ).getAbsolutePath() );
+      GlassFishContainerUtil.getWarFile();
+    }
+    finally
+    {
+      System.getProperties().remove( "war.filename" );
     }
   }
 
