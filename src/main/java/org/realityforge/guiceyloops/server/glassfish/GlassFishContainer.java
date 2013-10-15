@@ -111,7 +111,7 @@ public class GlassFishContainer
   public String deploy( final String contextRoot, final String appName, final File warFile )
     throws Exception
   {
-    LOG.info( "Deploying warfile: " + warFile.getAbsolutePath() );
+    LOG.info( "Deploying war: " + warFile.getAbsolutePath() );
     final String output =
       execute( "deploy",
                "--contextroot=" + contextRoot,
@@ -120,7 +120,7 @@ public class GlassFishContainer
                warFile.getAbsolutePath() );
     if ( !output.replace( "\n", " " ).matches( ".*Application deployed with name " + appName + "\\..*" ) )
     {
-      throw new IllegalStateException( "Failed to deploy planner" );
+      throw new IllegalStateException( "Failed to deploy war: " + warFile.getAbsolutePath() );
     }
     return getBaseHttpURL() + contextRoot;
   }
