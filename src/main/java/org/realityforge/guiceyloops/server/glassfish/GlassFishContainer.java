@@ -125,14 +125,22 @@ public class GlassFishContainer
     return getBaseHttpURL() + contextRoot;
   }
 
+  public void createSqlServerJdbcResource( final String key,
+                                           final String databaseConnectionProperty )
+    throws Exception
+  {
+    createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databaseConnectionProperty );
+  }
+
   public void createJdbcResource( final String key,
+                                  final String dataSourceClassName,
                                   final String databaseConnectionProperty )
     throws Exception
   {
     LOG.info( "Creating jdbc resource: " + key );
     final String poolID = key + "Pool";
     execute( "create-jdbc-connection-pool",
-             "--datasourceclassname", "net.sourceforge.jtds.jdbcx.JtdsDataSource",
+             "--datasourceclassname", dataSourceClassName,
              "--restype", "javax.sql.DataSource",
              "--isconnectvalidatereq=true",
              "--validationmethod", "auto-commit",
