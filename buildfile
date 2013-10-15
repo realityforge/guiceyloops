@@ -17,12 +17,16 @@ define 'guiceyloops' do
                :javax_persistence,
                :javax_transaction,
                :javax_annotation,
-               :glassfish_embedded,
                :javax_mail,
                :google_guice,
                :aopalliance,
                :greenmail,
                :google_guice_assistedinject
+
+  # Make sure embedded glassfish jar is present as it is used in the tests
+  compile do
+    artifact(:glassfish_embedded).invoke
+  end
 
   test.with :h2db
   test.using :testng
