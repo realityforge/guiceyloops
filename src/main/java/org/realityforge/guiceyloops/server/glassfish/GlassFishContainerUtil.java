@@ -26,21 +26,29 @@ public final class GlassFishContainerUtil
   public static File getWarFile( @Nullable final String prefix )
   {
     final String p = prefix == null ? "" : prefix + ".";
-    final String filename = getProperty( p + "war.filename", null );
+    final String filename = System.getProperties().getProperty( p + "war.filename", null );
     if ( null != filename )
     {
-      return new File( filename );
+      final File file = new File( filename );
+      if ( !file.exists() || file.isDirectory() )
+      {
+        final String message =
+          "The system property '" + p + "war.filename' with value '" + filename +
+          "' does not exist or is a directory.";
+        throw new IllegalStateException( message );
+      }
+      return file;
     }
     else
     {
-      final String warDir = getProperty( p + "war.dir", null );
+      final String warDir = System.getProperties().getProperty( p + "war.dir", null );
       if ( null != warDir )
       {
         final File dir = new File( warDir );
         if ( !dir.exists() || !dir.isDirectory() )
         {
           final String message =
-            "The system property '" + p +  "war.dir' with value '" + warDir +
+            "The system property '" + p + "war.dir' with value '" + warDir +
             "' does not exist or is not a directory.";
           throw new IllegalStateException( message );
         }
@@ -55,7 +63,7 @@ public final class GlassFishContainerUtil
         if ( 0 == candidates.length )
         {
           final String message =
-            "No .war files found in '" + p +  "war.dir' with value '" + warDir + "'.";
+            "No .war files found in '" + p + "war.dir' with value '" + warDir + "'.";
           throw new IllegalStateException( message );
         }
 
@@ -105,7 +113,7 @@ public final class GlassFishContainerUtil
   public static URL[] getEmbeddedGlassFishClasspath( @Nonnull final String[] defaultDependencies )
     throws Exception
   {
-    final String classpath = getProperty( "embedded.glassfish.classpath", null );
+    final String classpath = System.getProperties().getProperty( "embedded.glassfish.classpath", null );
     if ( null != classpath )
     {
       final ArrayList<URL> elements = new ArrayList<URL>();
@@ -166,22 +174,4 @@ public final class GlassFishContainerUtil
       return System.getenv( "HOME" ) + File.separator + ".m2" + File.separator + "repository";
     }
   }
-
-  @Nonnull
-  protected static String getProperty( @Nonnull final String name )
-  {
-    final String property = getProperty( name, null );
-    if ( null == property )
-    {
-      throw new IllegalStateException( "Missing property: " + name );
-    }
-    return property;
-  }
-
-  @Nullable
-  protected static String getProperty( @Nonnull final String name, @Nullable final String defaultValue )
-  {
-    return System.getProperties().getProperty( name, defaultValue );
-  }
-
 }
