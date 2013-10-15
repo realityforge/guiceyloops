@@ -6,7 +6,6 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.icegreen.greenmail.util.GreenMail;
 import java.util.ArrayList;
-import java.util.Collections;
 import javax.annotation.Nullable;
 import javax.naming.Context;
 import javax.persistence.EntityManager;
