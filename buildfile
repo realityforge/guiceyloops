@@ -1,4 +1,4 @@
-require 'buildr/java/emma'
+require 'buildr/jacoco'
 require 'buildr/git_auto_version'
 
 desc "GuiceyLoops: Guice EE testing support to Guicey-fruit"
@@ -27,9 +27,11 @@ define 'guiceyloops' do
   test.with :h2db
   test.using :testng
 
-  emma.include 'org.realityforge.*'
-
   package(:jar)
   package(:sources)
   package(:javadoc)
+
+  jacoco.includes << 'org.realityforge.*'
+  jacoco.generate_html = true
+  jacoco.generate_xml = true
 end
