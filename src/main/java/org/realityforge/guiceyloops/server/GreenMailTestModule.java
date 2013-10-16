@@ -17,9 +17,7 @@ public abstract class GreenMailTestModule
       new ServerSetup( getSmtpPort(), getLocalHost().getHostAddress(), ServerSetup.PROTOCOL_SMTP );
     bind( GreenMail.class ).toInstance( new GreenMail( config ) );
 
-
     bindMailResources( config );
-
   }
 
   protected abstract void bindMailResources( ServerSetup config );
