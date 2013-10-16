@@ -5,36 +5,49 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
+import javax.ejb.SessionContext;
+import javax.persistence.EntityManager;
+import org.mockito.Mockito;
 import org.mockito.cglib.proxy.Factory;
 import org.testng.annotations.Test;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
 
 public class AbstractModuleTest
 {
-  public static interface S1
+  public static interface Service1
+  {
+    void foo();
+  }
+
+  public static interface Service2
   {
   }
 
-  public static interface S2
+  public static interface Service3
   {
   }
 
-  public static interface S3
+  public static class Component1
+    implements Service1
+  {
+    int _count;
+
+    @Override
+    public void foo()
+    {
+      _count++;
+    }
+  }
+
+  public static class Component2
+    implements Service2, Service3
   {
   }
 
-  public static class I1
-    implements S1
-  {
-  }
-
-  public static class I2
-    implements S2, S3
-  {
-  }
-
-  public static class I3
+  public static class Component3
   {
   }
 
@@ -46,8 +59,8 @@ public class AbstractModuleTest
     {
       bindMock( Runnable.class );
       bindResource( String.class, "MyKey", "MyValue" );
-      bindSingleton( S1.class, I1.class );
-      multiBind( I2.class, S2.class, S3.class );
+      bindSingleton( Service1.class, Component1.class );
+      multiBind( Component2.class, Service2.class, Service3.class );
     }
   }
 
@@ -66,15 +79,15 @@ public class AbstractModuleTest
     assertEquals( provider.get(), "MyValue" );
 
     //singleton
-    assertSame( injector.getInstance( S1.class ), injector.getInstance( S1.class ) );
+    assertSame( injector.getInstance( Service1.class ), injector.getInstance( Service1.class ) );
 
     //Multibinding tests
-    assertSame( injector.getInstance( S2.class ), injector.getInstance( S2.class ) );
-    assertNotSame( injector.getInstance( S2.class ), injector.getInstance( S3.class ) );
-    assertSame( InjectUtil.toObject( I2.class, injector.getInstance( S2.class ) ),
-                InjectUtil.toObject( I2.class, injector.getInstance( S3.class ) ) );
+    assertSame( injector.getInstance( Service2.class ), injector.getInstance( Service2.class ) );
+    assertNotSame( injector.getInstance( Service2.class ), injector.getInstance( Service3.class ) );
+    assertSame( InjectUtil.toObject( Component2.class, injector.getInstance( Service2.class ) ),
+                InjectUtil.toObject( Component2.class, injector.getInstance( Service3.class ) ) );
 
     //Straight per request
-    assertNotSame( injector.getInstance( I3.class ), injector.getInstance( I3.class ) );
+    assertNotSame( injector.getInstance( Component3.class ), injector.getInstance( Component3.class ) );
   }
 }
