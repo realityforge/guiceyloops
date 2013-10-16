@@ -7,13 +7,11 @@ import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
-import org.mockito.Mockito;
 import org.mockito.cglib.proxy.Factory;
+import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.Test;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
-import static org.testng.Assert.assertEquals;
 
 public class AbstractModuleTest
 {
@@ -89,5 +87,31 @@ public class AbstractModuleTest
 
     //Straight per request
     assertNotSame( injector.getInstance( Component3.class ), injector.getInstance( Component3.class ) );
+  }
+
+  static class MyServerTestModule
+    extends ServerTestModule
+  {
+    @Override
+    protected void configure()
+    {
+      super.configure();
+      bindMock( EntityManager.class );
+      bindService( Service1.class, Component1.class );
+    }
+  }
+
+  @Test
+  public void serverTestModule()
+  {
+    final Injector injector = Guice.createInjector( new MyServerTestModule(), new JEETestingModule() );
+    assertTrue( injector.getInstance( SessionContext.class ) instanceof Factory );
+
+    final Service1 instance = injector.getInstance( Service1.class );
+    final Component1 component1 = InjectUtil.toObject( Component1.class, instance );
+    assertEquals( component1._count, 0 );
+    instance.foo();
+    verify( injector.getInstance( EntityManager.class ), times( 2 ) ).flush();
+    assertEquals( component1._count, 1 );
   }
 }
