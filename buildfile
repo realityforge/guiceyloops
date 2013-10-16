@@ -15,6 +15,7 @@ define 'guiceyloops' do
                :jndikit,
                :javax_ejb,
                :javax_persistence,
+               :javax_jaxrpc,
                :javax_transaction,
                :javax_annotation,
                :javax_mail,
