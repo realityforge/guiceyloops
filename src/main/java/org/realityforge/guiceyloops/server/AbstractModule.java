@@ -1,8 +1,6 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import javax.inject.Singleton;
 import org.mockito.Mockito;
@@ -21,16 +19,10 @@ public abstract class AbstractModule
     {
       final ClassLoader classLoader = getClass().getClassLoader();
       final Class type = interfaces[ i ];
-      final InvocationHandler handler = new InvocationHandler()
-      {
-        @Override
-        public Object invoke( final Object proxy, final Method method, final Object[] args )
-          throws Throwable
-        {
-          return method.invoke( impl, args );
-        }
-      };
-      bind( type ).toInstance( Proxy.newProxyInstance( classLoader, new Class[]{ type }, handler ) );
+      bind( type ).
+        toInstance( Proxy.newProxyInstance( classLoader,
+                                            new Class[]{ type },
+                                            new AdapterInvocationHandler( impl ) ) );
     }
   }
 
