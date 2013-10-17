@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Logger;
+import org.realityforge.guiceyloops.server.TestInitialContextFactory;
 
 /**
  * A class that instantiates the glassfish app server in a separate classloader.
@@ -69,7 +70,7 @@ public class GlassFishContainer
 
       _glassfish = runtime.getClass().
         getMethod( "newGlassFish", new Class[]{ properties.getClass() } ).invoke( runtime, properties );
-
+      System.getProperties().remove( "java.naming.factory.initial" );
       _glassfish.getClass().getMethod( "start" ).invoke( _glassfish );
 
       // Need to set java.security.auth.login.config otherwise the embedded container will
