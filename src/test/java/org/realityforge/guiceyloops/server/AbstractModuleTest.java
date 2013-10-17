@@ -7,6 +7,7 @@ import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
+import javax.transaction.TransactionSynchronizationRegistry;
 import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.Test;
@@ -106,6 +107,7 @@ public class AbstractModuleTest
   {
     final Injector injector = Guice.createInjector( new MyServerTestModule(), new JEETestingModule() );
     assertTrue( injector.getInstance( SessionContext.class ) instanceof Factory );
+    assertTrue( injector.getInstance( TransactionSynchronizationRegistry.class ) instanceof TestTransactionSynchronizationRegistry );
 
     final Service1 instance = injector.getInstance( Service1.class );
     final Component1 component1 = InjectUtil.toObject( Component1.class, instance );

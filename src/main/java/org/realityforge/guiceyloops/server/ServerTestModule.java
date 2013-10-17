@@ -2,6 +2,7 @@ package org.realityforge.guiceyloops.server;
 
 import com.google.inject.matcher.AbstractMatcher;
 import javax.ejb.SessionContext;
+import javax.transaction.TransactionSynchronizationRegistry;
 import static com.google.inject.matcher.Matchers.any;
 
 /**
@@ -17,6 +18,7 @@ public class ServerTestModule
   {
     requestInjection( _interceptor );
     bindMock( SessionContext.class );
+    bindService( TransactionSynchronizationRegistry.class, TestTransactionSynchronizationRegistry.class );
   }
 
   protected <T> void bindService( final Class<T> service,
