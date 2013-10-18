@@ -134,6 +134,11 @@ public abstract class AbstractServerTest
     return getInjector().getInstance( type );
   }
 
+  protected <T> T toObject( final Class<T> type, final Object object )
+  {
+    return InjectUtil.toObject( type, object );
+  }
+
   protected final Injector getInjector()
   {
     return _injector;

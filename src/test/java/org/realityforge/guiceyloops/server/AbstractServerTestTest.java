@@ -9,9 +9,23 @@ import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
 
 public class AbstractServerTestTest
 {
+  public static interface Service1
+  {
+  }
+
+  public static interface Service2
+  {
+  }
+
+  public static class Component1
+    implements Service1, Service2
+  {
+  }
+
   public static class MyServerTest
     extends AbstractServerTest
   {
@@ -37,6 +51,7 @@ public class AbstractServerTestTest
           bind( EntityManager.class ).toInstance( _entityManager );
           bind( DbCleaner.class ).toInstance( _dbCleaner );
           bindResource( String[].class, DbCleaner.TABLE_NAME_KEY, new String[ 0 ] );
+          multiBind( Component1.class, Service1.class, Service2.class );
         }
       };
     }
@@ -67,5 +82,8 @@ public class AbstractServerTestTest
 
     test.postTest();
     verify( test._dbCleaner ).finish();
+
+    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
+                  test.toObject( Component1.class, test.s( Service1.class ) ) );
   }
 }
