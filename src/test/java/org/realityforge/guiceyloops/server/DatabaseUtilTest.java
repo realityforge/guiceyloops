@@ -41,6 +41,28 @@ public final class DatabaseUtilTest
   }
 
   @Test
+  public void setAdditionalPersistenceUnitProperties()
+    throws Exception
+  {
+    final String key = "MyMagicKey";
+    final String value = "value";
+    {
+      final Properties properties = new Properties();
+      properties.setProperty( key, value );
+      DatabaseUtil.setAdditionalPersistenceUnitProperties( properties );
+      assertEquals( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ), value );
+
+      // Assert the configuration is a copy
+      properties.clear();
+      assertEquals( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ), value );
+
+      //Assert empty properties can be specified
+      DatabaseUtil.setAdditionalPersistenceUnitProperties( properties );
+      assertNull( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ) );
+    }
+  }
+
+  @Test
   public void initConnection_disposeConnection()
     throws Exception
   {

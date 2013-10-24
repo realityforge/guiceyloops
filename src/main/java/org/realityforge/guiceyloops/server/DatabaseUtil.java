@@ -3,6 +3,7 @@ package org.realityforge.guiceyloops.server;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -64,6 +65,8 @@ public final class DatabaseUtil
   {
   }
 
+  private static final Properties c_additionalPersistenceUnitProperties = new Properties();
+
   static Properties initDatabaseProperties()
   {
     final Properties properties = new Properties();
@@ -74,11 +77,18 @@ public final class DatabaseUtil
     return properties;
   }
 
+  public static void setAdditionalPersistenceUnitProperties( @Nonnull final Properties properties )
+  {
+    c_additionalPersistenceUnitProperties.clear();
+    c_additionalPersistenceUnitProperties.putAll( properties );
+  }
+
   static Properties initPersistenceUnitProperties()
   {
     final Properties properties = initDatabaseProperties();
     properties.put( "javax.persistence.transactionType", "RESOURCE_LOCAL" );
     properties.put( "javax.persistence.jtaDataSource", "" );
+    properties.putAll( c_additionalPersistenceUnitProperties );
     return properties;
   }
 
