@@ -6,7 +6,9 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Properties;
 import java.util.logging.Logger;
+import org.realityforge.guiceyloops.server.DatabaseUtil;
 
 /**
  * A class that instantiates the glassfish app server in a separate classloader.
@@ -130,6 +132,30 @@ public class GlassFishContainer
     throws Exception
   {
     createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databaseConnectionProperty );
+  }
+
+  public void createSqlServerJdbcResource( final String key )
+    throws Exception
+  {
+    final String databasePoolProperties =
+      toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() );
+    createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databasePoolProperties );
+  }
+
+  public  String toGlassFishPropertiesString( final Properties properties )
+  {
+    final StringBuilder sb = new StringBuilder(  );
+    for ( final String property : properties.stringPropertyNames() )
+    {
+      if( 0 != sb.length() )
+      {
+        sb.append( ":" );
+      }
+      sb.append( property );
+      sb.append( "=" );
+      sb.append( properties.getProperty( property ) );
+    }
+    return sb.toString();
   }
 
   public void createJdbcResource( final String key,
