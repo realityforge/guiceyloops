@@ -31,10 +31,10 @@ public final class DatabaseUtilTest
   public void initDatabaseProperties_sysProperties()
     throws Exception
   {
-    final String driver = "MyDriver" ;
-    final String url = "MyURL" ;
-    final String user = "MyUser" ;
-    final String password = "MyPassword" ;
+    final String driver = "MyDriver";
+    final String url = "MyURL";
+    final String user = "MyUser";
+    final String password = "MyPassword";
 
     TestUtil.setDBProperties( driver, url, user, password );
     assertPersistenceUnitProperties( driver, url, user, password );
