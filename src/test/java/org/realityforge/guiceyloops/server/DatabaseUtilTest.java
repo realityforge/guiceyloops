@@ -24,7 +24,7 @@ public final class DatabaseUtilTest
   public void initDatabaseProperties_default()
     throws Exception
   {
-    assertDatabaseProperties( DatabaseUtil.MSSQL_DRIVER, "DATABASE_URL_UNSET", null, null );
+    assertPersistenceUnitProperties( DatabaseUtil.MSSQL_DRIVER, "DATABASE_URL_UNSET", null, null );
   }
 
   @Test
@@ -37,7 +37,7 @@ public final class DatabaseUtilTest
     final String password = "MyPassword" ;
 
     TestUtil.setDBProperties( driver, url, user, password );
-    assertDatabaseProperties( driver, url, user, password );
+    assertPersistenceUnitProperties( driver, url, user, password );
   }
 
   @Test
@@ -77,12 +77,12 @@ public final class DatabaseUtilTest
     }
   }
 
-  private void assertDatabaseProperties( @Nonnull final String driver,
-                                         @Nonnull final String url,
-                                         @Nullable final String user,
-                                         @Nullable final String password )
+  private void assertPersistenceUnitProperties( @Nonnull final String driver,
+                                                @Nonnull final String url,
+                                                @Nullable final String user,
+                                                @Nullable final String password )
   {
-    final Properties properties = DatabaseUtil.initDatabaseProperties();
+    final Properties properties = DatabaseUtil.initPersistenceUnitProperties();
     assertPropertyValue( properties, "javax.persistence.transactionType", "RESOURCE_LOCAL" );
     assertPropertyValue( properties, "javax.persistence.jtaDataSource", "" );
     assertPropertyValue( properties, "javax.persistence.jdbc.driver", driver );

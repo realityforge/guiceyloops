@@ -71,6 +71,12 @@ public final class DatabaseUtil
     setProperty( properties, URL_KEY, DB_URL_SYS_PROPERTY, DEFAULT_URL );
     setProperty( properties, USER_KEY, DB_USER_SYS_PROPERTY, DEFAULT_USER );
     setProperty( properties, PASSWORD_KEY, DB_PASSWORD_SYS_PROPERTY, DEFAULT_PASSWORD );
+    return properties;
+  }
+
+  static Properties initPersistenceUnitProperties()
+  {
+    final Properties properties = initDatabaseProperties();
     properties.put( "javax.persistence.transactionType", "RESOURCE_LOCAL" );
     properties.put( "javax.persistence.jtaDataSource", "" );
     return properties;
@@ -90,7 +96,7 @@ public final class DatabaseUtil
 
   public static EntityManager createEntityManager( final String persistenceUnitName )
   {
-    final Properties properties = DatabaseUtil.initDatabaseProperties();
+    final Properties properties = initPersistenceUnitProperties();
     final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
     return factory.createEntityManager();
   }
