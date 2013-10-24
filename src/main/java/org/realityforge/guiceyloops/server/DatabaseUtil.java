@@ -42,22 +42,22 @@ import javax.persistence.Persistence;
  */
 public final class DatabaseUtil
 {
-  static final String URL_KEY = "javax.persistence.jdbc.url" ;
-  static final String DRIVER_KEY = "javax.persistence.jdbc.driver" ;
-  static final String USER_KEY = "javax.persistence.jdbc.user" ;
-  static final String PASSWORD_KEY = "javax.persistence.jdbc.password" ;
+  static final String URL_KEY = "javax.persistence.jdbc.url";
+  static final String DRIVER_KEY = "javax.persistence.jdbc.driver";
+  static final String USER_KEY = "javax.persistence.jdbc.user";
+  static final String PASSWORD_KEY = "javax.persistence.jdbc.password";
 
-  static final String DB_DRIVER_SYS_PROPERTY = "test.db.driver" ;
-  static final String MSSQL_DRIVER = "net.sourceforge.jtds.jdbc.Driver" ;
+  static final String DB_DRIVER_SYS_PROPERTY = "test.db.driver";
+  static final String MSSQL_DRIVER = "net.sourceforge.jtds.jdbc.Driver";
   static final String DEFAULT_DRIVER = MSSQL_DRIVER;
 
-  static final String DB_URL_SYS_PROPERTY = "test.db.url" ;
-  static final String DEFAULT_URL = "DATABASE_URL_UNSET" ;
+  static final String DB_URL_SYS_PROPERTY = "test.db.url";
+  static final String DEFAULT_URL = "DATABASE_URL_UNSET";
 
-  static final String DB_USER_SYS_PROPERTY = "test.db.user" ;
+  static final String DB_USER_SYS_PROPERTY = "test.db.user";
   static final String DEFAULT_USER = null;
 
-  static final String DB_PASSWORD_SYS_PROPERTY = "test.db.password" ;
+  static final String DB_PASSWORD_SYS_PROPERTY = "test.db.password";
   static final String DEFAULT_PASSWORD = null;
 
   private DatabaseUtil()
