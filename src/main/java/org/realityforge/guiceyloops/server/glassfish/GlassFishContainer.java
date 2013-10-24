@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.logging.Logger;
-import org.realityforge.guiceyloops.server.TestInitialContextFactory;
 
 /**
  * A class that instantiates the glassfish app server in a separate classloader.
