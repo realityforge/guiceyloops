@@ -57,7 +57,7 @@ public final class DatabaseUtilTest
     }
   }
 
-   @Test
+  @Test
   public void createEntityManager()
     throws Exception
   {
