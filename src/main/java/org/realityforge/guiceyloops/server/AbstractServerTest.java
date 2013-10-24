@@ -91,8 +91,17 @@ public abstract class AbstractServerTest
     }
     catch ( final Throwable t )
     {
-      return new ServerTestModule();
+      return getDefaultTestModule();
     }
+  }
+
+  /**
+   * Return the test module that defines all the services.
+   * The user is expected to override this in most sub-classes.
+   */
+  protected ServerTestModule getDefaultTestModule()
+  {
+    return new ServerTestModule();
   }
 
   protected final <T> T s( final Class<T> type )
