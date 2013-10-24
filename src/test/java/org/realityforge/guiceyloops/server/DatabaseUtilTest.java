@@ -60,6 +60,48 @@ public final class DatabaseUtilTest
     assertNull( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ) );
   }
 
+  @Test( expectedExceptions = { IllegalArgumentException.class } )
+  public void getGlassFishDataSourceProperties_unknownJdbc()
+    throws Exception
+  {
+    TestUtil.setDBProperties( "",
+                              "jdbc:otherdb://example.com/SomeDB",
+                              null,
+                              null );
+    DatabaseUtil.getGlassFishDataSourceProperties();
+  }
+
+  @Test
+  public void getGlassFishDataSourceProperties_allProperties()
+    throws Exception
+  {
+    TestUtil.setDBProperties( "",
+                              "jdbc:jtds:sqlserver://example.com:1500/SomeDB;user=MyUserName;password=My-Password",
+                              null,
+                              null );
+    final Properties properties = DatabaseUtil.getGlassFishDataSourceProperties();
+    assertEquals( properties.getProperty( "ServerName" ), "example.com" );
+    assertEquals( properties.getProperty( "DatabaseName" ), "SomeDB" );
+    assertEquals( properties.getProperty( "User" ), "MyUserName" );
+    assertEquals( properties.getProperty( "Password" ), "My-Password" );
+    assertEquals( properties.getProperty( "PortNumber" ), "1500" );
+  }
+
+  @Test
+  public void getGlassFishDataSourceProperties_minimal()
+    throws Exception
+  {
+    TestUtil.setDBProperties( "",
+                              "jdbc:jtds:sqlserver://example.com/SomeDB",
+                              "MyUserName",
+                              "My-Password" );
+    final Properties properties = DatabaseUtil.getGlassFishDataSourceProperties();
+    assertEquals( properties.getProperty( "ServerName" ), "example.com" );
+    assertEquals( properties.getProperty( "DatabaseName" ), "SomeDB" );
+    assertEquals( properties.getProperty( "User" ), "MyUserName" );
+    assertEquals( properties.getProperty( "Password" ), "My-Password" );
+  }
+
   @Test
   public void initConnection_disposeConnection()
     throws Exception

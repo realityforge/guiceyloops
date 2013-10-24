@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -60,6 +61,7 @@ public final class DatabaseUtil
 
   static final String DB_PASSWORD_SYS_PROPERTY = "test.db.password";
   static final String DEFAULT_PASSWORD = null;
+  public static final String JTDS_SQL_SERVER_JDBC_URL_PREFIX = "jdbc:jtds:sqlserver://";
 
   private DatabaseUtil()
   {
@@ -101,6 +103,81 @@ public final class DatabaseUtil
     if ( null != value )
     {
       properties.put( key, value );
+    }
+  }
+
+  public static Properties getGlassFishDataSourceProperties()
+  {
+    final Properties properties = initDatabaseProperties();
+
+    final Properties gfProperties = new Properties();
+    setProperty( gfProperties, "User", properties.getProperty( USER_KEY ) );
+    setProperty( gfProperties, "Password", properties.getProperty( PASSWORD_KEY ) );
+    final String jdbcUrl = properties.getProperty( URL_KEY );
+    if( jdbcUrl.startsWith( JTDS_SQL_SERVER_JDBC_URL_PREFIX ) )
+    {
+      parseSqlServerURL(gfProperties, jdbcUrl);
+    }
+    else
+    {
+      throw new IllegalArgumentException( "Can not yet parse jdbc url of the form: " + jdbcUrl );
+    }
+    return gfProperties;
+  }
+
+  private static void parseSqlServerURL( final Properties gfProperties, final String jdbcUrl )
+  {
+    final int paramSeparator = jdbcUrl.indexOf( ";" );
+    if( -1 != paramSeparator )
+    {
+      final String[] params = jdbcUrl.substring( paramSeparator + 1 ).split( ";" );
+      for ( final String param : params )
+      {
+        final String[] components = param.split( "=" );
+        if ( "user".equals( components[ 0 ] ) )
+        {
+          setProperty( gfProperties, "User", components[ 1 ] );
+        }
+        else if ( "password".equals( components[ 0 ] ) )
+        {
+          setProperty( gfProperties, "Password", components[ 1 ] );
+        }
+        else if ( "instance".equals( components[ 0 ] ) )
+        {
+          setProperty( gfProperties, "Instance", components[ 1 ] );
+        }
+      }
+    }
+
+    final int prefixEnd = JTDS_SQL_SERVER_JDBC_URL_PREFIX.length();
+    final int hostEnd = jdbcUrl.indexOf( "/", prefixEnd );
+
+    final String databaseName =
+      jdbcUrl.substring( hostEnd + 1, ( -1 == paramSeparator ? jdbcUrl.length() : paramSeparator ) );
+    setProperty( gfProperties, "DatabaseName", databaseName );
+
+    final int portStart = jdbcUrl.indexOf( ":", prefixEnd );
+    if( -1 != portStart && portStart < hostEnd )
+    {
+      final String portString = jdbcUrl.substring( portStart + 1, hostEnd );
+      setProperty( gfProperties, "PortNumber", portString );
+    }
+
+    final String serverName = jdbcUrl.substring( prefixEnd, (-1 == portStart ? hostEnd : portStart) );
+    setProperty( gfProperties, "ServerName", serverName );
+  }
+
+  private static void setProperty( @Nonnull final Properties properties,
+                                   @Nonnull final String key,
+                                   @Nullable final String value )
+  {
+    if ( null != value )
+    {
+      properties.setProperty( key, value );
+    }
+    else
+    {
+      properties.remove( key );
     }
   }
 
