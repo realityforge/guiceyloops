@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.JEETestingModule;
@@ -12,7 +13,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
-public class EntityManagerTestingModuleTest
+public class PersistenceTestModuleTest
 {
   private File _databaseFile;
 
@@ -42,7 +43,7 @@ public class EntityManagerTestingModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new TestEntityManagerTestingModule(), new JEETestingModule() );
+      Guice.createInjector( new TestPersistenceTestModule(), new JEETestingModule() );
 
     assertNotNull( injector.getInstance( EntityManager.class ) );
 
@@ -59,5 +60,25 @@ public class EntityManagerTestingModuleTest
     assertEquals( tableNames.length, 2 );
     assertEquals( tableNames[ 0 ], "Test.tblTestEntity1" );
     assertEquals( tableNames[ 1 ], "Test.tblTestEntity2" );
+  }
+
+  static class TestPersistenceTestModule
+    extends PersistenceTestModule
+  {
+    @Override
+    protected void configure()
+    {
+      super.configure();
+      final ArrayList<String> tables = new ArrayList<String>();
+      collectTableName( tables, TestEntity1.class );
+      collectTableName( tables, TestEntity2.class );
+      requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
+    }
+
+    @Override
+    protected String getPersistenceUnitName()
+    {
+      return "TestUnit";
+    }
   }
 }
