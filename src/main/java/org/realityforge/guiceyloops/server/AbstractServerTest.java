@@ -89,6 +89,7 @@ public abstract class AbstractServerTest
   }
 
   protected void setupTransactionSynchronizationRegistry()
+    throws Exception
   {
     try
     {
@@ -96,7 +97,7 @@ public abstract class AbstractServerTest
       final Context context = TestInitialContextFactory.getContext().createSubcontext( "java:comp" );
       context.bind( "TransactionSynchronizationRegistry", getService( TestTransactionSynchronizationRegistry.class ) );
     }
-    catch ( final Throwable t )
+    catch ( final NoClassDefFoundError e )
     {
       //Ignored. Probably as the classes for the naming or transaction extensions are not on the classpath
     }
