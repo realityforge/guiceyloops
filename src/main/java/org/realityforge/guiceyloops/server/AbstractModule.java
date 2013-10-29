@@ -43,6 +43,11 @@ public abstract class AbstractModule
     bind( type ).toInstance( Mockito.mock( type ) );
   }
 
+  protected final <T> void bindMock( final Class<T> type, final String name )
+  {
+    bind( type ).annotatedWith( Names.named( name ) ).toInstance( Mockito.mock( type ) );
+  }
+
   protected final <T> void bindResource( final Class<T> resultType, final String name, final T instance )
   {
     bind( resultType ).annotatedWith( Names.named( name ) ).toInstance( instance );

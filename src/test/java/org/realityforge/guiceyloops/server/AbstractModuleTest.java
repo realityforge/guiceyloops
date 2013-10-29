@@ -57,6 +57,7 @@ public class AbstractModuleTest
     protected void configure()
     {
       bindMock( Runnable.class );
+      bindMock( Runnable.class, "MySpecialRunner" );
       bindResource( String.class, "MyKey", "MyValue" );
       bindSingleton( Service1.class, Component1.class );
       multiBind( Component2.class, Service2.class, Service3.class );
@@ -72,6 +73,10 @@ public class AbstractModuleTest
     final Runnable m2 = injector.getInstance( Runnable.class );
     assertEquals( m1, m2 );
     assertTrue( m1 instanceof Factory );
+
+    final Provider<Runnable> runnerProvider =
+      injector.getProvider( Key.get( Runnable.class, Names.named( "MySpecialRunner" ) ) );
+    assertTrue( runnerProvider.get() instanceof Factory );
 
     final Provider<String> provider =
       injector.getProvider( Key.get( String.class, Names.named( "MyKey" ) ) );
