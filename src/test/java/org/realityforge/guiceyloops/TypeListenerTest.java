@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import java.lang.reflect.Field;
 import java.util.Map;
+import javax.annotation.Nullable;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
@@ -36,6 +37,10 @@ public final class TypeListenerTest
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaNamedResource" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
+    assertFieldInjected( instance,
+                         ComponentA.class,
+                         "_entityManagerBViaPersistenceContextWithKey",
+                         TestEntityManager2.class );
     assertFieldInjected( instance, ComponentA.class, "_webServiceType" );
   }
 
@@ -50,6 +55,10 @@ public final class TypeListenerTest
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaNamedResource" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
+    assertFieldInjected( instance,
+                         ComponentA.class,
+                         "_entityManagerBViaPersistenceContextWithKey",
+                         TestEntityManager2.class );
     assertFieldInjected( instance, ComponentA.class, "_webServiceType" );
   }
 
@@ -62,7 +71,21 @@ public final class TypeListenerTest
   private void assertFieldInjected( final Object instance, final Class declaringType, final String fieldName )
     throws Exception
   {
-    assertNotNull( getFieldValue( instance, declaringType, fieldName ) );
+    assertFieldInjected( instance, declaringType, fieldName, null );
+  }
+
+  private void assertFieldInjected( final Object instance,
+                                    final Class declaringType,
+                                    final String fieldName,
+                                    @Nullable final Class<?> expectedType )
+    throws Exception
+  {
+    final Object value = getFieldValue( instance, declaringType, fieldName );
+    assertNotNull( value );
+    if ( null != expectedType )
+    {
+      assertTrue( expectedType.isInstance( value ) );
+    }
   }
 
   private static Object getFieldValue( final Object instance, final Class declaringType, final String fieldName )
@@ -89,6 +112,7 @@ public final class TypeListenerTest
     protected void configure()
     {
       bind( EntityManager.class ).to( TestEntityManager.class );
+      bind( EntityManager.class ).annotatedWith( Names.named( "X" ) ).toInstance( new TestEntityManager2() );
       bind( ComponentB.class ).annotatedWith( Names.named( "some/resource/name" ) ).toInstance( new ComponentB() );
     }
   }
@@ -114,6 +138,9 @@ public final class TypeListenerTest
     @PersistenceContext
     private EntityManager _entityManagerBViaPersistenceContext;
 
+    @PersistenceContext(unitName = "X")
+    private EntityManager _entityManagerBViaPersistenceContextWithKey;
+
     @WebServiceRef
     private ComponentB _webServiceType;
   }
@@ -127,7 +154,13 @@ public final class TypeListenerTest
   {
   }
 
-  public static class TestEntityManager implements EntityManager
+  public static class TestEntityManager2
+    extends TestEntityManager
+  {
+  }
+
+  public static class TestEntityManager
+    implements EntityManager
   {
     public void persist( final Object entity )
     {

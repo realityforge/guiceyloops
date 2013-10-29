@@ -28,6 +28,14 @@ public class JpaTypeListener
                                                    @Nonnull final Annotation annotation,
                                                    @Nonnull final Field field )
   {
-    return FieldBasedInjector.createFromEncounter( typeEncounter, field );
+    final String name = ( (PersistenceContext) annotation ).unitName();
+    if ( "".equals( name ) )
+    {
+      return FieldBasedInjector.createFromEncounter( typeEncounter, field );
+    }
+    else
+    {
+      return FieldBasedInjector.createFromEncounter( typeEncounter, name, field );
+    }
   }
 }

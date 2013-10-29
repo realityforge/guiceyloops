@@ -1,6 +1,5 @@
 package org.realityforge.guiceyloops.server;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import java.lang.reflect.Field;
@@ -24,7 +23,15 @@ public abstract class EntityManagerTestingModule
   protected void configure()
   {
     _entityManager = DatabaseUtil.createEntityManager( getPersistenceUnitName() );
+
+    /*
+     * This assumes there is a single "primary" EntityManager. This is the one that the
+     * application reads/writes two and thus the one that DbCleaner must clean. When/if
+     * this assumption ever changes this may result in the next line being removed.
+     */
     bind( EntityManager.class ).toInstance( _entityManager );
+
+    bindResource( EntityManager.class, getPersistenceUnitName(), _entityManager );
 
     bind( DbCleaner.class ).in( Singleton.class );
 
