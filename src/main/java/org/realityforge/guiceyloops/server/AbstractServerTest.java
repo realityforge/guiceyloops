@@ -18,6 +18,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public abstract class AbstractServerTest
+  implements Flushable
 {
   private Injector _injector;
 
@@ -151,7 +152,7 @@ public abstract class AbstractServerTest
    */
   protected ServerTestModule getDefaultTestModule()
   {
-    return new ServerTestModule();
+    return new ServerTestModule( this );
   }
 
   protected final <T> T s( final Class<T> type )
@@ -175,7 +176,7 @@ public abstract class AbstractServerTest
     ( (TestTransactionSynchronizationRegistry) s( TransactionSynchronizationRegistry.class ) ).clear();
   }
 
-  protected final void flush()
+  public final void flush()
   {
     em().flush();
   }

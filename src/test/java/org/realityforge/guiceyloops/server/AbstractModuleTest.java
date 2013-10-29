@@ -98,6 +98,11 @@ public class AbstractModuleTest
   static class MyServerTestModule
     extends ServerTestModule
   {
+    MyServerTestModule( final Flushable flushable )
+    {
+      super( flushable );
+    }
+
     @Override
     protected void configure()
     {
@@ -110,7 +115,8 @@ public class AbstractModuleTest
   @Test
   public void serverTestModule()
   {
-    final Injector injector = Guice.createInjector( new MyServerTestModule(), new JEETestingModule() );
+    final Flushable flushable = mock( Flushable.class );
+    final Injector injector = Guice.createInjector( new MyServerTestModule( flushable ), new JEETestingModule() );
     assertTrue( injector.getInstance( SessionContext.class ) instanceof Factory );
     assertTrue( injector.getInstance( TransactionSynchronizationRegistry.class ) instanceof TestTransactionSynchronizationRegistry );
 
@@ -118,7 +124,7 @@ public class AbstractModuleTest
     final Component1 component1 = InjectUtil.toObject( Component1.class, instance );
     assertEquals( component1._count, 0 );
     instance.foo();
-    verify( injector.getInstance( EntityManager.class ), times( 2 ) ).flush();
+    verify( flushable, times( 2 ) ).flush();
     assertEquals( component1._count, 1 );
   }
 }

@@ -1,7 +1,5 @@
 package org.realityforge.guiceyloops.server;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -11,24 +9,28 @@ import org.aopalliance.intercept.MethodInvocation;
  * used in method. It also ensures all data has hit the database after the test so we
  * can do queries against database state and verify behaviour of service.
  */
-public class FlushingInterceptor
+final class FlushingInterceptor
   implements MethodInterceptor
 {
-  @PersistenceContext
-  private EntityManager _em;
+  private final Flushable _flushable;
+
+  FlushingInterceptor( final Flushable flushable )
+  {
+    _flushable = flushable;
+  }
 
   @Override
   public Object invoke( final MethodInvocation invocation )
     throws Throwable
   {
-    _em.flush();
+    _flushable.flush();
     try
     {
       return invocation.proceed();
     }
     finally
     {
-      _em.flush();
+      _flushable.flush();
     }
   }
 }

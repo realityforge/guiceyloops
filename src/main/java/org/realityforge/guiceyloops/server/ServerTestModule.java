@@ -11,12 +11,16 @@ import static com.google.inject.matcher.Matchers.any;
 public class ServerTestModule
   extends AbstractModule
 {
-  private final FlushingInterceptor _interceptor = new FlushingInterceptor();
+  private final FlushingInterceptor _interceptor;
+
+  public ServerTestModule( final Flushable flushable )
+  {
+    _interceptor = new FlushingInterceptor( flushable );
+  }
 
   @Override
   protected void configure()
   {
-    requestInjection( _interceptor );
     bindMock( SessionContext.class );
     bindService( TransactionSynchronizationRegistry.class, TestTransactionSynchronizationRegistry.class );
   }
