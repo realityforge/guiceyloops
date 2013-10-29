@@ -105,7 +105,14 @@ public abstract class AbstractServerTest
 
   protected void shutdownTransactionSynchronizationRegistry()
   {
-    TestInitialContextFactory.reset();
+    try
+    {
+      TestInitialContextFactory.reset();
+    }
+    catch ( final NoClassDefFoundError e )
+    {
+      //JNDI code is not present. NO problemo!
+    }
   }
 
   protected Module[] getModules()
