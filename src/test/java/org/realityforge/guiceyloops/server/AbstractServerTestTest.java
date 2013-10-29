@@ -1,8 +1,10 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.Module;
+import com.google.inject.name.Names;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.mockito.Mockito;
@@ -31,11 +33,20 @@ public class AbstractServerTestTest
   {
     EntityManager _entityManager = Mockito.mock( EntityManager.class );
     DbCleaner _dbCleaner = Mockito.mock( DbCleaner.class );
+    private final String _persistenceUnit;
     private final boolean _registerCleaner;
 
-    public MyServerTest( final boolean registerCleaner )
+    public MyServerTest( final String persistenceUnit, final boolean registerCleaner )
     {
+      _persistenceUnit = persistenceUnit;
       _registerCleaner = registerCleaner;
+    }
+
+    @Nullable
+    @Override
+    protected String getPrimaryPersistenceUnitName()
+    {
+      return _persistenceUnit;
     }
 
     protected Module[] getModules()
@@ -54,7 +65,14 @@ public class AbstractServerTestTest
         @Override
         protected void configure()
         {
-          bind( EntityManager.class ).toInstance( _entityManager );
+          if ( null == _persistenceUnit )
+          {
+            bind( EntityManager.class ).toInstance( _entityManager );
+          }
+          else
+          {
+            bind( EntityManager.class ).annotatedWith( Names.named( _persistenceUnit ) ).toInstance( _entityManager );
+          }
           if ( _registerCleaner )
           {
             bind( DbCleaner.class ).toInstance( _dbCleaner );
@@ -67,13 +85,34 @@ public class AbstractServerTestTest
   }
 
   @Test
-  public void serverTest()
+  public void dbCleanerInteraction()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( true );
+    final MyServerTest test = new MyServerTest( null, true );
     test.preTest();
     verify( test._dbCleaner ).start();
-    //final Injector injector = test.getInjector();
+
+    test.postTest();
+    verify( test._dbCleaner ).finish();
+  }
+
+  @Test
+  public void postTestNullsInjector()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( null, false );
+    test.preTest();
+    assertNotNull( test.getInjector() );
+    test.postTest();
+    assertNull( test.getInjector() );
+  }
+
+  @Test
+  public void entityManagerInteraction()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( null, false );
+    test.preTest();
 
     test.flush();
     verify( test._entityManager ).flush();
@@ -84,28 +123,50 @@ public class AbstractServerTestTest
     final Object entity = new Object();
     test.refresh( entity );
     verify( test._entityManager ).refresh( entity );
+  }
+
+  @Test
+  public void toObject()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( null, false );
+    test.preTest();
+
+    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
+                  test.toObject( Component1.class, test.s( Service1.class ) ) );
+  }
+
+  @Test
+  public void resetTransactionSynchronizationRegistry()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( null, false );
+    test.preTest();
 
     test.s( TransactionSynchronizationRegistry.class ).putResource( "key", "value" );
     test.resetTransactionSynchronizationRegistry();
     Assert.assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
-
-    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
-                  test.toObject( Component1.class, test.s( Service1.class ) ) );
-
-    test.postTest();
-    verify( test._dbCleaner ).finish();
-
-    assertNull( test.getInjector() );
   }
 
   @Test
   public void serverTest_withoutDbCleaner()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( false );
+    final MyServerTest test = new MyServerTest( null, false );
     test.preTest();
     verify( test._dbCleaner, never() ).start();
-    //final Injector injector = test.getInjector();
+
+    test.postTest();
+    verify( test._dbCleaner, never() ).finish();
+  }
+
+
+  @Test
+  public void serverTest_withNamedPersistenceUnit()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( "MyUnit", false );
+    test.preTest();
 
     test.flush();
     verify( test._entityManager ).flush();
@@ -120,9 +181,6 @@ public class AbstractServerTestTest
     test.s( TransactionSynchronizationRegistry.class ).putResource( "key", "value" );
     test.resetTransactionSynchronizationRegistry();
     Assert.assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
-
-    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
-                  test.toObject( Component1.class, test.s( Service1.class ) ) );
 
     test.postTest();
     verify( test._dbCleaner, never() ).finish();
