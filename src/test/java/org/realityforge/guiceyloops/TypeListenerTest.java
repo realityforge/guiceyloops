@@ -27,7 +27,7 @@ public final class TypeListenerTest
 {
   @Test
   public void ensureThatTheCorrectFieldsAreInjected()
-      throws Exception
+    throws Exception
   {
     final ComponentA instance = getInjectedComponent( ComponentA.class );
     assertFieldNotInjected( instance, ComponentA.class, "_componentB" );
@@ -41,7 +41,7 @@ public final class TypeListenerTest
 
   @Test
   public void ensureThatTheCorrectFieldsAreInjectedInSubclass()
-      throws Exception
+    throws Exception
   {
     final SubclassOfComponentA instance = getInjectedComponent( SubclassOfComponentA.class );
     assertFieldNotInjected( instance, ComponentA.class, "_componentB" );
@@ -54,26 +54,26 @@ public final class TypeListenerTest
   }
 
   private void assertFieldNotInjected( final Object instance, final Class declaringType, final String fieldName )
-      throws Exception
+    throws Exception
   {
     assertNull( getFieldValue( instance, declaringType, fieldName ) );
   }
 
   private void assertFieldInjected( final Object instance, final Class declaringType, final String fieldName )
-      throws Exception
+    throws Exception
   {
     assertNotNull( getFieldValue( instance, declaringType, fieldName ) );
   }
 
   private static Object getFieldValue( final Object instance, final Class declaringType, final String fieldName )
-      throws Exception
+    throws Exception
   {
     final Field field = declaringType.getDeclaredField( fieldName );
     field.setAccessible( true );
     return field.get( instance );
   }
 
-  private static <T> T getInjectedComponent(final Class<T> type)
+  private static <T> T getInjectedComponent( final Class<T> type )
   {
     return createInjector().getInstance( type );
   }
@@ -84,7 +84,7 @@ public final class TypeListenerTest
   }
 
   public static class MyTestModule
-      extends AbstractModule
+    extends AbstractModule
   {
     protected void configure()
     {
@@ -104,7 +104,7 @@ public final class TypeListenerTest
     @Resource
     private ComponentB _componentBViaResource;
 
-    @Resource( name="some/resource/name" )
+    @Resource(name = "some/resource/name")
     private ComponentB _componentBViaNamedResource;
 
     //Should not be injected
@@ -158,7 +158,10 @@ public final class TypeListenerTest
       return null;
     }
 
-    public <T> T find( final Class<T> entityClass, final Object primaryKey, final LockModeType lockMode, final Map<String, Object> properties )
+    public <T> T find( final Class<T> entityClass,
+                       final Object primaryKey,
+                       final LockModeType lockMode,
+                       final Map<String, Object> properties )
     {
       return null;
     }
