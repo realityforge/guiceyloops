@@ -31,6 +31,12 @@ public class AbstractServerTestTest
   {
     EntityManager _entityManager = Mockito.mock( EntityManager.class );
     DbCleaner _dbCleaner = Mockito.mock( DbCleaner.class );
+    private final boolean _registerCleaner;
+
+    public MyServerTest( final boolean registerCleaner )
+    {
+      _registerCleaner = registerCleaner;
+    }
 
     protected Module[] getModules()
     {
@@ -49,8 +55,11 @@ public class AbstractServerTestTest
         protected void configure()
         {
           bind( EntityManager.class ).toInstance( _entityManager );
-          bind( DbCleaner.class ).toInstance( _dbCleaner );
-          bindResource( String[].class, DbCleaner.TABLE_NAME_KEY, new String[ 0 ] );
+          if ( _registerCleaner )
+          {
+            bind( DbCleaner.class ).toInstance( _dbCleaner );
+            bindResource( String[].class, DbCleaner.TABLE_NAME_KEY, new String[ 0 ] );
+          }
           multiBind( Component1.class, Service1.class, Service2.class );
         }
       };
@@ -61,7 +70,7 @@ public class AbstractServerTestTest
   public void serverTest()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest();
+    final MyServerTest test = new MyServerTest( true );
     test.preTest();
     verify( test._dbCleaner ).start();
     //final Injector injector = test.getInjector();
@@ -85,6 +94,38 @@ public class AbstractServerTestTest
 
     test.postTest();
     verify( test._dbCleaner ).finish();
+
+    assertNull( test.getInjector() );
+  }
+
+  @Test
+  public void serverTest_withoutDbCleaner()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( false );
+    test.preTest();
+    verify( test._dbCleaner, never() ).start();
+    //final Injector injector = test.getInjector();
+
+    test.flush();
+    verify( test._entityManager ).flush();
+
+    test.clear();
+    verify( test._entityManager ).clear();
+
+    final Object entity = new Object();
+    test.refresh( entity );
+    verify( test._entityManager ).refresh( entity );
+
+    test.s( TransactionSynchronizationRegistry.class ).putResource( "key", "value" );
+    test.resetTransactionSynchronizationRegistry();
+    Assert.assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
+
+    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
+                  test.toObject( Component1.class, test.s( Service1.class ) ) );
+
+    test.postTest();
+    verify( test._dbCleaner, never() ).finish();
 
     assertNull( test.getInjector() );
   }
