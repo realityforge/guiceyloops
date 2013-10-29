@@ -4,7 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.name.Names;
 import com.icegreen.greenmail.util.GreenMail;
 import java.util.ArrayList;
 import javax.annotation.Nullable;
@@ -160,6 +162,14 @@ public abstract class AbstractServerTest
     return getService( type );
   }
 
+  protected final <T> T s( final String name, final Class<T> type )
+  {
+    // Flush the entity manager prior to invoking the service. Ensures that the service method can
+    // find all created artifacts
+    flush();
+    return getService( name, type );
+  }
+
   protected final void resetTransactionSynchronizationRegistry()
   {
     ( (TestTransactionSynchronizationRegistry) s( TransactionSynchronizationRegistry.class ) ).clear();
@@ -189,6 +199,11 @@ public abstract class AbstractServerTest
   private <T> T getService( final Class<T> type )
   {
     return getInjector().getInstance( type );
+  }
+
+  private <T> T getService( final String name, final Class<T> type )
+  {
+    return getInjector().getInstance( Key.get( type, Names.named( name ) ) );
   }
 
   protected <T> T toObject( final Class<T> type, final Object object )
