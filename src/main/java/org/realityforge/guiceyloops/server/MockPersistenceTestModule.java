@@ -5,10 +5,12 @@ import javax.persistence.EntityManager;
 public class MockPersistenceTestModule
   extends AbstractPersistenceTestModule
 {
+  private final boolean _bindWithoutName;
   private final String _persistenceUnit;
 
-  public MockPersistenceTestModule( final String persistenceUnit )
+  public MockPersistenceTestModule( final boolean bindWithoutName, final String persistenceUnit )
   {
+    _bindWithoutName = bindWithoutName;
     _persistenceUnit = persistenceUnit;
   }
 
@@ -16,7 +18,14 @@ public class MockPersistenceTestModule
   protected void configure()
   {
     super.configure();
-    bindMock( EntityManager.class, getPersistenceUnitName() );
+    if ( _bindWithoutName )
+    {
+      bindMock( EntityManager.class );
+    }
+    if ( null != _persistenceUnit )
+    {
+      bindMock( EntityManager.class, _persistenceUnit );
+    }
   }
 
   @Override

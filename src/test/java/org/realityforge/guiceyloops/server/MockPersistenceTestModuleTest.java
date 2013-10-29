@@ -19,17 +19,67 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( "TestUnit" ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( false, "TestUnit" ), new JEETestingModule() );
 
     final EntityManager entityManager =
       injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
-    assertNotNull( entityManager );
-    assertTrue( entityManager instanceof Factory );
+    assertMockEntityManager( entityManager );
 
+    assertTransactionSynchronizationRegistryPresent( injector );
+    assertNoDbCleaner( injector );
+  }
+
+  @Test
+  public void basicOperation_withBindUnnamed()
+    throws Throwable
+  {
+    final Injector injector =
+      Guice.createInjector( new MockPersistenceTestModule( true, "TestUnit" ), new JEETestingModule() );
+
+    final EntityManager entityManager = injector.getInstance( EntityManager.class );
+
+    assertMockEntityManager( entityManager );
+    assertTransactionSynchronizationRegistryPresent( injector );
+    assertNoDbCleaner( injector );
+  }
+
+  @Test
+  public void basicOperation_withNullPersistenceUnitName()
+    throws Throwable
+  {
+    final Injector injector =
+      Guice.createInjector( new MockPersistenceTestModule( true, null ), new JEETestingModule() );
+
+    assertMockEntityManager( injector.getInstance( EntityManager.class ) );
+    assertTransactionSynchronizationRegistryPresent( injector );
+    assertNoDbCleaner( injector );
+
+    try
+    {
+      injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
+      fail("Unexpected got named persistence unit");
+    }
+    catch ( final ConfigurationException ce )
+    {
+      //Expected
+    }
+  }
+
+  private void assertTransactionSynchronizationRegistryPresent( final Injector injector )
+  {
     final TransactionSynchronizationRegistry registry =
       injector.getInstance( TransactionSynchronizationRegistry.class );
     assertTrue( registry instanceof TestTransactionSynchronizationRegistry );
+  }
 
+  private void assertMockEntityManager( final EntityManager entityManager )
+  {
+    assertNotNull( entityManager );
+    assertTrue( entityManager instanceof Factory );
+  }
+
+  private void assertNoDbCleaner( final Injector injector )
+  {
     try
     {
       injector.getInstance( DbCleaner.class );
