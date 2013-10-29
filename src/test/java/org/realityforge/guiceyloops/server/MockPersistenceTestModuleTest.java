@@ -3,6 +3,8 @@ package org.realityforge.guiceyloops.server;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.mockito.cglib.proxy.Factory;
@@ -19,7 +21,8 @@ public class MockPersistenceTestModuleTest
     final Injector injector =
       Guice.createInjector( new MockPersistenceTestModule( "TestUnit" ), new JEETestingModule() );
 
-    final EntityManager entityManager = injector.getInstance( EntityManager.class );
+    final EntityManager entityManager =
+      injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
     assertNotNull( entityManager );
     assertTrue( entityManager instanceof Factory );
 
