@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public class AbstractServerTestTest
 {
@@ -80,10 +80,12 @@ public class AbstractServerTestTest
     test.resetTransactionSynchronizationRegistry();
     Assert.assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
 
+    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
+                  test.toObject( Component1.class, test.s( Service1.class ) ) );
+
     test.postTest();
     verify( test._dbCleaner ).finish();
 
-    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
-                  test.toObject( Component1.class, test.s( Service1.class ) ) );
+    assertNull( test.getInjector() );
   }
 }

@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -23,10 +24,72 @@ public abstract class AbstractServerTest
     throws Exception
   {
     _injector = Guice.createInjector( getModules() );
-    getService( DbCleaner.class ).start();
+    startDbCleaner();
+    setupTransactionSynchronizationRegistry();
+    startupMailServer();
+  }
+
+  @AfterMethod
+  public void postTest()
+  {
+    shutdownMailServer();
+    shutdownTransactionSynchronizationRegistry();
+    finishDbCleaner();
+    _injector = null;
+  }
+
+  protected void startDbCleaner()
+  {
     try
     {
-      TestInitialContextFactory.reset();
+      getService( DbCleaner.class ).start();
+    }
+    catch ( final ConfigurationException e )
+    {
+      // Ignore this as we assume that if DbCleaner is unable to be located
+      // then we are probably using a mock EntityManager
+    }
+  }
+
+  protected void finishDbCleaner()
+  {
+    try
+    {
+      getService( DbCleaner.class ).finish();
+    }
+    catch ( final ConfigurationException e )
+    {
+      // Ignore this as we assume that if DbCleaner is unable to be located
+      // then we are probably using a mock EntityManager
+    }
+  }
+
+  protected void startupMailServer()
+  {
+    if ( enableMailServer() )
+    {
+      s( GreenMail.class ).start();
+    }
+  }
+
+  protected void shutdownMailServer()
+  {
+    if ( enableMailServer() )
+    {
+      s( GreenMail.class ).stop();
+    }
+  }
+
+  protected boolean enableMailServer()
+  {
+    return false;
+  }
+
+  protected void setupTransactionSynchronizationRegistry()
+  {
+    try
+    {
+      shutdownTransactionSynchronizationRegistry();
       final Context context = TestInitialContextFactory.getContext().createSubcontext( "java:comp" );
       context.bind( "TransactionSynchronizationRegistry", getService( TestTransactionSynchronizationRegistry.class ) );
     }
@@ -34,26 +97,11 @@ public abstract class AbstractServerTest
     {
       //Ignored. Probably as the classes for the naming or transaction extensions are not on the classpath
     }
-
-    if ( enableMailServer() )
-    {
-      s( GreenMail.class ).start();
-    }
   }
 
-  @AfterMethod
-  public void postTest()
+  protected void shutdownTransactionSynchronizationRegistry()
   {
-    if ( enableMailServer() )
-    {
-      s( GreenMail.class ).stop();
-    }
-    getService( DbCleaner.class ).finish();
-  }
-
-  protected boolean enableMailServer()
-  {
-    return false;
+    TestInitialContextFactory.reset();
   }
 
   protected Module[] getModules()
