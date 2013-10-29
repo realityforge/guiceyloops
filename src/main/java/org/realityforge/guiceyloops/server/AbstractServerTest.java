@@ -131,6 +131,16 @@ public abstract class AbstractServerTest
     return null;
   }
 
+  /**
+   * Override this to return the name of the persistence unit that will be flushed between service calls.
+   * If not overridden or if the method returns null, EntityManager will be the one not bound to a name.
+   */
+  @Nullable
+  protected String getPrimaryPersistenceUnitName()
+  {
+    return null;
+  }
+
   protected abstract Module getEntityModule();
 
   protected Module getTestModule()
@@ -194,7 +204,15 @@ public abstract class AbstractServerTest
 
   protected final EntityManager em()
   {
-    return getService( EntityManager.class );
+    final String unitName = getPrimaryPersistenceUnitName();
+    if ( null == unitName )
+    {
+      return getService( EntityManager.class );
+    }
+    else
+    {
+      return getService( unitName, EntityManager.class );
+    }
   }
 
   private <T> T getService( final Class<T> type )
