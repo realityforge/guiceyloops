@@ -34,7 +34,7 @@ public abstract class PersistenceTestModule
 
     bind( DbCleaner.class ).in( Singleton.class );
 
-    registerTransactionSynchronizationRegistry();
+    super.configure();
   }
 
   @Nonnull
