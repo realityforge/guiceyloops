@@ -7,6 +7,7 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
+import javax.transaction.UserTransaction;
 import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.Test;
@@ -26,6 +27,7 @@ public class MockPersistenceTestModuleTest
     assertMockEntityManager( entityManager );
 
     assertTransactionSynchronizationRegistryPresent( injector );
+    assertTrue( injector.getInstance( UserTransaction.class ) instanceof Factory );
     assertNoDbCleaner( injector );
   }
 

@@ -7,6 +7,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
+import javax.transaction.UserTransaction;
+import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -50,6 +52,8 @@ public class PersistenceTestModuleTest
     final TransactionSynchronizationRegistry registry =
       injector.getInstance( TransactionSynchronizationRegistry.class );
     assertTrue( registry instanceof TestTransactionSynchronizationRegistry );
+
+    assertTrue( injector.getInstance( UserTransaction.class ) instanceof Factory );
 
     final DbCleaner cleaner = injector.getInstance( DbCleaner.class );
     assertNotNull( cleaner );
