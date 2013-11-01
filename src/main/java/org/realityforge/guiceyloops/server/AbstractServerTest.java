@@ -45,7 +45,7 @@ public abstract class AbstractServerTest
   {
     try
     {
-      getService( DbCleaner.class ).start();
+      getInstance( DbCleaner.class ).start();
     }
     catch ( final ConfigurationException e )
     {
@@ -58,7 +58,7 @@ public abstract class AbstractServerTest
   {
     try
     {
-      getService( DbCleaner.class ).finish();
+      getInstance( DbCleaner.class ).finish();
     }
     catch ( final ConfigurationException e )
     {
@@ -95,7 +95,7 @@ public abstract class AbstractServerTest
     {
       shutdownTransactionSynchronizationRegistry();
       final Context context = TestInitialContextFactory.getContext().createSubcontext( "java:comp" );
-      context.bind( "TransactionSynchronizationRegistry", getService( TestTransactionSynchronizationRegistry.class ) );
+      context.bind( "TransactionSynchronizationRegistry", getInstance( TestTransactionSynchronizationRegistry.class ) );
     }
     catch ( final NoClassDefFoundError e )
     {
@@ -178,7 +178,7 @@ public abstract class AbstractServerTest
     // Flush the entity manager prior to invoking the service. Ensures that the service method can
     // find all created artifacts
     flush();
-    return getService( type );
+    return getInstance( type );
   }
 
   protected final <T> T s( final String name, final Class<T> type )
@@ -186,7 +186,7 @@ public abstract class AbstractServerTest
     // Flush the entity manager prior to invoking the service. Ensures that the service method can
     // find all created artifacts
     flush();
-    return getService( name, type );
+    return getInstance( name, type );
   }
 
   protected final void resetTransactionSynchronizationRegistry()
@@ -215,25 +215,25 @@ public abstract class AbstractServerTest
     final String unitName = getPrimaryPersistenceUnitName();
     if ( null == unitName )
     {
-      return getService( EntityManager.class );
+      return getInstance( EntityManager.class );
     }
     else
     {
-      return getService( unitName, EntityManager.class );
+      return getInstance( unitName, EntityManager.class );
     }
   }
 
-  private <T> T getService( final Class<T> type )
+  protected final <T> T getInstance( final Class<T> type )
   {
     return getInjector().getInstance( type );
   }
 
-  private <T> T getService( final String name, final Class<T> type )
+  protected final <T> T getInstance( final String name, final Class<T> type )
   {
     return getInjector().getInstance( Key.get( type, Names.named( name ) ) );
   }
 
-  protected <T> T toObject( final Class<T> type, final Object object )
+  protected final <T> T toObject( final Class<T> type, final Object object )
   {
     return InjectUtil.toObject( type, object );
   }
