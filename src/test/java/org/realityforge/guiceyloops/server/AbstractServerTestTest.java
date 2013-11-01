@@ -160,7 +160,6 @@ public class AbstractServerTestTest
     verify( test._dbCleaner, never() ).finish();
   }
 
-
   @Test
   public void serverTest_withNamedPersistenceUnit()
     throws Exception
