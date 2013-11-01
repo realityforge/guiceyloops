@@ -11,7 +11,7 @@ public class ServerTestModule
 {
   public ServerTestModule( final Flushable flushable )
   {
-    super( flushable );
+    super( true, flushable );
   }
 
   @Override

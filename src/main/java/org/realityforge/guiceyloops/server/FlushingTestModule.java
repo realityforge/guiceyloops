@@ -11,9 +11,9 @@ public abstract class FlushingTestModule
 {
   private final FlushingInterceptor _interceptor;
 
-  public FlushingTestModule( final Flushable flushable )
+  public FlushingTestModule( final boolean flushAtStart, final Flushable flushable )
   {
-    _interceptor = new FlushingInterceptor( flushable );
+    _interceptor = new FlushingInterceptor( flushAtStart, flushable );
   }
 
   protected final <T> void bindService( final Class<T> service,

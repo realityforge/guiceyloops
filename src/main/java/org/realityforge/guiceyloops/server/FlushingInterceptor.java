@@ -12,10 +12,12 @@ import org.aopalliance.intercept.MethodInvocation;
 final class FlushingInterceptor
   implements MethodInterceptor
 {
+  private final boolean _flushAtStart;
   private final Flushable _flushable;
 
-  FlushingInterceptor( final Flushable flushable )
+  FlushingInterceptor( final boolean flushAtStart, final Flushable flushable )
   {
+    _flushAtStart = flushAtStart;
     _flushable = flushable;
   }
 
@@ -23,7 +25,11 @@ final class FlushingInterceptor
   public Object invoke( final MethodInvocation invocation )
     throws Throwable
   {
-    _flushable.flush();
+    // Should be set to false for entity repositories
+    if ( _flushAtStart )
+    {
+      _flushable.flush();
+    }
     try
     {
       return invocation.proceed();
