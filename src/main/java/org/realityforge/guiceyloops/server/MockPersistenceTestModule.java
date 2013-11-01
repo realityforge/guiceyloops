@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import javax.persistence.EntityManager;
+import javax.transaction.UserTransaction;
 
 public class MockPersistenceTestModule
   extends AbstractPersistenceTestModule
@@ -26,6 +27,12 @@ public class MockPersistenceTestModule
     {
       bindMock( EntityManager.class, _persistenceUnit );
     }
+  }
+
+  @Override
+  protected void registerUserTransaction()
+  {
+    bindMock( UserTransaction.class );
   }
 
   @Override

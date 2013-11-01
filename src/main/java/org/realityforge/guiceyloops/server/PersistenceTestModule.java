@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import javax.persistence.Table;
+import javax.transaction.UserTransaction;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.descriptors.DescriptorEventListener;
 import org.eclipse.persistence.sessions.Session;
@@ -35,6 +36,12 @@ public abstract class PersistenceTestModule
     bind( DbCleaner.class ).in( Singleton.class );
 
     super.configure();
+  }
+
+  @Override
+  protected void registerUserTransaction()
+  {
+    bind( UserTransaction.class ).toInstance( new TestUserTransaction( _entityManager ) );
   }
 
   @Nonnull

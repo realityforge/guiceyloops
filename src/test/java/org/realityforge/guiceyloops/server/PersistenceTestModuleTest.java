@@ -53,7 +53,7 @@ public class PersistenceTestModuleTest
       injector.getInstance( TransactionSynchronizationRegistry.class );
     assertTrue( registry instanceof TestTransactionSynchronizationRegistry );
 
-    assertTrue( injector.getInstance( UserTransaction.class ) instanceof Factory );
+    assertTrue( injector.getInstance( UserTransaction.class ) instanceof TestUserTransaction );
 
     final DbCleaner cleaner = injector.getInstance( DbCleaner.class );
     assertNotNull( cleaner );

@@ -13,10 +13,7 @@ public abstract class AbstractPersistenceTestModule
     registerUserTransaction();
   }
 
-  protected void registerUserTransaction()
-  {
-    bindMock( UserTransaction.class );
-  }
+  protected abstract void registerUserTransaction();
 
   protected void registerTransactionSynchronizationRegistry()
   {
