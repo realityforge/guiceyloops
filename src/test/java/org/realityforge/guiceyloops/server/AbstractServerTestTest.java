@@ -186,4 +186,16 @@ public class AbstractServerTestTest
 
     assertNull( test.getInjector() );
   }
+
+  @Test
+  public void usesTransaction()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( null, true );
+    test.preTest();
+    verify( test._dbCleaner, times( 1 ) ).start();
+
+    test.usesTransaction();
+    verify( test._dbCleaner, times( 1 ) ).usesTransaction();
+  }
 }

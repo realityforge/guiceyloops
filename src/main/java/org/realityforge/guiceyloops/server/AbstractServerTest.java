@@ -204,6 +204,11 @@ public abstract class AbstractServerTest
     em().clear();
   }
 
+  protected final void usesTransaction()
+  {
+    s( DbCleaner.class ).usesTransaction();
+  }
+
   protected final <T> T refresh( final T entity )
   {
     em().refresh( entity );
