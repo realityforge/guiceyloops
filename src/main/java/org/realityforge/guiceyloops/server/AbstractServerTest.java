@@ -194,7 +194,7 @@ public abstract class AbstractServerTest
     ( (TestTransactionSynchronizationRegistry) s( TransactionSynchronizationRegistry.class ) ).clear();
   }
 
-  public final void flush()
+  public void flush()
   {
     em().flush();
   }
