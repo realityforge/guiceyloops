@@ -26,6 +26,7 @@ public class AbstractServerTestTest
   public static class Component1
     implements Service1, Service2
   {
+    int _myField;
   }
 
   public static class MyServerTest
@@ -197,5 +198,17 @@ public class AbstractServerTestTest
 
     test.usesTransaction();
     verify( test._dbCleaner, times( 1 ) ).usesTransaction();
+  }
+
+  @Test
+  public void setField()
+    throws Exception
+  {
+    final MyServerTest test = new MyServerTest( null, true );
+    test.preTest();
+    final Component1 component1 = test.toObject( Component1.class, test.s( Service1.class ) );
+    assertEquals( component1._myField, 0 );
+    test.setField( component1, "_myField", 42 );
+    assertEquals( component1._myField, 42 );
   }
 }

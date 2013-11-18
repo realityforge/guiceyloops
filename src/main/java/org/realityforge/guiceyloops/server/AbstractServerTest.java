@@ -8,6 +8,7 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.name.Names;
 import com.icegreen.greenmail.util.GreenMail;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.annotation.Nullable;
 import javax.naming.Context;
@@ -16,6 +17,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import static org.testng.Assert.fail;
 
 public abstract class AbstractServerTest
   implements Flushable
@@ -40,8 +42,24 @@ public abstract class AbstractServerTest
     shutdownMailServer();
     shutdownTransactionSynchronizationRegistry();
     finishDbCleaner();
+    shutdownEntityManager();
     _injector = null;
     _testThread = null;
+  }
+
+  /**
+   * Completely shutdown the entity manager.
+   */
+  private void shutdownEntityManager()
+  {
+    try
+    {
+      em().close();
+    }
+    catch ( final Throwable e )
+    {
+      //Completely ignorable
+    }
   }
 
   protected void startDbCleaner()
@@ -257,5 +275,36 @@ public abstract class AbstractServerTest
   protected final Injector getInjector()
   {
     return _injector;
+  }
+
+  /**
+   * Retrieve the field on type specified by name.
+   * Guice injected classes may be subclasses so this method searches type hierarchy to get to the field.
+   */
+  protected final Field getField( final Class<?> type, final String fieldName )
+    throws NoSuchFieldException
+  {
+    Class<?> clazz = type;
+    while ( Object.class != clazz )
+    {
+      try
+      {
+        final Field field = clazz.getDeclaredField( fieldName );
+        field.setAccessible( true );
+        return field;
+      }
+      catch ( final Throwable t )
+      {
+        clazz = clazz.getSuperclass();
+      }
+    }
+    fail();
+    return null;
+  }
+
+  protected final void setField( final Object object, final String fieldName, final Object value )
+    throws NoSuchFieldException, IllegalAccessException
+  {
+    getField( object.getClass(), fieldName ).set( object, value );
   }
 }
