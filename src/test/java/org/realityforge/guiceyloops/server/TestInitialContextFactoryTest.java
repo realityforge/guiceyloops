@@ -22,6 +22,7 @@ public final class TestInitialContextFactoryTest
   public void getContext_withoutReset()
     throws Exception
   {
+    System.setProperty( "java.naming.factory.initial", "" );
     new InitialContext( new Properties() ).lookup( "X" );
   }
 
