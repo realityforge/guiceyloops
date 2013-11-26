@@ -19,6 +19,8 @@ define 'guiceyloops' do
                :javax_transaction,
                :javax_annotation,
                :javax_mail,
+               :javax_jms,
+               :glassfish_embedded,
                :google_guice,
                :aopalliance,
                :greenmail,
