@@ -20,7 +20,7 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( false, "TestUnit" ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", false, true, true ), new JEETestingModule() );
 
     final EntityManager entityManager =
       injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
@@ -36,7 +36,7 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( true, "TestUnit" ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", true, true, true ), new JEETestingModule() );
 
     final EntityManager entityManager = injector.getInstance( EntityManager.class );
 
@@ -50,7 +50,7 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( true, null ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( null, true, true, true ), new JEETestingModule() );
 
     assertMockEntityManager( injector.getInstance( EntityManager.class ) );
     assertTransactionSynchronizationRegistryPresent( injector );

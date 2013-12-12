@@ -8,11 +8,18 @@ public class MockPersistenceTestModule
 {
   private final boolean _bindWithoutName;
   private final String _persistenceUnit;
+  private final boolean _registerUserTransaction;
+  private final boolean _registerTransactionSynchronizationRegistry;
 
-  public MockPersistenceTestModule( final boolean bindWithoutName, final String persistenceUnit )
+  public MockPersistenceTestModule( final String persistenceUnit,
+                                    final boolean bindWithoutName,
+                                    final boolean registerUserTransaction,
+                                    final boolean registerTransactionSynchronizationRegistry )
   {
     _bindWithoutName = bindWithoutName;
     _persistenceUnit = persistenceUnit;
+    _registerUserTransaction = registerUserTransaction;
+    _registerTransactionSynchronizationRegistry = registerTransactionSynchronizationRegistry;
   }
 
   @Override
@@ -27,9 +34,16 @@ public class MockPersistenceTestModule
     {
       bindMock( EntityManager.class, _persistenceUnit );
     }
+    if ( _registerUserTransaction )
+    {
+      registerUserTransaction();
+    }
+    if ( _registerTransactionSynchronizationRegistry )
+    {
+      registerTransactionSynchronizationRegistry();
+    }
   }
 
-  @Override
   protected void registerUserTransaction()
   {
     bindMock( UserTransaction.class );

@@ -7,4 +7,8 @@ package org.realityforge.guiceyloops.server;
 public abstract class EntityManagerTestingModule
   extends PersistenceTestModule
 {
+  protected EntityManagerTestingModule()
+  {
+    super( true );
+  }
 }

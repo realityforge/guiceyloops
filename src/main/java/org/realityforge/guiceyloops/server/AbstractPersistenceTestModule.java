@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
@@ -9,11 +10,7 @@ public abstract class AbstractPersistenceTestModule
 {
   protected void configure()
   {
-    registerTransactionSynchronizationRegistry();
-    registerUserTransaction();
   }
-
-  protected abstract void registerUserTransaction();
 
   protected void registerTransactionSynchronizationRegistry()
   {

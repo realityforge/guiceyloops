@@ -1,15 +1,18 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Binding;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.icegreen.greenmail.util.GreenMail;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nullable;
 import javax.naming.Context;
 import javax.persistence.EntityManager;
@@ -17,7 +20,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public abstract class AbstractServerTest
   implements Flushable
@@ -66,7 +69,13 @@ public abstract class AbstractServerTest
   {
     try
     {
-      getInstance( DbCleaner.class ).start();
+      final List<Binding<DbCleaner>> bindings =
+        getInjector().findBindingsByType( TypeLiteral.get( DbCleaner.class ) );
+      for ( final Binding<DbCleaner> binding : bindings )
+      {
+        final DbCleaner cleaner = binding.getProvider().get();
+        cleaner.start();
+      }
     }
     catch ( final ConfigurationException e )
     {
@@ -79,7 +88,13 @@ public abstract class AbstractServerTest
   {
     try
     {
-      getInstance( DbCleaner.class ).finish();
+      final List<Binding<DbCleaner>> bindings =
+        getInjector().findBindingsByType( TypeLiteral.get( DbCleaner.class ) );
+      for ( final Binding<DbCleaner> binding : bindings )
+      {
+        final DbCleaner cleaner = binding.getProvider().get();
+        cleaner.finish();
+      }
     }
     catch ( final ConfigurationException e )
     {
@@ -235,7 +250,13 @@ public abstract class AbstractServerTest
 
   protected final void usesTransaction()
   {
-    s( DbCleaner.class ).usesTransaction();
+    final List<Binding<DbCleaner>> bindings =
+      getInjector().findBindingsByType( TypeLiteral.get( DbCleaner.class ) );
+    for ( final Binding<DbCleaner> binding : bindings )
+    {
+      final DbCleaner cleaner = binding.getProvider().get();
+      cleaner.usesTransaction();
+    }
   }
 
   protected final <T> T refresh( final T entity )

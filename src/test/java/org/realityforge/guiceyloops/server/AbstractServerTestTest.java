@@ -77,7 +77,6 @@ public class AbstractServerTestTest
           if ( _registerCleaner )
           {
             bind( DbCleaner.class ).toInstance( _dbCleaner );
-            bindResource( String[].class, DbCleaner.TABLE_NAME_KEY, new String[ 0 ] );
           }
           multiBind( Component1.class, Service1.class, Service2.class );
         }

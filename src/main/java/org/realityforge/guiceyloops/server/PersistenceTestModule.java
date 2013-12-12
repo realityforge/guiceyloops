@@ -1,6 +1,5 @@
 package org.realityforge.guiceyloops.server;
 
-import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -15,30 +14,38 @@ import org.eclipse.persistence.sessions.Session;
 public abstract class PersistenceTestModule
   extends AbstractPersistenceTestModule
 {
+  private final boolean _singleEntityManagerProject;
   private EntityManager _entityManager;
 
+  protected PersistenceTestModule( final boolean singleEntityManagerProject )
+  {
+    _singleEntityManagerProject = singleEntityManagerProject;
+  }
+
+  protected final EntityManager getEntityManager()
+  {
+    return _entityManager;
+  }
+
   /**
-   * Override this to
+   * Override this to further customize the persistence elements.
    */
   protected void configure()
   {
     _entityManager = DatabaseUtil.createEntityManager( getPersistenceUnitName() );
-
-    /*
-     * This assumes there is a single "primary" EntityManager. This is the one that the
-     * application reads/writes two and thus the one that DbCleaner must clean. When/if
-     * this assumption ever changes this may result in the next line being removed.
-     */
-    bind( EntityManager.class ).toInstance( _entityManager );
-
     bindResource( EntityManager.class, getPersistenceUnitName(), _entityManager );
-
-    bind( DbCleaner.class ).in( Singleton.class );
-
-    super.configure();
   }
 
-  @Override
+  /**
+   * Return true if there is a single "primary" EntityManager. This is the EntityManager that
+   * the application reads/writes two and thus the one that DbCleaner must clean. If the application
+   * reads and writes to multiple EntityManagers then this
+   */
+  protected final boolean isSingleEntityManagerProject()
+  {
+    return _singleEntityManagerProject;
+  }
+
   protected void registerUserTransaction()
   {
     bind( UserTransaction.class ).toInstance( new TestUserTransaction( _entityManager ) );
@@ -56,7 +63,17 @@ public abstract class PersistenceTestModule
 
   protected final void requestCleaningOfTables( @Nonnull final String[] tables )
   {
-    bind( String[].class ).annotatedWith( Names.named( DbCleaner.TABLE_NAME_KEY ) ).toInstance( tables );
+    if ( isSingleEntityManagerProject() )
+    {
+      bind( EntityManager.class ).toInstance( getEntityManager() );
+      bind( DbCleaner.class ).toInstance( new DbCleaner( tables, getEntityManager() ) );
+    }
+    else
+    {
+      bind( DbCleaner.class ).
+        annotatedWith( Names.named( getPersistenceUnitName() ) ).
+        toInstance( new DbCleaner( tables, getEntityManager() ) );
+    }
   }
 
   /**

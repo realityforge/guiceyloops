@@ -1,9 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * Utility component to manage the database state during tests.
@@ -18,18 +16,18 @@ import javax.persistence.PersistenceContext;
  */
 public class DbCleaner
 {
-  public static final String TABLE_NAME_KEY = "TablesToClean";
+  private final String[] _tableNames;
+  private final EntityManager _em;
 
-  @Named( TABLE_NAME_KEY )
-  @Inject
-  private String[] _tableNames;
+  private boolean _inTransaction;
+  private boolean _active;
+  private boolean _clean;
 
-  @PersistenceContext
-  private EntityManager _em;
-
-  private boolean _inTransaction = false;
-  private boolean _active = false;
-  private boolean _clean = false;
+  public DbCleaner( @Nonnull final String[] tableNames, @Nonnull final EntityManager em )
+  {
+    _tableNames = tableNames;
+    _em = em;
+  }
 
   public boolean isActive()
   {

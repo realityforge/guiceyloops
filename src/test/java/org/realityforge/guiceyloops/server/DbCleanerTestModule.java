@@ -20,8 +20,7 @@ class DbCleanerTestModule
   @Override
   protected void configure()
   {
-    bind( DbCleaner.class ).in( Singleton.class );
     bind( EntityManager.class ).toInstance( _entityManager );
-    bind( String[].class ).annotatedWith( Names.named( DbCleaner.TABLE_NAME_KEY ) ).toInstance( _tables );
+    bind( DbCleaner.class ).toInstance( new DbCleaner( _tables, _entityManager ) );
   }
 }

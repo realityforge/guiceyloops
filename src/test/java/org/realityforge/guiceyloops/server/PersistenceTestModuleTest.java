@@ -69,6 +69,11 @@ public class PersistenceTestModuleTest
   static class TestPersistenceTestModule
     extends PersistenceTestModule
   {
+    TestPersistenceTestModule()
+    {
+      super( true );
+    }
+
     @Override
     protected void configure()
     {
@@ -77,6 +82,8 @@ public class PersistenceTestModuleTest
       collectTableName( tables, TestEntity1.class );
       collectTableName( tables, TestEntity2.class );
       requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
+      registerTransactionSynchronizationRegistry();
+      registerUserTransaction();
     }
 
     @Override
