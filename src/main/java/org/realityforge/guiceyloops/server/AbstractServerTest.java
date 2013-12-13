@@ -27,6 +27,7 @@ public abstract class AbstractServerTest
 {
   private Injector _injector;
   private Thread _testThread;
+  private boolean _inFlush;
 
   @BeforeMethod
   public void preTest()
@@ -237,9 +238,17 @@ public abstract class AbstractServerTest
     // in calling the FlushingInterceptor which calls this method during finalization. This causes
     // th EntityManager context to go into rollback status and randomly fail some tests when they try
     // to perform cleaning
-    if ( _testThread == Thread.currentThread() )
+    if ( !_inFlush && _testThread == Thread.currentThread() )
     {
-      em().flush();
+      try
+      {
+        _inFlush = true;
+        em().flush();
+      }
+      finally
+      {
+        _inFlush = false;
+      }
     }
   }
 
