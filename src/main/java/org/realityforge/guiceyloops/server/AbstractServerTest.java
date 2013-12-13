@@ -131,7 +131,7 @@ public abstract class AbstractServerTest
     {
       shutdownTransactionSynchronizationRegistry();
       final Context context = TestInitialContextFactory.getContext().createSubcontext( "java:comp" );
-      context.bind( "TransactionSynchronizationRegistry", getInstance( TestTransactionSynchronizationRegistry.class ) );
+      context.bind( "TransactionSynchronizationRegistry", getInstance( TransactionSynchronizationRegistry.class ) );
     }
     catch ( final NoClassDefFoundError e )
     {
