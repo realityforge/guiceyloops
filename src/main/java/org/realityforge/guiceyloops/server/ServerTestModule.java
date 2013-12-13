@@ -18,6 +18,8 @@ public class ServerTestModule
   protected void configure()
   {
     bindMock( SessionContext.class );
-    bindService( TransactionSynchronizationRegistry.class, TestTransactionSynchronizationRegistry.class );
+    bind( TransactionSynchronizationRegistry.class ).
+      to( TestTransactionSynchronizationRegistry.class ).
+      asEagerSingleton();
   }
 }
