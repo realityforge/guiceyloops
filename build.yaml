@@ -1,6 +1,5 @@
 repositories:
   remote:
-   - https://github.com/realityforge/repository/raw/master
    - http://repo1.maven.org/maven2
    - http://download.eclipse.org/rt/eclipselink/maven.repo
 
