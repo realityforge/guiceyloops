@@ -156,6 +156,24 @@ public final class GlassFishContainerUtil
       }
       return urls;
     }
+
+  static File specToFile( final String m2Repository, final String spec )
+  {
+    return new File( specToFilename( m2Repository, spec ) );
+  }
+
+  static String specToFilename( final String m2Repository, final String spec )
+  {
+    final String[] parts = spec.split( ":" );
+    final String group = parts[ 0 ];
+    final String artifact = parts[ 1 ];
+    final String type = parts[ 2 ];
+    final String version = parts[ 3 ];
+    return m2Repository + File.separator +
+           group.replace( ".", File.separator ) + File.separator +
+           artifact + File.separator +
+           version + File.separator +
+           artifact + "-" + version + "." + type;
   }
 
   @Nonnull

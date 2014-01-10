@@ -166,6 +166,16 @@ public class GlassFishContainerUtilTest
     assertNotNull( GlassFishContainerUtil.getMavenRepository() );
   }
 
+  @Test
+  public void specToFilename()
+  {
+    final String m2Repository = "X";
+    final String spec = "com.biz:bar:jar:2.2";
+    final String expectedFilename = "X/com/biz/bar/2.2/bar-2.2.jar";
+    assertEquals( GlassFishContainerUtil.specToFilename( m2Repository, spec ), expectedFilename );
+    assertEquals( GlassFishContainerUtil.specToFile( m2Repository, spec ).toString(), expectedFilename );
+  }
+
   private File createWar( final File warDir, final String warName )
     throws IOException
   {
