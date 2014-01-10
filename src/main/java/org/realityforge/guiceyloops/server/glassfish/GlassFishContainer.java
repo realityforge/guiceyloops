@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -37,9 +36,33 @@ public class GlassFishContainer
     this( port, GlassFishContainerUtil.getEmbeddedGlassFishClasspath() );
   }
 
+  public GlassFishContainer( final int port, final URL[] classpath )
+  {
     _port = port;
     _glassfishClasspath = new ArrayList<URL>();
-    Collections.addAll( _glassfishClasspath, glassfishClasspath );
+    for ( final URL url : classpath )
+    {
+      addToClasspath( url );
+    }
+  }
+
+  /**
+   * Add a Maven-esque dependency spec to the classpath.
+   * It is assumed to be in the local maven repository. An example spec
+   * looks like "net.sourceforge.jtds:jtds:jar:1.3.1".
+   *
+   * @param spec the dependency spec.
+   */
+  public void addSpecToClasspath( final String spec )
+  {
+    final File file = GlassFishContainerUtil.specToFile( GlassFishContainerUtil.getMavenRepository(), spec );
+    if ( !file.exists() )
+    {
+      final String message =
+        "Attempted to add spec '" + spec + "' that does not exist in the local maven repository at '" + file + "'.";
+      throw new IllegalStateException( message );
+    }
+    addToClasspath( file );
   }
 
   public void addToClasspath( final File file )

@@ -1,5 +1,7 @@
 ## 0.29:
 
+* Add utility method GlassFishContainer.addSpecToClasspath() that can add maven style dependencies to classpath when
+  creating GlassFish.
 * Add guard against adding file that does not exist to GlassFishContainer's classpath.
 * Add an extra constructor to GlassFishContainer for usability purposes.
 
