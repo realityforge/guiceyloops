@@ -98,7 +98,7 @@ public final class GlassFishContainerUtil
   {
     return new String[]{
       "org.glassfish.main.extras:glassfish-embedded-all:jar:3.1.2.2",
-      "net.sourceforge.jtds:jtds:jar:1.2.7"
+      "net.sourceforge.jtds:jtds:jar:1.3.1"
     };
   }
 
