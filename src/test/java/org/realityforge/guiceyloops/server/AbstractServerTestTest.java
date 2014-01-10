@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
-import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
@@ -32,15 +32,38 @@ public class AbstractServerTestTest
   public static class MyServerTest
     extends AbstractServerTest
   {
-    EntityManager _entityManager = Mockito.mock( EntityManager.class );
-    DbCleaner _dbCleaner = Mockito.mock( DbCleaner.class );
+    EntityManager _entityManager;
+    DbCleaner _dbCleaner;
     private final String _persistenceUnit;
     private final boolean _registerCleaner;
 
-    public MyServerTest( final String persistenceUnit, final boolean registerCleaner )
+    public MyServerTest()
+    {
+      this( null );
+    }
+
+    public MyServerTest( final String persistenceUnit )
+    {
+      this( persistenceUnit, false );
+    }
+
+    public MyServerTest( final String persistenceUnit,
+                         final boolean registerCleaner )
+    {
+      this( persistenceUnit, registerCleaner, false );
+    }
+
+    public MyServerTest( final String persistenceUnit,
+                         final boolean registerCleaner,
+                         final boolean inRollback )
     {
       _persistenceUnit = persistenceUnit;
       _registerCleaner = registerCleaner;
+      _entityManager = mock( EntityManager.class );
+      _dbCleaner = mock( DbCleaner.class );
+      final EntityTransaction transaction = mock( EntityTransaction.class );
+      when( _entityManager.getTransaction() ).thenReturn( transaction );
+      when( transaction.getRollbackOnly() ).thenReturn( inRollback );
     }
 
     @Nullable
@@ -100,7 +123,7 @@ public class AbstractServerTestTest
   public void postTestNullsInjector()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( null, false );
+    final MyServerTest test = new MyServerTest();
     test.preTest();
     assertNotNull( test.getInjector() );
     test.postTest();
@@ -111,7 +134,7 @@ public class AbstractServerTestTest
   public void entityManagerInteraction()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( null, false );
+    final MyServerTest test = new MyServerTest();
     test.preTest();
 
     test.flush();
@@ -129,8 +152,13 @@ public class AbstractServerTestTest
   public void toObject()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( null, false );
+    final MyServerTest test = new MyServerTest();
     test.preTest();
+
+    final boolean inRollback = false;
+    final EntityTransaction transaction = mock( EntityTransaction.class );
+    when( test._entityManager.getTransaction() ).thenReturn( transaction );
+    when( transaction.getRollbackOnly() ).thenReturn( inRollback );
 
     assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
                   test.toObject( Component1.class, test.s( Service1.class ) ) );
@@ -140,7 +168,7 @@ public class AbstractServerTestTest
   public void resetTransactionSynchronizationRegistry()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( null, false );
+    final MyServerTest test = new MyServerTest();
     test.preTest();
 
     test.s( TransactionSynchronizationRegistry.class ).putResource( "key", "value" );
@@ -152,7 +180,7 @@ public class AbstractServerTestTest
   public void serverTest_withoutDbCleaner()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( null, false );
+    final MyServerTest test = new MyServerTest();
     test.preTest();
     verify( test._dbCleaner, never() ).start();
 
@@ -164,7 +192,7 @@ public class AbstractServerTestTest
   public void serverTest_withNamedPersistenceUnit()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( "MyUnit", false );
+    final MyServerTest test = new MyServerTest( "MyUnit" );
     test.preTest();
 
     test.flush();
@@ -203,7 +231,7 @@ public class AbstractServerTestTest
   public void setField()
     throws Exception
   {
-    final MyServerTest test = new MyServerTest( null, true );
+    final MyServerTest test = new MyServerTest();
     test.preTest();
     final Component1 component1 = test.toObject( Component1.class, test.s( Service1.class ) );
     assertEquals( component1._myField, 0 );
