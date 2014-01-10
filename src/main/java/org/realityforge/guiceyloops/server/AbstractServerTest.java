@@ -243,7 +243,11 @@ public abstract class AbstractServerTest
       try
       {
         _inFlush = true;
-        em().flush();
+        final EntityManager em = em();
+        if ( !em.getTransaction().getRollbackOnly() )
+        {
+          em.flush();
+        }
       }
       finally
       {
