@@ -28,12 +28,15 @@ public class GlassFishContainer
   public GlassFishContainer()
     throws Exception
   {
-    this( GlassFishContainerUtil.getRandomPort(),
-          GlassFishContainerUtil.getEmbeddedGlassFishClasspath() );
+    this( GlassFishContainerUtil.getRandomPort() );
   }
 
-  public GlassFishContainer( final int port, final URL[] glassfishClasspath )
+  public GlassFishContainer( final int port )
+    throws Exception
   {
+    this( port, GlassFishContainerUtil.getEmbeddedGlassFishClasspath() );
+  }
+
     _port = port;
     _glassfishClasspath = new ArrayList<URL>();
     Collections.addAll( _glassfishClasspath, glassfishClasspath );
