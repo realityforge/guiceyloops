@@ -4,8 +4,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 import org.realityforge.guiceyloops.server.DatabaseUtil;
@@ -18,7 +23,7 @@ public class GlassFishContainer
   private static final Logger LOG = Logger.getLogger( GlassFishContainer.class.getName() );
 
   private final int _port;
-  private final URL[] _glassfishClasspath;
+  private final List<URL> _glassfishClasspath;
   private Object _glassfish;
 
   public GlassFishContainer()
@@ -31,7 +36,29 @@ public class GlassFishContainer
   public GlassFishContainer( final int port, final URL[] glassfishClasspath )
   {
     _port = port;
-    _glassfishClasspath = glassfishClasspath;
+    _glassfishClasspath = new ArrayList<URL>();
+    Collections.addAll( _glassfishClasspath, glassfishClasspath );
+  }
+
+  public void addToClasspath( final File file )
+  {
+    try
+    {
+      addToClasspath( file.toURI().toURL() );
+    }
+    catch ( final MalformedURLException mue )
+    {
+      throw new IllegalStateException();
+    }
+  }
+
+  public void addToClasspath( final URL url )
+  {
+    if ( null != _glassfish )
+    {
+      throw new IllegalStateException( "Unable to add to classpath after glassfish already started." );
+    }
+    _glassfishClasspath.add( url );
   }
 
   public int getPort()
@@ -56,7 +83,8 @@ public class GlassFishContainer
 
       final ClassLoader loader = ClassLoader.getSystemClassLoader().getParent();
       assert null != loader;
-      final ClassLoader classLoader = new URLClassLoader( _glassfishClasspath, loader );
+      final URL[] classpath = _glassfishClasspath.toArray( new URL[ _glassfishClasspath.size() ] );
+      final ClassLoader classLoader = new URLClassLoader( classpath, loader );
 
       final Object properties = classLoader.loadClass( "org.glassfish.embeddable.GlassFishProperties" ).newInstance();
 
@@ -142,12 +170,12 @@ public class GlassFishContainer
     createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databasePoolProperties );
   }
 
-  public  String toGlassFishPropertiesString( final Properties properties )
+  public String toGlassFishPropertiesString( final Properties properties )
   {
-    final StringBuilder sb = new StringBuilder(  );
+    final StringBuilder sb = new StringBuilder();
     for ( final String property : properties.stringPropertyNames() )
     {
-      if( 0 != sb.length() )
+      if ( 0 != sb.length() )
       {
         sb.append( ":" );
       }
