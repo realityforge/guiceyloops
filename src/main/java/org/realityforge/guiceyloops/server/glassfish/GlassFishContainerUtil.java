@@ -159,7 +159,7 @@ public final class GlassFishContainerUtil
   }
 
   @Nonnull
-  private static String getMavenRepository()
+  static String getMavenRepository()
   {
     final String m2Repository = System.getenv( "M2_REPO" );
     if ( null != m2Repository )

@@ -160,6 +160,12 @@ public class GlassFishContainerUtilTest
     }
   }
 
+  @Test
+  public void getMavenRepository()
+  {
+    assertNotNull( GlassFishContainerUtil.getMavenRepository() );
+  }
+
   private File createWar( final File warDir, final String warName )
     throws IOException
   {
