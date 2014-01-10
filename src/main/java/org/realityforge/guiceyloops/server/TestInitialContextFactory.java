@@ -38,7 +38,7 @@ public class TestInitialContextFactory
   {
     System.setProperty( "java.naming.factory.initial", TestInitialContextFactory.class.getName() );
     final DefaultNamespace namespace = new DefaultNamespace( new DefaultNameParser() );
-    c_context = new MemoryContext( namespace, new Hashtable(), null );
+    c_context = new MemoryContext( namespace, new Hashtable<String, Object>(), null );
   }
 
   public static void clear()
