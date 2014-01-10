@@ -110,52 +110,60 @@ public final class GlassFishContainerUtil
   public static URL[] getEmbeddedGlassFishClasspath( @Nonnull final String[] defaultDependencies )
     throws Exception
   {
+    final ArrayList<URL> elements = new ArrayList<URL>();
     final String classpath = System.getProperties().getProperty( "embedded.glassfish.classpath", null );
+    final String specs = System.getProperties().getProperty( "embedded.glassfish.specs", null );
     if ( null != classpath )
     {
-      final ArrayList<URL> elements = new ArrayList<URL>();
-
-      for ( final String element : classpath.split( ":" ) )
+      for ( final String filename : classpath.split( ":" ) )
       {
-        elements.add( new File( element ).toURI().toURL() );
+        final File file = new File( filename );
+        if ( !file.exists() )
+        {
+          final String message =
+            "System property 'embedded.glassfish.classpath' specified but " +
+            "contains filename '" + filename + "' that does not exist.";
+          throw new IllegalStateException( message );
+        }
+        elements.add( file.toURI().toURL() );
+      }
+    }
+    else if ( null != specs )
+    {
+      final String m2Repository = getMavenRepository();
+      for ( final String spec : specs.split( ":" ) )
+      {
+        final File file = specToFile( m2Repository, spec );
+        if ( !file.exists() )
+        {
+          final String message =
+            "System property 'embedded.glassfish.specs' specified but contains spec '" + spec + "' that " +
+            "does not exist in the local maven repository at '" + file + "'.";
+          throw new IllegalStateException( message );
+        }
+        elements.add( file.toURI().toURL() );
       }
       return elements.toArray( new URL[ elements.size() ] );
     }
     else
     {
       final String m2Repository = getMavenRepository();
-      final StringBuilder sb = new StringBuilder();
-      final URL[] urls = new URL[ defaultDependencies.length ];
-      for ( int i = 0; i < defaultDependencies.length; i++ )
+      for ( final String spec : defaultDependencies )
       {
-        final String spec = defaultDependencies[ i ];
-        final String[] parts = spec.split( ":" );
-        final String group = parts[ 0 ];
-        final String artifact = parts[ 1 ];
-        final String type = parts[ 2 ];
-        final String version = parts[ 3 ];
-        final String path =
-          m2Repository + File.separator +
-          group.replace( ".", File.separator ) + File.separator +
-          artifact + File.separator +
-          version + File.separator +
-          artifact + "-" + version + "." + type;
-        final File file = new File( path );
+        final File file = specToFile( m2Repository, spec );
         if ( !file.exists() )
         {
           final String message =
-            "System property 'embedded.glassfish.classpath' not specified and unable to find " +
-            "default dependency '" + spec + "' in the local maven repository at '" + file + "'.";
+            "System properties 'embedded.glassfish.classpath' and 'embedded.glassfish.specs' not specified. " +
+            "Attempting to use defaults but unable to locate default dependency '" + spec + "' in the local " +
+            "maven repository at '" + file + "'.";
           throw new IllegalStateException( message );
         }
-        if ( sb.length() > 0 )
-        {
-          sb.append( File.pathSeparator );
-        }
-        urls[ i ] = file.toURI().toURL();
+        elements.add( file.toURI().toURL() );
       }
-      return urls;
     }
+    return elements.toArray( new URL[ elements.size() ] );
+  }
 
   static File specToFile( final String m2Repository, final String spec )
   {
