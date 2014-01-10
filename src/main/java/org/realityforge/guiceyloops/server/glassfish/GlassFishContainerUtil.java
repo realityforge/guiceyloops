@@ -112,7 +112,6 @@ public final class GlassFishContainerUtil
   {
     final ArrayList<URL> elements = new ArrayList<URL>();
     final String classpath = System.getProperties().getProperty( "embedded.glassfish.classpath", null );
-    final String specs = System.getProperties().getProperty( "embedded.glassfish.specs", null );
     if ( null != classpath )
     {
       for ( final String filename : classpath.split( ":" ) )
@@ -128,23 +127,6 @@ public final class GlassFishContainerUtil
         elements.add( file.toURI().toURL() );
       }
     }
-    else if ( null != specs )
-    {
-      final String m2Repository = getMavenRepository();
-      for ( final String spec : specs.split( ":" ) )
-      {
-        final File file = specToFile( m2Repository, spec );
-        if ( !file.exists() )
-        {
-          final String message =
-            "System property 'embedded.glassfish.specs' specified but contains spec '" + spec + "' that " +
-            "does not exist in the local maven repository at '" + file + "'.";
-          throw new IllegalStateException( message );
-        }
-        elements.add( file.toURI().toURL() );
-      }
-      return elements.toArray( new URL[ elements.size() ] );
-    }
     else
     {
       final String m2Repository = getMavenRepository();
@@ -154,7 +136,7 @@ public final class GlassFishContainerUtil
         if ( !file.exists() )
         {
           final String message =
-            "System properties 'embedded.glassfish.classpath' and 'embedded.glassfish.specs' not specified. " +
+            "System property 'embedded.glassfish.classpath' not specified. " +
             "Attempting to use defaults but unable to locate default dependency '" + spec + "' in the local " +
             "maven repository at '" + file + "'.";
           throw new IllegalStateException( message );
