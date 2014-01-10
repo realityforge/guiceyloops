@@ -29,7 +29,6 @@ define 'guiceyloops' do
   # Make sure embedded glassfish jar is present as it is used in the tests
   compile do
     artifact(:glassfish_embedded).invoke
-    artifact(:jtds).invoke
   end
 
   test.with :h2db
