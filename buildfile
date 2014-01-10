@@ -13,6 +13,12 @@ define 'guiceyloops' do
   compile.options.target = '1.7'
   compile.options.lint = 'all'
 
+  pom.add_apache2_license
+  pom.add_github_project("realityforge/guiceyloops")
+  pom.add_developer('realityforge', "Peter Donald")
+  pom.provided_dependencies.concat PROVIDED_DEPS
+  pom.optional_dependencies.concat OPTIONAL_DEPS
+
   compile.with PROVIDED_DEPS,
                OPTIONAL_DEPS,
                :testng,
