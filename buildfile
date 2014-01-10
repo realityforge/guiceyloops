@@ -1,6 +1,11 @@
 require 'buildr/jacoco'
 require 'buildr/git_auto_version'
 
+PROVIDED_DEPS = [:javax_ejb, :javax_persistence, :javax_jaxrpc, :javax_transaction,
+                 :javax_inject, :javax_annotation, :javax_mail, :javax_jms]
+
+OPTIONAL_DEPS = [:jndikit, :greenmail, :eclipselink, :glassfish_embedded]
+
 desc "GuiceyLoops: Guice EE testing support to Guicey-fruit"
 define 'guiceyloops' do
   project.group = 'org.realityforge.guiceyloops'
@@ -8,22 +13,12 @@ define 'guiceyloops' do
   compile.options.target = '1.7'
   compile.options.lint = 'all'
 
-  compile.with :javax_inject,
+  compile.with PROVIDED_DEPS,
+               OPTIONAL_DEPS,
                :testng,
                :mockito,
-               :eclipselink,
-               :jndikit,
-               :javax_ejb,
-               :javax_persistence,
-               :javax_jaxrpc,
-               :javax_transaction,
-               :javax_annotation,
-               :javax_mail,
-               :javax_jms,
-               :glassfish_embedded,
                :google_guice,
                :aopalliance,
-               :greenmail,
                :google_guice_assistedinject
 
   # Make sure embedded glassfish jar is present as it is used in the tests
