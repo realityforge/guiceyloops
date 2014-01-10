@@ -20,7 +20,7 @@ artifacts:
   testng: org.testng:testng:jar:6.8
   mockito: org.mockito:mockito-all:jar:1.8.5
   eclipselink: org.eclipse.persistence:eclipselink:jar:2.3.0
-  jndikit: org.realityforge:jndikit:jar:1.3
+  jndikit: org.realityforge.jndikit:jndikit:jar:1.4
   # Lightweight mail server for testing
   greenmail: com.icegreen:greenmail:jar:1.3
   javax_mail: javax.mail:mail:jar:1.4.1
