@@ -41,6 +41,11 @@ public class GlassFishContainer
 
   public void addToClasspath( final File file )
   {
+    if ( !file.exists() )
+    {
+      final String message = "Attempted to file '" + file + "' that does not exist.";
+      throw new IllegalStateException( message );
+    }
     try
     {
       addToClasspath( file.toURI().toURL() );
