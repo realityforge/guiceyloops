@@ -1,3 +1,6 @@
+## 0.30:
+* Move to eclipselink 2.5.1.
+
 ## 0.29:
 
 * Remove support for recently added "embedded.glassfish.specs" system setting in as the implementation is unlikely

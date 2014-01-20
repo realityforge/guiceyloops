@@ -1,7 +1,6 @@
 repositories:
   remote:
    - http://repo1.maven.org/maven2
-   - http://download.eclipse.org/rt/eclipselink/maven.repo
 
 artifacts:
   javax_inject: javax.inject:javax.inject:jar:1
@@ -19,7 +18,7 @@ artifacts:
   aopalliance: aopalliance:aopalliance:jar:1.0 # Required for guice
   testng: org.testng:testng:jar:6.8
   mockito: org.mockito:mockito-all:jar:1.9.5
-  eclipselink: org.eclipse.persistence:eclipselink:jar:2.3.0
+  eclipselink: org.eclipse.persistence:eclipselink:jar:2.5.1
   jndikit: org.realityforge.jndikit:jndikit:jar:1.4
   # Lightweight mail server for testing
   greenmail: com.icegreen:greenmail:jar:1.3

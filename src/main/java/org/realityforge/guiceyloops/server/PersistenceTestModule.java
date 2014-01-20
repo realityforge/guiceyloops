@@ -1,14 +1,14 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
-import java.lang.reflect.Field;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import javax.persistence.Table;
 import javax.transaction.UserTransaction;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
-import org.eclipse.persistence.descriptors.DescriptorEventListener;
+import org.eclipse.persistence.descriptors.DescriptorEventManager;
+import org.eclipse.persistence.internal.jpa.metadata.listeners.EntityListener;
 import org.eclipse.persistence.sessions.Session;
 
 public abstract class PersistenceTestModule
@@ -85,23 +85,11 @@ public abstract class PersistenceTestModule
   {
     final Session session = _entityManager.unwrap( Session.class );
     final ClassDescriptor descriptor = session.getClassDescriptor( model );
-    for ( final Object o : descriptor.getEventManager().getDefaultEventListeners() )
+    final DescriptorEventManager eventManager = descriptor.getEventManager();
+    for ( final Object o : eventManager.getDefaultEventListeners() )
     {
-      requestInjection( toEntityListener( (DescriptorEventListener) o ) );
-    }
-  }
-
-  private Object toEntityListener( final DescriptorEventListener listener )
-  {
-    try
-    {
-      final Field field = listener.getClass().getDeclaredField( "m_listener" );
-      field.setAccessible( true );
-      return field.get( listener );
-    }
-    catch ( final Throwable t )
-    {
-      throw new IllegalStateException( "Error retrieving listener", t );
+      final EntityListener listener = (EntityListener) o;
+      requestInjection( listener.getListener( listener.getOwningSession() ) );
     }
   }
 
