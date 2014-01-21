@@ -1,3 +1,6 @@
+## 0.32:
+* Rework GlassFishContainer to raise an exception when the command is anything less than success.
+
 ## 0.31:
 * Support different glassfish container versions in GlassFishContainer. Default to 4.0.
 

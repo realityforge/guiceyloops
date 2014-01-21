@@ -281,10 +281,28 @@ public class GlassFishContainer
     throws Exception
   {
     final Object runner = _glassfish.getClass().getMethod( "getCommandRunner" ).invoke( _glassfish );
-    final Object result =
+    final Object commandResult =
       runner.getClass().getMethod( "run", new Class[]{ String.class, String[].class } ).invoke( runner, command, args );
-    final Method method = result.getClass().getDeclaredMethod( "getOutput" );
+
+    final Enum exitStatus = invokeMethod( commandResult, "getExitStatus" );
+    final boolean failed = !"SUCCESS".equals( exitStatus.name() );
+    final String output = invokeMethod( commandResult, "getOutput" );
+    final Throwable throwable = invokeMethod( commandResult, "getFailureCause" );
+    if ( failed || null != throwable )
+    {
+      throw new Exception( output, throwable );
+    }
+    else
+    {
+      return output;
+    }
+  }
+
+  private <T> T invokeMethod( final Object object, final String methodName )
+    throws Exception
+  {
+    final Method method = object.getClass().getDeclaredMethod( methodName );
     method.setAccessible( true );
-    return (String) method.invoke( result );
+    return (T) method.invoke( object );
   }
 }
