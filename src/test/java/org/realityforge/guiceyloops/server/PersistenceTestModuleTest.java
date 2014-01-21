@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
-import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
