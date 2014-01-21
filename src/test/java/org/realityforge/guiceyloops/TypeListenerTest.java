@@ -5,10 +5,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -16,9 +18,12 @@ import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.metamodel.Metamodel;
 import javax.xml.ws.WebServiceRef;
 import org.testng.annotations.Test;
@@ -162,6 +167,73 @@ public final class TypeListenerTest
   public static class TestEntityManager
     implements EntityManager
   {
+    @Override
+    public Query createQuery( final CriteriaUpdate updateQuery )
+    {
+      return null;
+    }
+
+    @Override
+    public Query createQuery( final CriteriaDelete deleteQuery )
+    {
+      return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createNamedStoredProcedureQuery( final String name )
+    {
+      return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery( final String procedureName )
+    {
+      return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery( final String procedureName, final Class... resultClasses )
+    {
+      return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery( final String procedureName,
+                                                            final String... resultSetMappings )
+    {
+      return null;
+    }
+
+    @Override
+    public boolean isJoinedToTransaction()
+    {
+      return false;
+    }
+
+    @Override
+    public <T> EntityGraph<T> createEntityGraph( final Class<T> rootType )
+    {
+      return null;
+    }
+
+    @Override
+    public EntityGraph<?> createEntityGraph( final String graphName )
+    {
+      return null;
+    }
+
+    @Override
+    public EntityGraph<?> getEntityGraph( final String graphName )
+    {
+      return null;
+    }
+
+    @Override
+    public <T> List<EntityGraph<? super T>> getEntityGraphs( final Class<T> entityClass )
+    {
+      return null;
+    }
+
     public void persist( final Object entity )
     {
     }
