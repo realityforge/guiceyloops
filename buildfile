@@ -1,8 +1,7 @@
 require 'buildr/jacoco'
 require 'buildr/git_auto_version'
 
-PROVIDED_DEPS = [:javax_ejb, :javax_persistence, :javax_jaxrpc, :javax_transaction,
-                 :javax_inject, :javax_annotation, :javax_mail, :javax_jms]
+PROVIDED_DEPS = [:javax_javaee, :javax_annotation]
 
 OPTIONAL_DEPS = [:jndikit, :greenmail, :eclipselink, :glassfish_embedded]
 
