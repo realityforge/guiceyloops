@@ -1,3 +1,6 @@
+## 0.31:
+* Support different glassfish container versions in GlassFishContainer. Default to 4.0.
+
 ## 0.30:
 * Move to eclipselink 2.5.1.
 

@@ -94,16 +94,10 @@ public final class GlassFishContainerUtil
   }
 
   @Nonnull
-  public static String[] getDefaultDependencies()
-  {
-    return new String[]{ "org.glassfish.main.extras:glassfish-embedded-all:jar:3.1.2.2" };
-  }
-
-  @Nonnull
-  public static URL[] getEmbeddedGlassFishClasspath()
+  public static URL[] getEmbeddedGlassFishClasspath( @Nonnull final GlassFishVersion version )
     throws Exception
   {
-    return getEmbeddedGlassFishClasspath( getDefaultDependencies() );
+    return getEmbeddedGlassFishClasspath( version.getSpecs() );
   }
 
   @Nonnull

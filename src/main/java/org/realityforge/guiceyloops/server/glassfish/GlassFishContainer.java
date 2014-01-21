@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import org.realityforge.guiceyloops.server.DatabaseUtil;
 
 /**
@@ -33,7 +34,13 @@ public class GlassFishContainer
   public GlassFishContainer( final int port )
     throws Exception
   {
-    this( port, GlassFishContainerUtil.getEmbeddedGlassFishClasspath() );
+    this( port, GlassFishVersion.V_4_0 );
+  }
+
+  public GlassFishContainer( final int port, @Nonnull final GlassFishVersion version )
+    throws Exception
+  {
+    this( port, GlassFishContainerUtil.getEmbeddedGlassFishClasspath( version ) );
   }
 
   public GlassFishContainer( final int port, final URL[] classpath )
