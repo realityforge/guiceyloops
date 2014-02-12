@@ -85,6 +85,11 @@ public abstract class PersistenceTestModule
   {
     final Session session = _entityManager.unwrap( Session.class );
     final ClassDescriptor descriptor = session.getClassDescriptor( model );
+    if( null == descriptor )
+    {
+      final String message = "Unable to locate entity of type " + model.getName() + " in the persistence context";
+      throw new IllegalStateException( message );
+    }
     final DescriptorEventManager eventManager = descriptor.getEventManager();
     for ( final Object o : eventManager.getDefaultEventListeners() )
     {
