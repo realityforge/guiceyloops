@@ -1,3 +1,6 @@
+## 0.33:
+* Improve exception throw from PersistenceTestModule.requestInjectionForEntityListener when unable to find model in session.
+
 ## 0.32:
 * Rework GlassFishContainer to raise an exception when the command is anything less than success.
 
