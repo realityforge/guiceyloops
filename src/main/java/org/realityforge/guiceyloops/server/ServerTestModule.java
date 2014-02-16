@@ -1,6 +1,8 @@
 package org.realityforge.guiceyloops.server;
 
+import com.google.inject.Scopes;
 import javax.ejb.SessionContext;
+import javax.enterprise.context.Dependent;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 /**
@@ -17,6 +19,7 @@ public class ServerTestModule
   @Override
   protected void configure()
   {
+    bindScope( Dependent.class, Scopes.NO_SCOPE );
     bindMock( SessionContext.class );
     bind( TransactionSynchronizationRegistry.class ).
       to( TestTransactionSynchronizationRegistry.class ).

@@ -1,4 +1,5 @@
 ## 0.33:
+* Ensure @javax.enterprise.context.Dependent is a scope guice supports.
 * Improve exception throw from PersistenceTestModule.requestInjectionForEntityListener when unable to find model in session.
 
 ## 0.32:
