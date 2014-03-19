@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.naming.Context;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.AfterMethod;
@@ -244,7 +245,11 @@ public abstract class AbstractServerTest
       {
         _inFlush = true;
         final EntityManager em = em();
-        if ( !em.getTransaction().getRollbackOnly() )
+        final EntityTransaction transaction = em.getTransaction();
+        // We check for null here to simplify testing with Mock persistence modules
+        // If we don't guard against null then we have to ensure every test mocks
+        // out the transaction and returns a transaction which is a PITA.
+        if ( null != transaction && !transaction.getRollbackOnly() )
         {
           em.flush();
         }

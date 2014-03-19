@@ -1,3 +1,6 @@
+## 0.34:
+* Simplify testing with mock persistence contexts, by null checking in the AbstractServerTest.flush() method.
+
 ## 0.33:
 * Ensure @javax.enterprise.context.Dependent is a scope guice supports.
 * Improve exception throw from PersistenceTestModule.requestInjectionForEntityListener when unable to find model in session.
