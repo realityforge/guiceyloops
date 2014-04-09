@@ -1,3 +1,6 @@
+## 0.35:
+* Avoid calling EntityTransaction.flush() in AbstractServerTest.flush() method when transaction is not active.
+
 ## 0.34:
 * Simplify testing with mock persistence contexts, by null checking in the AbstractServerTest.flush() method.
 

@@ -249,7 +249,7 @@ public abstract class AbstractServerTest
         // We check for null here to simplify testing with Mock persistence modules
         // If we don't guard against null then we have to ensure every test mocks
         // out the transaction and returns a transaction which is a PITA.
-        if ( null != transaction && !transaction.getRollbackOnly() )
+        if ( null != transaction && transaction.isActive() && !transaction.getRollbackOnly() )
         {
           em.flush();
         }
