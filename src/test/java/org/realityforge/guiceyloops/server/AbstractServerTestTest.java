@@ -50,11 +50,12 @@ public class AbstractServerTestTest
     public MyServerTest( final String persistenceUnit,
                          final boolean registerCleaner )
     {
-      this( persistenceUnit, registerCleaner, false );
+      this( persistenceUnit, registerCleaner, true, false );
     }
 
     public MyServerTest( final String persistenceUnit,
                          final boolean registerCleaner,
+                         final boolean inActiveTransaction,
                          final boolean inRollback )
     {
       _persistenceUnit = persistenceUnit;
@@ -63,6 +64,7 @@ public class AbstractServerTestTest
       _dbCleaner = mock( DbCleaner.class );
       final EntityTransaction transaction = mock( EntityTransaction.class );
       when( _entityManager.getTransaction() ).thenReturn( transaction );
+      when( transaction.isActive() ).thenReturn( inActiveTransaction );
       when( transaction.getRollbackOnly() ).thenReturn( inRollback );
     }
 
