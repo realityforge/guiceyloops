@@ -253,6 +253,17 @@ public class GlassFishContainer
              key );
   }
 
+  public void createCustomResource( final String key, final boolean value )
+    throws Exception
+  {
+    LOG.info( "Creating custom resource: " + key + "=" + value );
+    execute( "create-custom-resource",
+             "--factoryclass", "org.glassfish.resources.custom.factory.PrimitivesAndStringFactory",
+             "--restype", "java.lang.Boolean",
+             "--property", "value=" + value,
+             key );
+  }
+
   public void createUser( final String username, final String password, final String[] groups )
     throws Exception
   {
