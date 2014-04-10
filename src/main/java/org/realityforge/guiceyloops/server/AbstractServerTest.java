@@ -306,7 +306,7 @@ public abstract class AbstractServerTest
     return getInjector().getInstance( Key.get( type, Names.named( name ) ) );
   }
 
-  protected final <T> T toObject( final Class<T> type, final Object object )
+  protected final <I, T extends I> T toObject( final Class<T> type, final I object )
   {
     return InjectUtil.toObject( type, object );
   }

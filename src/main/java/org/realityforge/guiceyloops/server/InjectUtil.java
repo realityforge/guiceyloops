@@ -12,7 +12,7 @@ final class InjectUtil
   }
 
   @SuppressWarnings( "unchecked" )
-  static <T> T toObject( final Class<T> type, final Object object )
+  protected static <I, T extends I> T toObject( final Class<T> type, final I object )
   {
     final Object result;
     if ( Proxy.isProxyClass( object.getClass() ) )

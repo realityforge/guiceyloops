@@ -1,3 +1,6 @@
+## 0.36:
+* Tighten up the types on InjectUtil.toObject( type, object ).
+
 ## 0.35:
 * Add helper method to GlassFishContainer to create custom boolean resources.
 * Avoid calling EntityTransaction.flush() in AbstractServerTest.flush() method when transaction is not active.
