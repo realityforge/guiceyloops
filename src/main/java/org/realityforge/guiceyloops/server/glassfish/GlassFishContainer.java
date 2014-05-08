@@ -178,7 +178,7 @@ public class GlassFishContainer
   public String deploy( final String contextRoot, final String appName, final File warFile )
     throws Exception
   {
-    LOG.info( "Deploying war: " + warFile.getAbsolutePath() );
+    LOG.info( "Deploying war: " + warFile.getAbsolutePath() + " to " + getBaseHttpURL() + contextRoot );
     final String output =
       execute( "deploy",
                "--contextroot=" + contextRoot,

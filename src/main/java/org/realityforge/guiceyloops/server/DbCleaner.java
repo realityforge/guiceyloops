@@ -34,6 +34,16 @@ public class DbCleaner
     return _active;
   }
 
+  public boolean isTransactionActive()
+  {
+    return _inTransaction;
+  }
+
+  public boolean isClean()
+  {
+    return _clean;
+  }
+
   public void usesTransaction()
   {
     if ( !_active )

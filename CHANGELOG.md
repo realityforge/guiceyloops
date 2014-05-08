@@ -1,5 +1,6 @@
 ## 0.36:
 * Tighten up the types on InjectUtil.toObject( type, object ).
+* Add DbCleaner.isTransactionActive() and DbCleaner.isCleanScheduled() utility methods.
 
 ## 0.35:
 * Add helper method to GlassFishContainer to create custom boolean resources.

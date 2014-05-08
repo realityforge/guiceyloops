@@ -67,6 +67,9 @@ public class DbCleanerTest
 
     cleaner.start();
     assertTrue( cleaner.isActive() );
+    assertTrue( cleaner.isTransactionActive() );
+    assertTrue( cleaner.isClean() );
+
     // Initial start will perform a clean so table1 should be nuked
     assertEntryNotPresent( table1, entry1 );
     // while table2 is not cleaned
@@ -95,7 +98,10 @@ public class DbCleanerTest
     insertEntry( table1, entry1 );
     assertEntryPresent( table1, entry1 );
 
+    assertTrue( cleaner.isClean() );
     cleaner.start();
+    assertTrue( cleaner.isClean() );
+
     // Second start should not perform a clean so table1 should NOT be nuked
     assertEntryPresent( table1, entry1 );
 
@@ -104,7 +110,11 @@ public class DbCleanerTest
     // In the next sequence we mark the run as using a transaction
     cleaner.start();
     assertEntryPresent( table1, entry1 );
+    assertTrue( cleaner.isClean() );
+    assertTrue( cleaner.isTransactionActive() );
     cleaner.usesTransaction();
+    assertFalse( cleaner.isClean() );
+    assertFalse( cleaner.isTransactionActive() );
 
     // Insert into table2 should persist as table2 is unmanaged and we
     // invoked usesTransaction()
@@ -112,9 +122,11 @@ public class DbCleanerTest
     assertEntryPresent( table2, entry2 );
 
     cleaner.finish();
+    assertFalse( cleaner.isClean() );
 
     // Can just call start again as usesTransaction reset transaction
     cleaner.start();
+    assertTrue( cleaner.isClean() );
     // Should still be here
     assertEntryPresent( table2, entry2 );
     assertEntryNotPresent( table1, entry1 );
