@@ -47,4 +47,3 @@ public class TestInitialContextFactory
     c_context = null;
   }
 }
-
