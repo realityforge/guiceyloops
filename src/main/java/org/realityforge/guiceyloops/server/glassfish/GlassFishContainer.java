@@ -309,6 +309,7 @@ public class GlassFishContainer
     }
   }
 
+  @SuppressWarnings( "unchecked" )
   private <T> T invokeMethod( final Object object, final String methodName )
     throws Exception
   {
