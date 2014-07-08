@@ -1,3 +1,7 @@
+## 0.37:
+* Ensure that the @Resource injections will use value of lookup parameter as the name
+  if not null.
+
 ## 0.36:
 * Tighten up the types on InjectUtil.toObject( type, object ).
 * Add DbCleaner.isTransactionActive() and DbCleaner.isCleanScheduled() utility methods.

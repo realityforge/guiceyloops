@@ -41,6 +41,7 @@ public final class TypeListenerTest
     assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaNamedResource" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaResourceLookup" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
     assertFieldInjected( instance,
                          ComponentA.class,
@@ -59,6 +60,7 @@ public final class TypeListenerTest
     assertFieldInjected( instance, ComponentA.class, "_componentBViaEJB" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaResource" );
     assertFieldInjected( instance, ComponentA.class, "_componentBViaNamedResource" );
+    assertFieldInjected( instance, ComponentA.class, "_componentBViaResourceLookup" );
     assertFieldInjected( instance, ComponentA.class, "_entityManagerBViaPersistenceContext" );
     assertFieldInjected( instance,
                          ComponentA.class,
@@ -135,6 +137,9 @@ public final class TypeListenerTest
 
     @Resource(name = "some/resource/name")
     private ComponentB _componentBViaNamedResource;
+
+    @Resource(lookup = "some/resource/name")
+    private ComponentB _componentBViaResourceLookup;
 
     //Should not be injected
     @PersistenceContext

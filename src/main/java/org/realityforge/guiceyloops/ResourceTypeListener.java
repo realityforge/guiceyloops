@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * The annotation listener responsible for injecting fields annotated with the @Resource annotation.
  */
 public class ResourceTypeListener
-    extends AnnotationTypeListener
+  extends AnnotationTypeListener
 {
   public ResourceTypeListener()
   {
@@ -26,14 +26,20 @@ public class ResourceTypeListener
                                                    @Nonnull final Annotation annotation,
                                                    @Nonnull final Field field )
   {
-    final String name = ( (Resource) annotation ).name();
-    if ( "".equals( name ) )
+    final Resource resource = (Resource) annotation;
+    final String name = resource.name();
+    final String key = resource.lookup();
+    if ( !"".equals( key ) )
     {
-      return FieldBasedInjector.createFromEncounter( typeEncounter, field );
+      return FieldBasedInjector.createFromEncounter( typeEncounter, key, field );
+    }
+    else if ( !"".equals( name ) )
+    {
+      return FieldBasedInjector.createFromEncounter( typeEncounter, name, field );
     }
     else
     {
-      return FieldBasedInjector.createFromEncounter( typeEncounter, name, field );
+      return FieldBasedInjector.createFromEncounter( typeEncounter, field );
     }
   }
 }
