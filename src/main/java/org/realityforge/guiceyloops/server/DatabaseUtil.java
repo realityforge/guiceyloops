@@ -69,13 +69,13 @@ public final class DatabaseUtil
 
   private static final Properties c_additionalPersistenceUnitProperties = new Properties();
 
-  static Properties initDatabaseProperties()
+  static Properties initDatabaseProperties( @Nullable final String databasePrefix )
   {
     final Properties properties = new Properties();
-    setProperty( properties, DRIVER_KEY, DB_DRIVER_SYS_PROPERTY, DEFAULT_DRIVER );
-    setProperty( properties, URL_KEY, DB_URL_SYS_PROPERTY, DEFAULT_URL );
-    setProperty( properties, USER_KEY, DB_USER_SYS_PROPERTY, DEFAULT_USER );
-    setProperty( properties, PASSWORD_KEY, DB_PASSWORD_SYS_PROPERTY, DEFAULT_PASSWORD );
+    setProperty( properties, databasePrefix, DRIVER_KEY, DB_DRIVER_SYS_PROPERTY, DEFAULT_DRIVER );
+    setProperty( properties, databasePrefix, URL_KEY, DB_URL_SYS_PROPERTY, DEFAULT_URL );
+    setProperty( properties, databasePrefix, USER_KEY, DB_USER_SYS_PROPERTY, DEFAULT_USER );
+    setProperty( properties, databasePrefix, PASSWORD_KEY, DB_PASSWORD_SYS_PROPERTY, DEFAULT_PASSWORD );
     return properties;
   }
 
@@ -85,21 +85,23 @@ public final class DatabaseUtil
     c_additionalPersistenceUnitProperties.putAll( properties );
   }
 
-  static Properties initPersistenceUnitProperties()
+  static Properties initPersistenceUnitProperties( @Nullable final String databasePrefix )
   {
-    final Properties properties = initDatabaseProperties();
+    final Properties properties = initDatabaseProperties( databasePrefix );
     properties.put( "javax.persistence.transactionType", "RESOURCE_LOCAL" );
     properties.put( "javax.persistence.jtaDataSource", "" );
     properties.putAll( c_additionalPersistenceUnitProperties );
     return properties;
   }
 
-  private static void setProperty( final Properties properties,
-                                   final String key,
-                                   final String systemPropertyKey,
-                                   final String defaultValue )
+  private static void setProperty( @Nonnull final Properties properties,
+                                   @Nullable final String databasePrefix,
+                                   @Nonnull final String key,
+                                   @Nonnull final String systemPropertyKey,
+                                   @Nullable final String defaultValue )
   {
-    final String value = System.getProperty( systemPropertyKey, defaultValue );
+    final String prefix = null == databasePrefix ? "" : databasePrefix + ".";
+    final String value = System.getProperty( prefix + systemPropertyKey, defaultValue );
     if ( null != value )
     {
       properties.put( key, value );
@@ -108,15 +110,20 @@ public final class DatabaseUtil
 
   public static Properties getGlassFishDataSourceProperties()
   {
-    final Properties properties = initDatabaseProperties();
+    return getGlassFishDataSourceProperties( null );
+  }
+
+  public static Properties getGlassFishDataSourceProperties( @Nullable final String databasePrefix )
+  {
+    final Properties properties = initDatabaseProperties( databasePrefix );
 
     final Properties gfProperties = new Properties();
     setProperty( gfProperties, "User", properties.getProperty( USER_KEY ) );
     setProperty( gfProperties, "Password", properties.getProperty( PASSWORD_KEY ) );
     final String jdbcUrl = properties.getProperty( URL_KEY );
-    if( jdbcUrl.startsWith( JTDS_SQL_SERVER_JDBC_URL_PREFIX ) )
+    if ( jdbcUrl.startsWith( JTDS_SQL_SERVER_JDBC_URL_PREFIX ) )
     {
-      parseSqlServerURL(gfProperties, jdbcUrl);
+      parseSqlServerURL( gfProperties, jdbcUrl );
     }
     else
     {
@@ -128,7 +135,7 @@ public final class DatabaseUtil
   private static void parseSqlServerURL( final Properties gfProperties, final String jdbcUrl )
   {
     final int paramSeparator = jdbcUrl.indexOf( ";" );
-    if( -1 != paramSeparator )
+    if ( -1 != paramSeparator )
     {
       final String[] params = jdbcUrl.substring( paramSeparator + 1 ).split( ";" );
       for ( final String param : params )
@@ -157,13 +164,13 @@ public final class DatabaseUtil
     setProperty( gfProperties, "DatabaseName", databaseName );
 
     final int portStart = jdbcUrl.indexOf( ":", prefixEnd );
-    if( -1 != portStart && portStart < hostEnd )
+    if ( -1 != portStart && portStart < hostEnd )
     {
       final String portString = jdbcUrl.substring( portStart + 1, hostEnd );
       setProperty( gfProperties, "PortNumber", portString );
     }
 
-    final String serverName = jdbcUrl.substring( prefixEnd, (-1 == portStart ? hostEnd : portStart) );
+    final String serverName = jdbcUrl.substring( prefixEnd, ( -1 == portStart ? hostEnd : portStart ) );
     setProperty( gfProperties, "ServerName", serverName );
   }
 
@@ -181,9 +188,15 @@ public final class DatabaseUtil
     }
   }
 
-  public static EntityManager createEntityManager( final String persistenceUnitName )
+  public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName )
   {
-    final Properties properties = initPersistenceUnitProperties();
+    return createEntityManager( persistenceUnitName, null );
+  }
+
+  public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName,
+                                                   @Nullable final String databasePrefix )
+  {
+    final Properties properties = initPersistenceUnitProperties( databasePrefix );
     final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
     return factory.createEntityManager();
   }
@@ -215,7 +228,17 @@ public final class DatabaseUtil
    */
   public static Connection initConnection()
   {
-    final Properties properties = initDatabaseProperties();
+    return initConnection( null );
+  }
+
+  /**
+   * Create a direct database connection. The user should follow with a subsequent {@link #disposeConnection(java.sql.Connection)} call.
+   *
+   * @return the database connection.
+   */
+  public static Connection initConnection( @Nullable final String databasePrefix )
+  {
+    final Properties properties = initDatabaseProperties( databasePrefix );
     try
     {
       Class.forName( properties.getProperty( DRIVER_KEY ) );

@@ -13,18 +13,21 @@ import static org.testng.Assert.*;
 
 public final class DatabaseUtilTest
 {
+  private static final String DATABASE_PREFIX = "myprefix";
+
   @BeforeMethod
   @AfterMethod
   public void clearDBProperties()
   {
-    TestUtil.setDBProperties( null, null, null, null );
+    TestUtil.setDBProperties( null, null, null, null, null );
+    TestUtil.setDBProperties( DATABASE_PREFIX, null, null, null, null );
   }
 
   @Test
   public void initDatabaseProperties_default()
     throws Exception
   {
-    assertPersistenceUnitProperties( DatabaseUtil.MSSQL_DRIVER, "DATABASE_URL_UNSET", null, null );
+    assertPersistenceUnitProperties( null, DatabaseUtil.MSSQL_DRIVER, "DATABASE_URL_UNSET", null, null );
   }
 
   @Test
@@ -36,8 +39,21 @@ public final class DatabaseUtilTest
     final String user = "MyUser";
     final String password = "MyPassword";
 
-    TestUtil.setDBProperties( driver, url, user, password );
-    assertPersistenceUnitProperties( driver, url, user, password );
+    TestUtil.setDBProperties( null, driver, url, user, password );
+    assertPersistenceUnitProperties( null, driver, url, user, password );
+  }
+
+  @Test
+  public void initDatabaseProperties_sysPropertiesWithPrefix()
+    throws Exception
+  {
+    final String driver = "MyDriver";
+    final String url = "MyURL";
+    final String user = "MyUser";
+    final String password = "MyPassword";
+
+    TestUtil.setDBProperties( DATABASE_PREFIX, driver, url, user, password );
+    assertPersistenceUnitProperties( DATABASE_PREFIX, driver, url, user, password );
   }
 
   @Test
@@ -49,22 +65,23 @@ public final class DatabaseUtilTest
     final Properties properties = new Properties();
     properties.setProperty( key, value );
     DatabaseUtil.setAdditionalPersistenceUnitProperties( properties );
-    assertEquals( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ), value );
+    assertEquals( DatabaseUtil.initPersistenceUnitProperties( null ).getProperty( key ), value );
 
     // Assert the configuration is a copy
     properties.clear();
-    assertEquals( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ), value );
+    assertEquals( DatabaseUtil.initPersistenceUnitProperties( null ).getProperty( key ), value );
 
     //Assert empty properties can be specified
     DatabaseUtil.setAdditionalPersistenceUnitProperties( properties );
-    assertNull( DatabaseUtil.initPersistenceUnitProperties().getProperty( key ) );
+    assertNull( DatabaseUtil.initPersistenceUnitProperties( null ).getProperty( key ) );
   }
 
-  @Test( expectedExceptions = { IllegalArgumentException.class } )
+  @Test(expectedExceptions = { IllegalArgumentException.class })
   public void getGlassFishDataSourceProperties_unknownJdbc()
     throws Exception
   {
-    TestUtil.setDBProperties( "",
+    TestUtil.setDBProperties( null,
+                              "",
                               "jdbc:otherdb://example.com/SomeDB",
                               null,
                               null );
@@ -75,7 +92,8 @@ public final class DatabaseUtilTest
   public void getGlassFishDataSourceProperties_allProperties()
     throws Exception
   {
-    TestUtil.setDBProperties( "",
+    TestUtil.setDBProperties( null,
+                              "",
                               "jdbc:jtds:sqlserver://example.com:1500/SomeDB;user=MyUserName;password=My-Password",
                               null,
                               null );
@@ -91,7 +109,8 @@ public final class DatabaseUtilTest
   public void getGlassFishDataSourceProperties_minimal()
     throws Exception
   {
-    TestUtil.setDBProperties( "",
+    TestUtil.setDBProperties( null,
+                              "",
                               "jdbc:jtds:sqlserver://example.com/SomeDB",
                               "MyUserName",
                               "My-Password" );
@@ -139,12 +158,13 @@ public final class DatabaseUtilTest
     }
   }
 
-  private void assertPersistenceUnitProperties( @Nonnull final String driver,
+  private void assertPersistenceUnitProperties( @Nullable final String databasePrefix,
+                                                @Nonnull final String driver,
                                                 @Nonnull final String url,
                                                 @Nullable final String user,
                                                 @Nullable final String password )
   {
-    final Properties properties = DatabaseUtil.initPersistenceUnitProperties();
+    final Properties properties = DatabaseUtil.initPersistenceUnitProperties( databasePrefix );
     assertPropertyValue( properties, "javax.persistence.transactionType", "RESOURCE_LOCAL" );
     assertPropertyValue( properties, "javax.persistence.jtaDataSource", "" );
     assertPropertyValue( properties, "javax.persistence.jdbc.driver", driver );

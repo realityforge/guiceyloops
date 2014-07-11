@@ -9,15 +9,17 @@ public final class TestUtil
   {
   }
 
-  static void setDBProperties( final String driver,
+  static void setDBProperties( final String databasePrefix,
+                               final String driver,
                                final String url,
                                final String user,
                                final String password )
   {
-    setSystemProperty( "test.db.driver", driver );
-    setSystemProperty( "test.db.url", url );
-    setSystemProperty( "test.db.user", user );
-    setSystemProperty( "test.db.password", password );
+    final String prefix = null == databasePrefix ? "" : databasePrefix + ".";
+    setSystemProperty( prefix + "test.db.driver", driver );
+    setSystemProperty( prefix + "test.db.url", url );
+    setSystemProperty( prefix + "test.db.user", user );
+    setSystemProperty( prefix + "test.db.password", password );
   }
 
   private static void setSystemProperty( final String key, final String value )
@@ -41,7 +43,7 @@ public final class TestUtil
     final String user = null;
     final String password = null;
 
-    setDBProperties( driver, url, user, password );
+    setDBProperties( null, driver, url, user, password );
     return databaseFile;
   }
 }

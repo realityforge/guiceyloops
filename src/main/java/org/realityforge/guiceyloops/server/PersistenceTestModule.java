@@ -3,6 +3,7 @@ package org.realityforge.guiceyloops.server;
 import com.google.inject.name.Names;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.Table;
 import javax.transaction.UserTransaction;
@@ -28,11 +29,20 @@ public abstract class PersistenceTestModule
   }
 
   /**
+   * @return the prefix used to lookup database properties.
+   */
+  @Nullable
+  protected String getDatabasePrefix()
+  {
+    return null;
+  }
+
+  /**
    * Override this to further customize the persistence elements.
    */
   protected void configure()
   {
-    _entityManager = DatabaseUtil.createEntityManager( getPersistenceUnitName() );
+    _entityManager = DatabaseUtil.createEntityManager( getPersistenceUnitName(), getDatabasePrefix() );
     bindResource( EntityManager.class, getPersistenceUnitName(), _entityManager );
   }
 
@@ -85,7 +95,7 @@ public abstract class PersistenceTestModule
   {
     final Session session = _entityManager.unwrap( Session.class );
     final ClassDescriptor descriptor = session.getClassDescriptor( model );
-    if( null == descriptor )
+    if ( null == descriptor )
     {
       final String message = "Unable to locate entity of type " + model.getName() + " in the persistence context";
       throw new IllegalStateException( message );

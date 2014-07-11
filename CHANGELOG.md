@@ -1,3 +1,7 @@
+## 0.38:
+* Support multiple databases with the framework. Use prefixes to system settings to
+  configure the non-primary database.
+
 ## 0.37:
 * Ensure that the @Resource injections will use value of lookup parameter as the name
   if not null.
