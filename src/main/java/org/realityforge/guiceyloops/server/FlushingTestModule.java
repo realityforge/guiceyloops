@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.matcher.AbstractMatcher;
+import org.realityforge.guiceyloops.shared.AbstractModule;
 import static com.google.inject.matcher.Matchers.any;
 
 /**

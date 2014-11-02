@@ -1,4 +1,4 @@
-package org.realityforge.guiceyloops.server;
+package org.realityforge.guiceyloops.shared;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -10,6 +10,9 @@ import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
+import org.realityforge.guiceyloops.server.Flushable;
+import org.realityforge.guiceyloops.server.ServerTestModule;
+import org.realityforge.guiceyloops.server.TestTransactionSynchronizationRegistry;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;

@@ -3,14 +3,9 @@ package org.realityforge.guiceyloops.server;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
 import com.google.inject.ConfigurationException;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
 import com.icegreen.greenmail.util.GreenMail;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -19,14 +14,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.JEETestingModule;
+import org.realityforge.guiceyloops.shared.AbstractSharedTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import static org.testng.Assert.*;
 
 public abstract class AbstractServerTest
+  extends AbstractSharedTest
   implements Flushable
 {
-  private Injector _injector;
   private Thread _testThread;
   private boolean _inFlush;
 
@@ -34,7 +29,7 @@ public abstract class AbstractServerTest
   public void preTest()
     throws Exception
   {
-    _injector = Guice.createInjector( getModules() );
+    super.preTest();
     startDbCleaner();
     setupTransactionSynchronizationRegistry();
     startupMailServer();
@@ -48,7 +43,7 @@ public abstract class AbstractServerTest
     shutdownTransactionSynchronizationRegistry();
     finishDbCleaner();
     shutdownEntityManager();
-    _injector = null;
+    super.postTest();
     _testThread = null;
   }
 
@@ -153,6 +148,7 @@ public abstract class AbstractServerTest
     }
   }
 
+  @Override
   protected Module[] getModules()
   {
     final ArrayList<Module> modules = new ArrayList<Module>();
@@ -161,14 +157,6 @@ public abstract class AbstractServerTest
     addModule( modules, getEntityModule() );
     addModule( modules, getMailTestModule() );
     return modules.toArray( new Module[ modules.size() ] );
-  }
-
-  protected final void addModule( final ArrayList<Module> modules, @Nullable final Module module )
-  {
-    if ( null != module )
-    {
-      modules.add( module );
-    }
   }
 
   @Nullable
@@ -206,25 +194,28 @@ public abstract class AbstractServerTest
    * Return the test module that defines all the services.
    * The user is expected to override this in most sub-classes.
    */
+  @Override
   protected ServerTestModule getDefaultTestModule()
   {
     return new ServerTestModule( this );
   }
 
+  @Override
   protected final <T> T s( final Class<T> type )
   {
     // Flush the entity manager prior to invoking the service. Ensures that the service method can
     // find all created artifacts
     flush();
-    return getInstance( type );
+    return super.s( type );
   }
 
+  @Override
   protected final <T> T s( final String name, final Class<T> type )
   {
     // Flush the entity manager prior to invoking the service. Ensures that the service method can
     // find all created artifacts
     flush();
-    return getInstance( name, type );
+    return super.s( name, type );
   }
 
   protected final void resetTransactionSynchronizationRegistry()
@@ -294,56 +285,5 @@ public abstract class AbstractServerTest
     {
       return getInstance( unitName, EntityManager.class );
     }
-  }
-
-  protected final <T> T getInstance( final Class<T> type )
-  {
-    return getInjector().getInstance( type );
-  }
-
-  protected final <T> T getInstance( final String name, final Class<T> type )
-  {
-    return getInjector().getInstance( Key.get( type, Names.named( name ) ) );
-  }
-
-  protected final <I, T extends I> T toObject( final Class<T> type, final I object )
-  {
-    return InjectUtil.toObject( type, object );
-  }
-
-  protected final Injector getInjector()
-  {
-    return _injector;
-  }
-
-  /**
-   * Retrieve the field on type specified by name.
-   * Guice injected classes may be subclasses so this method searches type hierarchy to get to the field.
-   */
-  protected final Field getField( final Class<?> type, final String fieldName )
-    throws NoSuchFieldException
-  {
-    Class<?> clazz = type;
-    while ( Object.class != clazz )
-    {
-      try
-      {
-        final Field field = clazz.getDeclaredField( fieldName );
-        field.setAccessible( true );
-        return field;
-      }
-      catch ( final Throwable t )
-      {
-        clazz = clazz.getSuperclass();
-      }
-    }
-    fail();
-    return null;
-  }
-
-  protected final void setField( final Object object, final String fieldName, final Object value )
-    throws NoSuchFieldException, IllegalAccessException
-  {
-    getField( object.getClass(), fieldName ).set( object, value );
   }
 }

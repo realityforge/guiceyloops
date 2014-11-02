@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Session;
+import org.realityforge.guiceyloops.shared.AbstractModule;
 
 public abstract class GreenMailTestModule
   extends AbstractModule

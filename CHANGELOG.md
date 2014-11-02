@@ -1,4 +1,6 @@
 ## 0.39 (Pending):
+* Move AbstractModule to the shared package but create a deprecated old AbstractModule
+  that extends the new AbstractModule.
 
 ## 0.38:
 * Support multiple databases with the framework. Use prefixes to system settings to

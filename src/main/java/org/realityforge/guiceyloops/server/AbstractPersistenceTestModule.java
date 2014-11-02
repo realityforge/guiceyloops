@@ -2,6 +2,7 @@ package org.realityforge.guiceyloops.server;
 
 import com.google.inject.Singleton;
 import javax.transaction.TransactionSynchronizationRegistry;
+import org.realityforge.guiceyloops.shared.AbstractModule;
 
 public abstract class AbstractPersistenceTestModule
   extends AbstractModule

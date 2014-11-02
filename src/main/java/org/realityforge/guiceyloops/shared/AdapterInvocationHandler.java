@@ -1,4 +1,4 @@
-package org.realityforge.guiceyloops.server;
+package org.realityforge.guiceyloops.shared;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
