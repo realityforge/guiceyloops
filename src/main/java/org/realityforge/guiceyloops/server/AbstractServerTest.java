@@ -139,6 +139,11 @@ public abstract class AbstractServerTest
 
   protected void shutdownTransactionSynchronizationRegistry()
   {
+    resetJndiContext();
+  }
+
+  protected void resetJndiContext()
+  {
     try
     {
       TestInitialContextFactory.reset();

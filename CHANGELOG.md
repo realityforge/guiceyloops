@@ -1,4 +1,5 @@
 ## 0.40:
+* Extract AbstractServerTest.resetJndiContext() from shutdownTransactionSynchronizationRegistry()
 * Fix bug in AbstractSharedTest where getModules() called getDefaultTestModule()
   rather than getTestModule().
 
