@@ -1,3 +1,6 @@
+## 0.41:
+* Remove some unnecessary final qualifiers on methods in AbstractSharedTest.
+
 ## 0.40:
 * Extract AbstractServerTest.resetJndiContext() from shutdownTransactionSynchronizationRegistry()
 * Fix bug in AbstractSharedTest where getModules() called getDefaultTestModule()

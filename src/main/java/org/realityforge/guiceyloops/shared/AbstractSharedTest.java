@@ -73,12 +73,12 @@ public abstract class AbstractSharedTest
     return getInstance( name, type );
   }
 
-  protected final <T> T getInstance( final Class<T> type )
+  protected <T> T getInstance( final Class<T> type )
   {
     return getInjector().getInstance( type );
   }
 
-  protected final <T> T getInstance( final String name, final Class<T> type )
+  protected <T> T getInstance( final String name, final Class<T> type )
   {
     return getInjector().getInstance( Key.get( type, Names.named( name ) ) );
   }
