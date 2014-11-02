@@ -7,6 +7,7 @@ import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.icegreen.greenmail.util.GreenMail;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
 import javax.naming.Context;
@@ -152,8 +153,8 @@ public abstract class AbstractServerTest
   protected Module[] getModules()
   {
     final ArrayList<Module> modules = new ArrayList<Module>();
+    Collections.addAll( modules, super.getModules() );
     modules.add( new JEETestingModule() );
-    addModule( modules, getTestModule() );
     addModule( modules, getEntityModule() );
     addModule( modules, getMailTestModule() );
     return modules.toArray( new Module[ modules.size() ] );
