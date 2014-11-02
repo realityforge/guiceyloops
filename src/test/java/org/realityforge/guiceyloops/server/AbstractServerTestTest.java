@@ -8,10 +8,10 @@ import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
+import org.realityforge.guiceyloops.shared.AbstractModule;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public class AbstractServerTestTest
 {
@@ -26,7 +26,6 @@ public class AbstractServerTestTest
   public static class Component1
     implements Service1, Service2
   {
-    int _myField;
   }
 
   public static class MyServerTest
@@ -122,17 +121,6 @@ public class AbstractServerTestTest
   }
 
   @Test
-  public void postTestNullsInjector()
-    throws Exception
-  {
-    final MyServerTest test = new MyServerTest();
-    test.preTest();
-    assertNotNull( test.getInjector() );
-    test.postTest();
-    assertNull( test.getInjector() );
-  }
-
-  @Test
   public void entityManagerInteraction()
     throws Exception
   {
@@ -148,22 +136,6 @@ public class AbstractServerTestTest
     final Object entity = new Object();
     test.refresh( entity );
     verify( test._entityManager ).refresh( entity );
-  }
-
-  @Test
-  public void toObject()
-    throws Exception
-  {
-    final MyServerTest test = new MyServerTest();
-    test.preTest();
-
-    final boolean inRollback = false;
-    final EntityTransaction transaction = mock( EntityTransaction.class );
-    when( test._entityManager.getTransaction() ).thenReturn( transaction );
-    when( transaction.getRollbackOnly() ).thenReturn( inRollback );
-
-    assertEquals( test.toObject( Component1.class, test.s( Service1.class ) ),
-                  test.toObject( Component1.class, test.s( Service1.class ) ) );
   }
 
   @Test
@@ -213,8 +185,6 @@ public class AbstractServerTestTest
 
     test.postTest();
     verify( test._dbCleaner, never() ).finish();
-
-    assertNull( test.getInjector() );
   }
 
   @Test
@@ -227,17 +197,5 @@ public class AbstractServerTestTest
 
     test.usesTransaction();
     verify( test._dbCleaner, times( 1 ) ).usesTransaction();
-  }
-
-  @Test
-  public void setField()
-    throws Exception
-  {
-    final MyServerTest test = new MyServerTest();
-    test.preTest();
-    final Component1 component1 = test.toObject( Component1.class, test.s( Service1.class ) );
-    assertEquals( component1._myField, 0 );
-    test.setField( component1, "_myField", 42 );
-    assertEquals( component1._myField, 42 );
   }
 }
