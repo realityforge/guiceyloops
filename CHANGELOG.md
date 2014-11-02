@@ -1,3 +1,5 @@
+## 0.39 (Pending):
+
 ## 0.38:
 * Support multiple databases with the framework. Use prefixes to system settings to
   configure the non-primary database.
