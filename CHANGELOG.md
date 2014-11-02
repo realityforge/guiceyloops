@@ -1,3 +1,7 @@
+## 0.40:
+* Fix bug in AbstractSharedTest where getModules() called getDefaultTestModule()
+  rather than getTestModule().
+
 ## 0.39:
 * Extract AbstractSharedTest from AbstractServerTest to allow reuse of the test
   infrastructure in client-side (i.e. GWT) and non-JEE frameworks.
