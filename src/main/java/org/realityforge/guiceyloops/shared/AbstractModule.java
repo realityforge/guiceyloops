@@ -4,12 +4,11 @@ import com.google.inject.name.Names;
 import java.lang.reflect.Proxy;
 import javax.inject.Singleton;
 import org.mockito.Mockito;
-import org.realityforge.guiceyloops.shared.AdapterInvocationHandler;
 
 public abstract class AbstractModule
   extends com.google.inject.AbstractModule
 {
-  @SuppressWarnings( "unchecked" )
+  @SuppressWarnings("unchecked")
   protected final void multiBind( final Class implementation, final Class... interfaces )
   {
     final Object impl = instantiate( implementation );
@@ -57,5 +56,17 @@ public abstract class AbstractModule
   protected final <T> void bindSingleton( final Class<T> service, final Class<? extends T> implementation )
   {
     bind( service ).to( implementation ).in( Singleton.class );
+  }
+
+  protected final <T> void bindSingleton( final Class<? extends T> implementation )
+  {
+    bind( implementation ).in( Singleton.class );
+  }
+
+  protected <T> void bindSingleton( final String name,
+                                    final Class<T> service,
+                                    final Class<? extends T> implementation )
+  {
+    bind( service ).annotatedWith( Names.named( name ) ).to( implementation ).in( Singleton.class );
   }
 }

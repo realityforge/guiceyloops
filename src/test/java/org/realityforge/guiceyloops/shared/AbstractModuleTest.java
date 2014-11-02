@@ -53,6 +53,15 @@ public class AbstractModuleTest
   {
   }
 
+  public static class Component4
+    implements Service3
+  {
+  }
+
+  public static class Component5
+  {
+  }
+
   static class TestModule
     extends AbstractModule
   {
@@ -64,6 +73,8 @@ public class AbstractModuleTest
       bindResource( String.class, "MyKey", "MyValue" );
       bindSingleton( Service1.class, Component1.class );
       multiBind( Component2.class, Service2.class, Service3.class );
+      bindSingleton( "X", Service3.class, Component4.class );
+      bindSingleton( Component5.class );
     }
   }
 
@@ -87,6 +98,14 @@ public class AbstractModuleTest
 
     //singleton
     assertSame( injector.getInstance( Service1.class ), injector.getInstance( Service1.class ) );
+
+    assertSame( injector.getInstance( Component5.class ), injector.getInstance( Component5.class ) );
+    assertSame( injector.getInstance( Component5.class ).getClass(), Component5.class );
+
+    assertEquals( provider.get(), "MyValue" );
+    assertEquals( injector.getInstance( Key.get( Service3.class, Names.named( "X" ) ) ),
+                  injector.getInstance( Key.get( Service3.class, Names.named( "X" ) ) ) );
+
 
     //Multibinding tests
     assertSame( injector.getInstance( Service2.class ), injector.getInstance( Service2.class ) );
@@ -121,7 +140,8 @@ public class AbstractModuleTest
     final Flushable flushable = mock( Flushable.class );
     final Injector injector = Guice.createInjector( new MyServerTestModule( flushable ), new JEETestingModule() );
     assertTrue( injector.getInstance( SessionContext.class ) instanceof Factory );
-    assertTrue( injector.getInstance( TransactionSynchronizationRegistry.class ) instanceof TestTransactionSynchronizationRegistry );
+    assertTrue( injector.getInstance(
+      TransactionSynchronizationRegistry.class ) instanceof TestTransactionSynchronizationRegistry );
 
     final Service1 instance = injector.getInstance( Service1.class );
     final Component1 component1 = InjectUtil.toObject( Component1.class, instance );

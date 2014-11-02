@@ -1,3 +1,6 @@
+## 0.42:
+* Add some helper methods for binding dependencies in AbstractModuleTest.
+
 ## 0.41:
 * Remove some unnecessary final qualifiers on methods in AbstractSharedTest.
 
