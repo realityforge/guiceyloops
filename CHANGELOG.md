@@ -1,3 +1,6 @@
+## 0.43:
+* Add 4.1 to GlassFishVersion and make it the default.
+
 ## 0.42:
 * Add some helper methods for binding dependencies in AbstractModuleTest.
 

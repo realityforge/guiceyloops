@@ -34,7 +34,7 @@ public class GlassFishContainer
   public GlassFishContainer( final int port )
     throws Exception
   {
-    this( port, GlassFishVersion.V_4_0 );
+    this( port, GlassFishVersion.V_4_1 );
   }
 
   public GlassFishContainer( final int port, @Nonnull final GlassFishVersion version )
