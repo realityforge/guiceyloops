@@ -5,7 +5,7 @@ require 'buildr/custom_pom'
 
 PROVIDED_DEPS = [:javax_javaee, :javax_annotation]
 
-OPTIONAL_DEPS = [:jndikit, :greenmail, :eclipselink, :glassfish_embedded]
+OPTIONAL_DEPS = [:jndikit, :greenmail, :glassfish_embedded]
 
 desc 'GuiceyLoops: Guice EE testing support to Guicey-fruit'
 define 'guiceyloops' do
