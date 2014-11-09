@@ -1,3 +1,6 @@
+## 0.44:
+* Update PersistenceTestModule to change the way that entity listeners are injected.
+
 ## 0.43:
 * Add 4.1 to GlassFishVersion and make it the default.
 

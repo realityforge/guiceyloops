@@ -2,6 +2,7 @@ package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
 import java.util.List;
+import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
@@ -44,6 +45,18 @@ public abstract class PersistenceTestModule
   {
     _entityManager = DatabaseUtil.createEntityManager( getPersistenceUnitName(), getDatabasePrefix() );
     bindResource( EntityManager.class, getPersistenceUnitName(), _entityManager );
+    if ( shouldInjectEntityListeners() )
+    {
+      requestInjectionForAllEntityListeners();
+    }
+  }
+
+  /**
+   * @return true if entity listeners for all entities should be injected.
+   */
+  protected boolean shouldInjectEntityListeners()
+  {
+    return true;
   }
 
   /**
@@ -87,21 +100,27 @@ public abstract class PersistenceTestModule
   }
 
   /**
-   * Request injection for entity listeners.
-   *
-   * @param model the type to inject.
+   * Request injection for entity listeners on all entities in persistence unit.
    */
-  protected final void requestInjectionForEntityListener( final Class model )
+  protected final void requestInjectionForAllEntityListeners()
   {
     final Session session = _entityManager.unwrap( Session.class );
-    final ClassDescriptor descriptor = session.getClassDescriptor( model );
-    if ( null == descriptor )
+    for ( final ClassDescriptor descriptor : session.getDescriptors().values() )
     {
-      final String message = "Unable to locate entity of type " + model.getName() + " in the persistence context";
-      throw new IllegalStateException( message );
+      requestInjectionForEntityListeners( descriptor );
     }
+  }
+
+  private void requestInjectionForEntityListeners( final ClassDescriptor descriptor )
+  {
     final DescriptorEventManager eventManager = descriptor.getEventManager();
-    for ( final Object o : eventManager.getDefaultEventListeners() )
+    requestInjectionForEntityListeners( eventManager.getDefaultEventListeners() );
+    requestInjectionForEntityListeners( eventManager.getEntityListenerEventListeners() );
+  }
+
+  private void requestInjectionForEntityListeners( final Vector eventListeners )
+  {
+    for ( final Object o : eventListeners )
     {
       final EntityListener listener = (EntityListener) o;
       requestInjection( listener.getListener( listener.getOwningSession() ) );
