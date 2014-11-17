@@ -1,3 +1,6 @@
+## 0.45:
+* Ensure all the GreenMail mail server threads have started before completing start operation.
+
 ## 0.44:
 * Update PersistenceTestModule to change the way that entity listeners are injected.
 

@@ -105,7 +105,35 @@ public abstract class AbstractServerTest
   {
     if ( enableMailServer() )
     {
-      s( GreenMail.class ).start();
+      final GreenMail greenMail = s( GreenMail.class );
+      greenMail.start();
+      ensureThreadStarted( greenMail.getSmtp() );
+      ensureThreadStarted( greenMail.getSmtps() );
+      ensureThreadStarted( greenMail.getImap() );
+      ensureThreadStarted( greenMail.getImaps() );
+      ensureThreadStarted( greenMail.getPop3() );
+      ensureThreadStarted( greenMail.getPop3s() );
+      try
+      {
+        //A small sleep to ensure that all listeners have established server sockets
+        Thread.sleep( 1 );
+      }
+      catch ( final InterruptedException ie )
+      {
+        //Ignored
+      }
+    }
+  }
+
+  private void ensureThreadStarted( final Thread thread )
+  {
+    if ( null != thread )
+    {
+      //Wait until the thread has started
+      while ( !thread.isAlive() )
+      {
+        Thread.yield();
+      }
     }
   }
 
