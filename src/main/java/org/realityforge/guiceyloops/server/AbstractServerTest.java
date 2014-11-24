@@ -6,6 +6,7 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.icegreen.greenmail.util.GreenMail;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -105,18 +106,33 @@ public abstract class AbstractServerTest
   {
     if ( enableMailServer() )
     {
-      final GreenMail greenMail = s( GreenMail.class );
-      greenMail.start();
-      ensureThreadStarted( greenMail.getSmtp() );
-      ensureThreadStarted( greenMail.getSmtps() );
-      ensureThreadStarted( greenMail.getImap() );
-      ensureThreadStarted( greenMail.getImaps() );
-      ensureThreadStarted( greenMail.getPop3() );
-      ensureThreadStarted( greenMail.getPop3s() );
+
       try
       {
+        final Object greenMail = s( GreenMail.class );
+        GreenMail.class.getMethod( "start" ).invoke( greenMail );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getSmtp" ).invoke( greenMail ) );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getSmtps" ).invoke( greenMail ) );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getImap" ).invoke( greenMail ) );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getImaps" ).invoke( greenMail ) );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getSmtp" ).invoke( greenMail ) );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getPop3" ).invoke( greenMail ) );
+        ensureThreadStarted( (Thread) GreenMail.class.getMethod( "getPop3s" ).invoke( greenMail ) );
+
         //A small sleep to ensure that all listeners have established server sockets
         Thread.sleep( 1 );
+      }
+      catch ( final IllegalAccessException iae )
+      {
+        //Ignored
+      }
+      catch ( final InvocationTargetException ite )
+      {
+        //Ignored
+      }
+      catch ( final NoSuchMethodException nsme )
+      {
+        //Ignored
       }
       catch ( final InterruptedException ie )
       {

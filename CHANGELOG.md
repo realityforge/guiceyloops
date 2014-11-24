@@ -1,3 +1,7 @@
+## 0.46:
+* Fix regression introduced in 0.45 that meant buildr required greenmail to be present on
+  the classpath to scan for test classes.
+
 ## 0.45:
 * Ensure all the GreenMail mail server threads have started before completing start operation.
 
