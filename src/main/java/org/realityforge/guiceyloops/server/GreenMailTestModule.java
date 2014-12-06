@@ -35,12 +35,12 @@ public abstract class GreenMailTestModule
     _port = port;
   }
 
-  public String getAddress()
+  public final String getAddress()
   {
     return _address;
   }
 
-  public int getPort()
+  public final int getPort()
   {
     return _port;
   }
