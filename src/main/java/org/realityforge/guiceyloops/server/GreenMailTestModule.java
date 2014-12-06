@@ -4,6 +4,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 import java.net.InetAddress;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.mail.Authenticator;
@@ -15,11 +16,40 @@ public abstract class GreenMailTestModule
 {
  private static final Logger LOG = Logger.getLogger( GreenMailTestModule.class.getName() );
 
+  private final String _address;
+  private final int _port;
+
+  public GreenMailTestModule()
+  {
+    this( 4000 + new Random().nextInt( 4000 ) );
+  }
+
+  public GreenMailTestModule( final int port )
+  {
+    this( getLocalHostAddress(), port );
+  }
+
+  public GreenMailTestModule( final String address, final int port )
+  {
+    _address = address;
+    _port = port;
+  }
+
+  public String getAddress()
+  {
+    return _address;
+  }
+
+  public int getPort()
+  {
+    return _port;
+  }
+
   @Override
   protected void configure()
   {
     final ServerSetup config =
-      new ServerSetup( getSmtpPort(), getLocalHost().getHostAddress(), ServerSetup.PROTOCOL_SMTP );
+      new ServerSetup( getPort(), getAddress(), ServerSetup.PROTOCOL_SMTP );
     bind( GreenMail.class ).toInstance( new GreenMail( config ) );
 
     bindMailResources( config );
@@ -33,16 +63,12 @@ public abstract class GreenMailTestModule
     bindResource( Session.class, name, getSession( config ) );
   }
 
-  protected int getSmtpPort()
-  {
-    return 3025;
-  }
-
-  private InetAddress getLocalHost()
+  @Nonnull
+  public static String getLocalHostAddress()
   {
     try
     {
-      return InetAddress.getLocalHost();
+      return InetAddress.getLocalHost().getHostAddress();
     }
     catch ( final Exception e )
     {
