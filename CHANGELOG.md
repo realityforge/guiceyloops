@@ -1,3 +1,6 @@
+## 0.47 (Pending):
+* Upgrade greenmail dependency to 1.4.0
+
 ## 0.46:
 * Fix regression introduced in 0.45 that meant buildr required greenmail to be present on
   the classpath to scan for test classes.
