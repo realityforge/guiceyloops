@@ -4,6 +4,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 import java.net.InetAddress;
 import java.util.Properties;
+import javax.annotation.Nonnull;
 import javax.mail.Authenticator;
 import javax.mail.Session;
 import org.realityforge.guiceyloops.shared.AbstractModule;
@@ -21,7 +22,7 @@ public abstract class GreenMailTestModule
     bindMailResources( config );
   }
 
-  protected abstract void bindMailResources( ServerSetup config );
+  protected abstract void bindMailResources( @Nonnull ServerSetup config );
 
   protected final void bindMailResource( final ServerSetup config, final String name )
   {
