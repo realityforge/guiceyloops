@@ -4,6 +4,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 import java.net.InetAddress;
 import java.util.Properties;
+import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.mail.Authenticator;
 import javax.mail.Session;
@@ -12,6 +13,8 @@ import org.realityforge.guiceyloops.shared.AbstractModule;
 public abstract class GreenMailTestModule
   extends AbstractModule
 {
+ private static final Logger LOG = Logger.getLogger( GreenMailTestModule.class.getName() );
+
   @Override
   protected void configure()
   {
@@ -26,6 +29,7 @@ public abstract class GreenMailTestModule
 
   protected final void bindMailResource( final ServerSetup config, final String name )
   {
+    LOG.info( "Binding smtp session to " + config.getBindAddress() + ":" + config.getPort() );
     bindResource( Session.class, name, getSession( config ) );
   }
 
