@@ -1,3 +1,5 @@
+## 0.48 (Pending):
+
 ## 0.47:
 * Randomize the smtp port used in GreenMail tests to allow multiple tests to run concurrently.
 * Upgrade greenmail dependency to 1.4.0
