@@ -1,4 +1,4 @@
-## 0.48 (Pending):
+## 0.48:
 * Use File.pathSeparator when parsing embedded.glassfish.classpath so that guiceyloops will work
   under windows.
 * Update the GlassFishContainer(int port) constructor to derive the classpath from system properties.
