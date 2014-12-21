@@ -1,4 +1,6 @@
 ## 0.48 (Pending):
+* Add GlassFishContainerUtil.getEmbeddedGlassFishClasspath() that expects one of the system
+  properties to be specified.
 * Support embedded.glassfish.artifacts system property to configure the class path for the
   embedded glassfish server.
 

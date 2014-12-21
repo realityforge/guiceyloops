@@ -101,6 +101,13 @@ public final class GlassFishContainerUtil
   }
 
   @Nonnull
+  public static URL[] getEmbeddedGlassFishClasspath()
+    throws Exception
+  {
+    return getEmbeddedGlassFishClasspath( new String[ 0 ] );
+  }
+
+  @Nonnull
   public static URL[] getEmbeddedGlassFishClasspath( @Nonnull final String[] defaultDependencies )
     throws Exception
   {
