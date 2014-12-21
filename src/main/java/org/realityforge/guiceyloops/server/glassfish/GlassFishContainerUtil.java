@@ -116,7 +116,7 @@ public final class GlassFishContainerUtil
     final String artifactsPath = System.getProperties().getProperty( "embedded.glassfish.artifacts", null );
     if ( null != classpath )
     {
-      for ( final String filename : classpath.split( ":" ) )
+      for ( final String filename : classpath.split( File.pathSeparator ) )
       {
         final File file = new File( filename );
         if ( !file.exists() )

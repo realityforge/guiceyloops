@@ -1,4 +1,6 @@
 ## 0.48 (Pending):
+* Use File.pathSeparator when parsing embedded.glassfish.classpath so that guiceyloops will work
+  under windows.
 * Update the GlassFishContainer(int port) constructor to derive the classpath from system properties.
 * Add GlassFishContainerUtil.getEmbeddedGlassFishClasspath() that expects one of the system
   properties to be specified.
