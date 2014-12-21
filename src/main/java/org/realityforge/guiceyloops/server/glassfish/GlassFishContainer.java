@@ -37,6 +37,12 @@ public class GlassFishContainer
     this( port, GlassFishContainerUtil.getEmbeddedGlassFishClasspath() );
   }
 
+  public GlassFishContainer( @Nonnull final GlassFishVersion version )
+    throws Exception
+  {
+    this( GlassFishContainerUtil.getRandomPort(), GlassFishContainerUtil.getEmbeddedGlassFishClasspath( version ) );
+  }
+
   public GlassFishContainer( final int port, @Nonnull final GlassFishVersion version )
     throws Exception
   {
