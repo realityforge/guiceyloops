@@ -1,4 +1,6 @@
 ## 0.48 (Pending):
+* Support embedded.glassfish.artifacts system property to configure the class path for the
+  embedded glassfish server.
 
 ## 0.47:
 * Randomize the smtp port used in GreenMail tests to allow multiple tests to run concurrently.

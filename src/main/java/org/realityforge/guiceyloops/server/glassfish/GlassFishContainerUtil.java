@@ -106,6 +106,7 @@ public final class GlassFishContainerUtil
   {
     final ArrayList<URL> elements = new ArrayList<URL>();
     final String classpath = System.getProperties().getProperty( "embedded.glassfish.classpath", null );
+    final String artifactsPath = System.getProperties().getProperty( "embedded.glassfish.artifacts", null );
     if ( null != classpath )
     {
       for ( final String filename : classpath.split( ":" ) )
@@ -121,6 +122,29 @@ public final class GlassFishContainerUtil
         elements.add( file.toURI().toURL() );
       }
     }
+    else if ( null != artifactsPath )
+    {
+      final String m2Repository = getMavenRepository();
+      for ( final String spec : artifactsPath.split( "," ) )
+      {
+        final File file = specToFile( m2Repository, spec );
+        if ( !file.exists() )
+        {
+          final String message =
+            "System property 'embedded.glassfish.artifacts' specified but contains a spec '" + spec +
+            ", that can not be located in the local maven repository at '" + file + "'.";
+          throw new IllegalStateException( message );
+        }
+        elements.add( file.toURI().toURL() );
+      }
+    }
+    else if ( 0 == defaultDependencies.length )
+    {
+      final String message =
+        "System properties 'embedded.glassfish.classpath' and 'embedded.glassfish.artifacts' are " +
+        "not specified, and no default dependencies were provided.";
+      throw new IllegalStateException( message );
+    }
     else
     {
       final String m2Repository = getMavenRepository();
@@ -130,7 +154,7 @@ public final class GlassFishContainerUtil
         if ( !file.exists() )
         {
           final String message =
-            "System property 'embedded.glassfish.classpath' not specified. " +
+            "System properties 'embedded.glassfish.classpath' and 'embedded.glassfish.artifacts' are not specified. " +
             "Attempting to use defaults but unable to locate default dependency '" + spec + "' in the local " +
             "maven repository at '" + file + "'.";
           throw new IllegalStateException( message );
