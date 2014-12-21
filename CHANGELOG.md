@@ -1,4 +1,5 @@
 ## 0.48 (Pending):
+* Update the GlassFishContainer(int port) constructor to derive the classpath from system properties.
 * Add GlassFishContainerUtil.getEmbeddedGlassFishClasspath() that expects one of the system
   properties to be specified.
 * Support embedded.glassfish.artifacts system property to configure the class path for the
