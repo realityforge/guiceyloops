@@ -1,3 +1,6 @@
+## 0.50:
+* Update AbstractModule.bindMock() to return the mocks.
+
 ## 0.49:
 * Update AbstractServerTest.getDefaultTestModule() to return a module rather than a ServerTestModule.
 

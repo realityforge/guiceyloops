@@ -38,14 +38,18 @@ public abstract class AbstractModule
     }
   }
 
-  protected final <T> void bindMock( final Class<T> type )
+  protected final <T> T bindMock( final Class<T> type )
   {
-    bind( type ).toInstance( Mockito.mock( type ) );
+    final T mock = Mockito.mock( type );
+    bind( type ).toInstance( mock );
+    return mock;
   }
 
-  protected final <T> void bindMock( final Class<T> type, final String name )
+  protected final <T> T bindMock( final Class<T> type, final String name )
   {
-    bind( type ).annotatedWith( Names.named( name ) ).toInstance( Mockito.mock( type ) );
+    final T mock = Mockito.mock( type );
+    bind( type ).annotatedWith( Names.named( name ) ).toInstance( mock );
+    return mock;
   }
 
   protected final <T> void bindResource( final Class<T> resultType, final String name, final T instance )
