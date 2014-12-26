@@ -245,7 +245,7 @@ public abstract class AbstractServerTest
    * The user is expected to override this in most sub-classes.
    */
   @Override
-  protected ServerTestModule getDefaultTestModule()
+  protected Module getDefaultTestModule()
   {
     return new ServerTestModule( this );
   }

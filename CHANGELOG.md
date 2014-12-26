@@ -1,3 +1,6 @@
+## 0.49:
+* Update AbstractServerTest.getDefaultTestModule() to return a module rather than a ServerTestModule.
+
 ## 0.48:
 * Use File.pathSeparator when parsing embedded.glassfish.classpath so that guiceyloops will work
   under windows.
