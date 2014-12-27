@@ -46,6 +46,7 @@ public abstract class AbstractServerTest
     finishDbCleaner();
     shutdownEntityManager();
     super.postTest();
+    clearJndiContext();
     _testThread = null;
   }
 
@@ -191,6 +192,18 @@ public abstract class AbstractServerTest
     try
     {
       TestInitialContextFactory.reset();
+    }
+    catch ( final NoClassDefFoundError e )
+    {
+      //JNDI code is not present. NO problemo!
+    }
+  }
+
+  protected void clearJndiContext()
+  {
+    try
+    {
+      TestInitialContextFactory.clear();
     }
     catch ( final NoClassDefFoundError e )
     {

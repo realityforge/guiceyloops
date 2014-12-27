@@ -1,4 +1,5 @@
 ## 0.51:
+* Update AbstractServerTest to clear the JNDI setup in the postTest() method.
 * Update AbstractServerTest.getDefaultTestModule() to stop returning ServerTestModule as all
   subclasses override the method.
 
