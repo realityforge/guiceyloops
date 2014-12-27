@@ -3,6 +3,7 @@ package org.realityforge.guiceyloops.server;
 import com.google.inject.Scopes;
 import javax.ejb.SessionContext;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 /**
@@ -24,5 +25,6 @@ public class ServerTestModule
     bind( TransactionSynchronizationRegistry.class ).
       to( TestTransactionSynchronizationRegistry.class ).
       asEagerSingleton();
+    bind( BeanManager.class ).to( TestBeanManager.class ).asEagerSingleton();
   }
 }

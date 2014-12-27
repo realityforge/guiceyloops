@@ -1,4 +1,5 @@
 ## 0.51:
+* Introduce a minimalistic BeanManager implementation used during testing.
 * Bind BeanManager into JNDI if it is present in the Guice Injector.
 * Rework the JNDI infrastructure so that it is set up correctly before the test and cleared in
   postTest(). The setup occurs prior to the injector construction and after the test completes.
