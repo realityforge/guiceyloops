@@ -1,21 +1,21 @@
-package org.realityforge.guiceyloops;
+package org.realityforge.guiceyloops.server;
 
 import com.google.inject.MembersInjector;
 import com.google.inject.spi.TypeEncounter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
-import javax.xml.ws.WebServiceRef;
+import javax.ejb.EJB;
 
 /**
- * The annotation listener responsible for injecting fields annotated with the @WebServiceRef annotation.
+ * The annotation listener responsible for injecting fields annotated with the @EJB annotation.
  */
-public final class WebServiceRefTypeListener
+public final class EjbTypeListener
     extends AnnotationTypeListener
 {
-  public WebServiceRefTypeListener()
+  public EjbTypeListener()
   {
-    super( WebServiceRef.class );
+    super( EJB.class );
   }
 
   /**

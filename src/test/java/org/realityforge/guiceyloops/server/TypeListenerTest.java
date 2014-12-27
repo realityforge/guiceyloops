@@ -1,4 +1,4 @@
-package org.realityforge.guiceyloops;
+package org.realityforge.guiceyloops.server;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;

@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 import org.mockito.cglib.proxy.Factory;
-import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 

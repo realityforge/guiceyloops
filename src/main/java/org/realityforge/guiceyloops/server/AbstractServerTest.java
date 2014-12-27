@@ -18,7 +18,6 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
-import org.realityforge.guiceyloops.JEETestingModule;
 import org.realityforge.guiceyloops.shared.AbstractSharedTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

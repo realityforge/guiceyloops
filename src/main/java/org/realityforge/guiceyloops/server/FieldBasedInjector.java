@@ -1,4 +1,4 @@
-package org.realityforge.guiceyloops;
+package org.realityforge.guiceyloops.server;
 
 import com.google.inject.Key;
 import com.google.inject.MembersInjector;

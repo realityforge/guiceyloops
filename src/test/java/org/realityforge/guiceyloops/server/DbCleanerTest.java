@@ -4,7 +4,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.io.File;
 import javax.persistence.EntityManager;
-import org.realityforge.guiceyloops.JEETestingModule;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

@@ -1,4 +1,4 @@
-package org.realityforge.guiceyloops;
+package org.realityforge.guiceyloops.server;
 
 import com.google.inject.MembersInjector;
 import com.google.inject.spi.TypeEncounter;

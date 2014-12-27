@@ -1,3 +1,6 @@
+## 0.52:
+* Migrate all the type listeners to the server package.
+
 ## 0.51:
 * Refactor ServerTestModule so that it is not able to be extended and ensure it is added to
   modules in AbstractServerTest by default.
