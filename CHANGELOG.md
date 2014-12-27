@@ -1,5 +1,6 @@
 ## 0.51:
-* Update AbstractServerTest to clear the JNDI setup in the postTest() method.
+* Rework the JNDI infrastructure so that it is set up correctly before the test and cleared in
+  postTest(). The setup occurs prior to the injector construction and after the test completes.
 * Update AbstractServerTest.getDefaultTestModule() to stop returning ServerTestModule as all
   subclasses override the method.
 
