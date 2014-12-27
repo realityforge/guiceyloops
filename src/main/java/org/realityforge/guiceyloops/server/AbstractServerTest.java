@@ -281,6 +281,7 @@ public abstract class AbstractServerTest
     final ArrayList<Module> modules = new ArrayList<Module>();
     Collections.addAll( modules, super.getModules() );
     modules.add( new JEETestingModule() );
+    modules.add( new ServerTestModule() );
     addModule( modules, getEntityModule() );
     addModule( modules, getMailTestModule() );
     return modules.toArray( new Module[ modules.size() ] );

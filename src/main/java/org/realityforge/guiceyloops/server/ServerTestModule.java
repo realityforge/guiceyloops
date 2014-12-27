@@ -9,14 +9,9 @@ import javax.transaction.TransactionSynchronizationRegistry;
 /**
  * The client module for all the server side tests in absence of a specific module for a test.
  */
-public class ServerTestModule
-  extends FlushingTestModule
+public final class ServerTestModule
+  extends org.realityforge.guiceyloops.shared.AbstractModule
 {
-  public ServerTestModule( final Flushable flushable )
-  {
-    super( true, flushable );
-  }
-
   @Override
   protected void configure()
   {

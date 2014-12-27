@@ -1,4 +1,6 @@
 ## 0.51:
+* Refactor ServerTestModule so that it is not able to be extended and ensure it is added to
+  modules in AbstractServerTest by default.
 * Introduce a minimalistic BeanManager implementation used during testing.
 * Bind BeanManager into JNDI if it is present in the Guice Injector.
 * Rework the JNDI infrastructure so that it is set up correctly before the test and cleared in
