@@ -1,3 +1,7 @@
+## 0.51:
+* Update AbstractServerTest.getDefaultTestModule() to stop returning ServerTestModule as all
+  subclasses override the method.
+
 ## 0.50:
 * Update AbstractModule.bindMock() to return the mocks.
 

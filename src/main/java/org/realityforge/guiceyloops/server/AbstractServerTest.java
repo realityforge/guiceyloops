@@ -247,7 +247,7 @@ public abstract class AbstractServerTest
   @Override
   protected Module getDefaultTestModule()
   {
-    return new ServerTestModule( this );
+    return null;
   }
 
   @Override
