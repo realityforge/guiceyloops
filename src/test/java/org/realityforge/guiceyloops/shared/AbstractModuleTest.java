@@ -11,7 +11,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.realityforge.guiceyloops.server.Flushable;
-import org.realityforge.guiceyloops.server.ServerTestModule;
+import org.realityforge.guiceyloops.server.FlushingTestModule;
 import org.realityforge.guiceyloops.server.TestTransactionSynchronizationRegistry;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
@@ -118,17 +118,16 @@ public class AbstractModuleTest
   }
 
   static class MyServerTestModule
-    extends ServerTestModule
+    extends FlushingTestModule
   {
     MyServerTestModule( final Flushable flushable )
     {
-      super( flushable );
+      super( true, flushable );
     }
 
     @Override
     protected void configure()
     {
-      super.configure();
       bindMock( EntityManager.class );
       bindService( Service1.class, Component1.class );
     }
