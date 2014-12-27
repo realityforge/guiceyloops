@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.Context;
+import javax.naming.NameAlreadyBoundException;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
@@ -31,8 +34,10 @@ public abstract class AbstractServerTest
   public void preTest()
     throws Exception
   {
+    resetJndiContext();
     super.preTest();
     startDbCleaner();
+    setupBeanManager();
     setupTransactionSynchronizationRegistry();
     startupMailServer();
     _testThread = Thread.currentThread();
@@ -44,6 +49,7 @@ public abstract class AbstractServerTest
     shutdownMailServer();
     shutdownTransactionSynchronizationRegistry();
     finishDbCleaner();
+    shutdownBeanManager();
     shutdownEntityManager();
     super.postTest();
     clearJndiContext();
@@ -170,10 +176,37 @@ public abstract class AbstractServerTest
   protected void setupTransactionSynchronizationRegistry()
     throws Exception
   {
+    setupJndiSubContext( "java:comp" );
+    bindJndiResource( "java:comp/TransactionSynchronizationRegistry", TransactionSynchronizationRegistry.class );
+  }
+
+  protected void shutdownTransactionSynchronizationRegistry()
+  {
+    unbindJndiResource( "java:comp/TransactionSynchronizationRegistry" );
+  }
+
+  protected void setupBeanManager()
+    throws Exception
+  {
+    setupJndiSubContext( "java:comp" );
+    bindJndiResource( "java:comp/BeanManager", BeanManager.class );
+  }
+
+  protected void shutdownBeanManager()
+  {
+    unbindJndiResource( "java:comp/BeanManager" );
+  }
+
+  protected void setupJndiSubContext( final String name )
+    throws NamingException
+  {
     try
     {
-      final Context context = TestInitialContextFactory.getContext().createSubcontext( "java:comp" );
-      context.bind( "TransactionSynchronizationRegistry", getInstance( TransactionSynchronizationRegistry.class ) );
+      TestInitialContextFactory.getContext().createSubcontext( name );
+    }
+    catch ( final NameAlreadyBoundException ne )
+    {
+      //Already bound. That is fine
     }
     catch ( final NoClassDefFoundError e )
     {
@@ -181,9 +214,41 @@ public abstract class AbstractServerTest
     }
   }
 
-  protected void shutdownTransactionSynchronizationRegistry()
+  protected void bindJndiResource( final String key, final Class<?> type )
+    throws NamingException
   {
-    resetJndiContext();
+    try
+    {
+      TestInitialContextFactory.getContext().bind( key, getInstance( type ) );
+    }
+    catch ( final ConfigurationException ce )
+    {
+      //Ignored as there is no TransactionSynchronizationRegistry bound
+    }
+    catch ( final NoClassDefFoundError e )
+    {
+      //Ignored. Probably as the classes for the naming or transaction extensions are not on the classpath
+    }
+  }
+
+  protected void unbindJndiResource( final String name )
+  {
+    try
+    {
+      final Context context = TestInitialContextFactory.getContext();
+      if ( null != context )
+      {
+        context.unbind( name );
+      }
+    }
+    catch ( final NamingException ne )
+    {
+      //Not bound. No problem
+    }
+    catch ( final NoClassDefFoundError e )
+    {
+      //Ignored. Probably as the classes for the naming or transaction extensions are not on the classpath
+    }
   }
 
   protected void resetJndiContext()
