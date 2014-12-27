@@ -12,6 +12,7 @@ import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.JEETestingModule;
 import org.realityforge.guiceyloops.server.Flushable;
 import org.realityforge.guiceyloops.server.FlushingTestModule;
+import org.realityforge.guiceyloops.server.ServerTestModule;
 import org.realityforge.guiceyloops.server.TestTransactionSynchronizationRegistry;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
@@ -137,7 +138,8 @@ public class AbstractModuleTest
   public void serverTestModule()
   {
     final Flushable flushable = mock( Flushable.class );
-    final Injector injector = Guice.createInjector( new MyServerTestModule( flushable ), new JEETestingModule() );
+    final Injector injector =
+      Guice.createInjector( new MyServerTestModule( flushable ), new JEETestingModule(), new ServerTestModule() );
     assertTrue( injector.getInstance( SessionContext.class ) instanceof Factory );
     assertTrue( injector.getInstance(
       TransactionSynchronizationRegistry.class ) instanceof TestTransactionSynchronizationRegistry );
