@@ -172,7 +172,6 @@ public abstract class AbstractServerTest
   {
     try
     {
-      shutdownTransactionSynchronizationRegistry();
       final Context context = TestInitialContextFactory.getContext().createSubcontext( "java:comp" );
       context.bind( "TransactionSynchronizationRegistry", getInstance( TransactionSynchronizationRegistry.class ) );
     }
