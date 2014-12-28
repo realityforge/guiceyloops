@@ -1,4 +1,5 @@
 ## 0.53 (Pending):
+* Remove deprecated org.realityforge.guiceyloops.server.AbstractModule
 
 ## 0.52:
 * Migrate all the type listeners to the server package.
