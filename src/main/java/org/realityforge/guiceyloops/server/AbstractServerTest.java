@@ -317,16 +317,6 @@ public abstract class AbstractServerTest
     }
   }
 
-  /**
-   * Return the test module that defines all the services.
-   * The user is expected to override this in most sub-classes.
-   */
-  @Override
-  protected Module getDefaultTestModule()
-  {
-    return null;
-  }
-
   @Override
   protected final <T> T s( final Class<T> type )
   {

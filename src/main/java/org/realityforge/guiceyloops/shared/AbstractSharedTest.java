@@ -61,7 +61,10 @@ public abstract class AbstractSharedTest
   /**
    * Return the module used if no per-test module defined.
    */
-  protected abstract Module getDefaultTestModule();
+  protected Module getDefaultTestModule()
+  {
+    return null;
+  }
 
   protected <T> T s( final Class<T> type )
   {

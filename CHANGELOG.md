@@ -1,5 +1,7 @@
 ## 0.53 (Pending):
 * Remove deprecated org.realityforge.guiceyloops.server.AbstractModule
+* Implement AbstractSharedTest.getDefaultTestModule() and return null, and removed
+  implementation in AbstractServerTest.
 
 ## 0.52:
 * Migrate all the type listeners to the server package.
