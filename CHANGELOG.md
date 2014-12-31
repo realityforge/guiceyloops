@@ -1,4 +1,4 @@
-## 0.54 (Pending):
+## 0.54:
 * Add simplified constructor to FlushingTestModule that defaults to flushing at start of interception.
 
 ## 0.53:
