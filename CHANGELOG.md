@@ -1,4 +1,5 @@
 ## 0.54 (Pending):
+* Add simplified constructor to FlushingTestModule that defaults to flushing at start of interception.
 
 ## 0.53:
 * Remove deprecated org.realityforge.guiceyloops.server.AbstractModule

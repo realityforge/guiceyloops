@@ -123,7 +123,7 @@ public class AbstractModuleTest
   {
     MyServerTestModule( final Flushable flushable )
     {
-      super( true, flushable );
+      super( flushable );
     }
 
     @Override
