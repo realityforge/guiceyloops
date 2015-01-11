@@ -74,8 +74,8 @@ public class PersistenceTestModuleTest
     {
       super.configure();
       final ArrayList<String> tables = new ArrayList<String>();
-      collectTableName( tables, TestEntity1.class );
-      collectTableName( tables, TestEntity2.class );
+      tables.add( "Test.tblTestEntity1" );
+      tables.add( "Test.tblTestEntity2" );
       requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
       registerUserTransaction();
     }

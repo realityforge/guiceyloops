@@ -1,12 +1,10 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
-import java.util.List;
 import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
-import javax.persistence.Table;
 import javax.transaction.UserTransaction;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.descriptors.DescriptorEventManager;
@@ -54,16 +52,6 @@ public abstract class PersistenceTestModule
     bind( UserTransaction.class ).toInstance( new TestUserTransaction( _entityManager ) );
   }
 
-  @Nonnull
-  protected String toQualifiedTableName( final Table annotation )
-  {
-    final String qualifiedTableName;
-    final String tableName = annotation.name();
-    qualifiedTableName =
-      annotation.schema() + "." + ( tableName.startsWith( "vw" ) ? tableName.replace( "vw", "tbl" ) : tableName );
-    return qualifiedTableName;
-  }
-
   protected final void requestCleaningOfTables( @Nonnull final String[] tables )
   {
     bind( DbCleaner.class ).
@@ -96,17 +84,6 @@ public abstract class PersistenceTestModule
     {
       final EntityListener listener = (EntityListener) o;
       requestInjection( listener.getListener( listener.getOwningSession() ) );
-    }
-  }
-
-  protected final void collectTableName( final List<String> tables, final Class<?> model )
-  {
-    //Annotation null when we hit an abstract class
-    final Table annotation = model.getAnnotation( Table.class );
-    final String qualifiedTableName = null != annotation ? toQualifiedTableName( annotation ) : null;
-    if ( null != qualifiedTableName )
-    {
-      tables.add( qualifiedTableName );
     }
   }
 }
