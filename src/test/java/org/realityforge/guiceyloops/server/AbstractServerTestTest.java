@@ -9,9 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.shared.AbstractModule;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
 public class AbstractServerTestTest
 {
@@ -147,7 +147,7 @@ public class AbstractServerTestTest
 
     test.s( TransactionSynchronizationRegistry.class ).putResource( "key", "value" );
     test.resetTransactionSynchronizationRegistry();
-    Assert.assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
+    assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
   }
 
   @Test
@@ -181,7 +181,7 @@ public class AbstractServerTestTest
 
     test.s( TransactionSynchronizationRegistry.class ).putResource( "key", "value" );
     test.resetTransactionSynchronizationRegistry();
-    Assert.assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
+    assertNull( test.s( TransactionSynchronizationRegistry.class ).getResource( "key" ) );
 
     test.postTest();
     verify( test._dbCleaner, never() ).finish();
