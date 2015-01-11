@@ -8,7 +8,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
-import javax.transaction.UserTransaction;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,8 +46,6 @@ public class PersistenceTestModuleTest
       Guice.createInjector( new TestPersistenceTestModule(), new JEETestingModule() );
 
     assertNotNull( injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) ) );
-
-    assertTrue( injector.getInstance( UserTransaction.class ) instanceof TestUserTransaction );
 
     final DbCleaner cleaner = injector.getInstance( Key.get( DbCleaner.class, Names.named( "TestUnit" ) ) );
     assertNotNull( cleaner );
