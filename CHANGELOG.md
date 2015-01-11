@@ -1,4 +1,6 @@
 ## 0.55 (Pending):
+* Remove AbstractPersistenceTestModule.registerTransactionSynchronizationRegistry() as this is unused
+  since equivalent functionality became part of the ServerTestModule class.
 
 ## 0.54:
 * Add simplified constructor to FlushingTestModule that defaults to flushing at start of interception.

@@ -6,7 +6,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
-import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -47,10 +46,6 @@ public class PersistenceTestModuleTest
 
     assertNotNull( injector.getInstance( EntityManager.class ) );
 
-    final TransactionSynchronizationRegistry registry =
-      injector.getInstance( TransactionSynchronizationRegistry.class );
-    assertTrue( registry instanceof TestTransactionSynchronizationRegistry );
-
     assertTrue( injector.getInstance( UserTransaction.class ) instanceof TestUserTransaction );
 
     final DbCleaner cleaner = injector.getInstance( DbCleaner.class );
@@ -80,7 +75,6 @@ public class PersistenceTestModuleTest
       collectTableName( tables, TestEntity1.class );
       collectTableName( tables, TestEntity2.class );
       requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
-      registerTransactionSynchronizationRegistry();
       registerUserTransaction();
     }
 

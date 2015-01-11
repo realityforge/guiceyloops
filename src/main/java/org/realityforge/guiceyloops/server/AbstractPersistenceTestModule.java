@@ -1,7 +1,5 @@
 package org.realityforge.guiceyloops.server;
 
-import javax.inject.Singleton;
-import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.shared.AbstractModule;
 
 public abstract class AbstractPersistenceTestModule
@@ -9,20 +7,6 @@ public abstract class AbstractPersistenceTestModule
 {
   protected void configure()
   {
-  }
-
-  protected void registerTransactionSynchronizationRegistry()
-  {
-    try
-    {
-      bind( TransactionSynchronizationRegistry.class ).
-        to( TestTransactionSynchronizationRegistry.class ).
-        in( Singleton.class );
-    }
-    catch ( final Throwable e )
-    {
-      //Ignored. Probably as the classes the transaction extensions are not on the classpath
-    }
   }
 
   /**

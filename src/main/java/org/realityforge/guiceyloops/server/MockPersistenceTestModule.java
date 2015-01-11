@@ -9,17 +9,14 @@ public class MockPersistenceTestModule
   private final boolean _bindWithoutName;
   private final String _persistenceUnit;
   private final boolean _registerUserTransaction;
-  private final boolean _registerTransactionSynchronizationRegistry;
 
   public MockPersistenceTestModule( final String persistenceUnit,
                                     final boolean bindWithoutName,
-                                    final boolean registerUserTransaction,
-                                    final boolean registerTransactionSynchronizationRegistry )
+                                    final boolean registerUserTransaction )
   {
     _bindWithoutName = bindWithoutName;
     _persistenceUnit = persistenceUnit;
     _registerUserTransaction = registerUserTransaction;
-    _registerTransactionSynchronizationRegistry = registerTransactionSynchronizationRegistry;
   }
 
   @Override
@@ -37,10 +34,6 @@ public class MockPersistenceTestModule
     if ( _registerUserTransaction )
     {
       registerUserTransaction();
-    }
-    if ( _registerTransactionSynchronizationRegistry )
-    {
-      registerTransactionSynchronizationRegistry();
     }
   }
 
