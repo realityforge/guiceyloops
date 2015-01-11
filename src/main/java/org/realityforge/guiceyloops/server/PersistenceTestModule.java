@@ -15,18 +15,21 @@ public abstract class PersistenceTestModule
   extends AbstractModule
 {
   private final String _persistenceUnitName;
+  private final String[] _tablesToClean;
   private final String _databasePrefix;
   private EntityManager _entityManager;
 
-  public PersistenceTestModule( @Nonnull final String persistenceUnitName )
+  public PersistenceTestModule( @Nonnull final String persistenceUnitName, @Nonnull final String[] tablesToClean )
   {
-    this( persistenceUnitName, null );
+    this( persistenceUnitName, tablesToClean, null );
   }
 
   public PersistenceTestModule( @Nonnull final String persistenceUnitName,
+                                @Nonnull final String[] tablesToClean,
                                 @Nullable final String databasePrefix )
   {
     _persistenceUnitName = persistenceUnitName;
+    _tablesToClean = tablesToClean;
     _databasePrefix = databasePrefix;
   }
 
@@ -52,19 +55,11 @@ public abstract class PersistenceTestModule
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
     bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
     requestInjectionForAllEntityListeners();
-    final String[] tables = getTablesToClean();
-    if ( 0 != tables.length )
+    if ( 0 != _tablesToClean.length )
     {
-      requestCleaningOfTables( tables );
+      requestCleaningOfTables( _tablesToClean );
     }
   }
-
-  /**
-   * Return the list of tables to clean. Return an empty array to skip
-   * registering the DbCleaner for EntityManager.
-   */
-  @Nonnull
-  protected abstract String[] getTablesToClean();
 
   private void requestCleaningOfTables( @Nonnull final String[] tables )
   {

@@ -84,19 +84,9 @@ public class PersistenceTestModuleTest
   static class TestPersistenceTestModule
     extends PersistenceTestModule
   {
-    private final String[] _tables;
-
     TestPersistenceTestModule( @Nonnull final String[] tables )
     {
-      super( "TestUnit" );
-      _tables = tables;
-    }
-
-    @Nonnull
-    @Override
-    protected String[] getTablesToClean()
-    {
-      return _tables;
+      super( "TestUnit", tables );
     }
   }
 }
