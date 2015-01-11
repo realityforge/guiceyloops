@@ -1,12 +1,13 @@
 package org.realityforge.guiceyloops.server;
 
+import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -42,8 +43,9 @@ public class PersistenceTestModuleTest
   public void basicOperation()
     throws Throwable
   {
-    final Injector injector =
-      Guice.createInjector( new TestPersistenceTestModule(), new JEETestingModule() );
+    final TestPersistenceTestModule module =
+      new TestPersistenceTestModule( new String[]{ "Test.tblTestEntity1", "Test.tblTestEntity2" } );
+    final Injector injector = Guice.createInjector( module, new JEETestingModule() );
 
     assertNotNull( injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) ) );
 
@@ -58,22 +60,43 @@ public class PersistenceTestModuleTest
     assertEquals( tableNames[ 1 ], "Test.tblTestEntity2" );
   }
 
+  @Test
+  public void noTablesToClean()
+    throws Throwable
+  {
+    final TestPersistenceTestModule module =
+      new TestPersistenceTestModule( new String[ 0 ] );
+    final Injector injector = Guice.createInjector( module, new JEETestingModule() );
+
+    assertNotNull( injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) ) );
+
+    try
+    {
+      injector.getInstance( Key.get( DbCleaner.class, Names.named( "TestUnit" ) ) );
+      fail( "Incorrectly acquired DbCleaner" );
+    }
+    catch ( final ConfigurationException ce )
+    {
+      assertTrue( true );
+    }
+  }
+
   static class TestPersistenceTestModule
     extends PersistenceTestModule
   {
-    TestPersistenceTestModule()
+    private final String[] _tables;
+
+    TestPersistenceTestModule( @Nonnull final String[] tables )
     {
       super( "TestUnit" );
+      _tables = tables;
     }
 
+    @Nonnull
     @Override
-    protected void configure()
+    protected String[] getTablesToClean()
     {
-      super.configure();
-      final ArrayList<String> tables = new ArrayList<String>();
-      tables.add( "Test.tblTestEntity1" );
-      tables.add( "Test.tblTestEntity2" );
-      requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
+      return _tables;
     }
   }
 }

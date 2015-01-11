@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
+import java.util.List;
 import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,9 +45,21 @@ public abstract class PersistenceTestModule
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
     bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
     requestInjectionForAllEntityListeners();
+    final String[] tables = getTablesToClean();
+    if ( 0 != tables.length )
+    {
+      requestCleaningOfTables( tables );
+    }
   }
 
-  protected final void requestCleaningOfTables( @Nonnull final String[] tables )
+  /**
+   * Return the list of tables to clean. Return an empty array to skip
+   * registering the DbCleaner for EntityManager.
+   */
+  @Nonnull
+  protected abstract String[] getTablesToClean();
+
+  private void requestCleaningOfTables( @Nonnull final String[] tables )
   {
     bind( DbCleaner.class ).
       annotatedWith( Names.named( _persistenceUnitName ) ).

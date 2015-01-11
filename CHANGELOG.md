@@ -1,5 +1,7 @@
 ## 0.55 (Pending):
 * Remove PersistenceTestModule.registerUserTransaction() as it is unused.
+* Add abstract PersistenceTestModule.getTablesToClean() to simplify the mechanisms via which tables
+  that need cleaning are identified.
 * Remove support for deriving the tables to clean in PersistenceTestModule from @Table annotations as
   domgen now explicitly lists all the tables to clean.
 * Always inject EntityListeners in PersistenceTestModule as no longer need to support EE6 and make
