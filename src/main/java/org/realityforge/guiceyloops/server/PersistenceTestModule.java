@@ -17,12 +17,12 @@ import org.realityforge.guiceyloops.shared.AbstractModule;
 public abstract class PersistenceTestModule
   extends AbstractModule
 {
-  private final boolean _singleEntityManagerProject;
+  private final String _persistenceUnitName;
   private EntityManager _entityManager;
 
-  protected PersistenceTestModule( final boolean singleEntityManagerProject )
+  public PersistenceTestModule( @Nonnull final String persistenceUnitName )
   {
-    _singleEntityManagerProject = singleEntityManagerProject;
+    _persistenceUnitName = persistenceUnitName;
   }
 
   protected final EntityManager getEntityManager()
@@ -44,8 +44,8 @@ public abstract class PersistenceTestModule
    */
   protected void configure()
   {
-    _entityManager = DatabaseUtil.createEntityManager( getPersistenceUnitName(), getDatabasePrefix() );
-    bindResource( EntityManager.class, getPersistenceUnitName(), _entityManager );
+    _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
+    bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
     if ( shouldInjectEntityListeners() )
     {
       requestInjectionForAllEntityListeners();
@@ -58,16 +58,6 @@ public abstract class PersistenceTestModule
   protected boolean shouldInjectEntityListeners()
   {
     return true;
-  }
-
-  /**
-   * Return true if there is a single "primary" EntityManager. This is the EntityManager that
-   * the application reads/writes two and thus the one that DbCleaner must clean. If the application
-   * reads and writes to multiple EntityManagers then this
-   */
-  protected final boolean isSingleEntityManagerProject()
-  {
-    return _singleEntityManagerProject;
   }
 
   protected void registerUserTransaction()
@@ -87,23 +77,10 @@ public abstract class PersistenceTestModule
 
   protected final void requestCleaningOfTables( @Nonnull final String[] tables )
   {
-    if ( isSingleEntityManagerProject() )
-    {
-      bind( EntityManager.class ).toInstance( getEntityManager() );
-      bind( DbCleaner.class ).toInstance( new DbCleaner( tables, getEntityManager() ) );
-    }
-    else
-    {
-      bind( DbCleaner.class ).
-        annotatedWith( Names.named( getPersistenceUnitName() ) ).
-        toInstance( new DbCleaner( tables, getEntityManager() ) );
-    }
+    bind( DbCleaner.class ).
+      annotatedWith( Names.named( _persistenceUnitName ) ).
+      toInstance( new DbCleaner( tables, getEntityManager() ) );
   }
-
-  /**
-   * @return the name of the persistence unit under test.
-   */
-  protected abstract String getPersistenceUnitName();
 
   /**
    * Request injection for entity listeners on all entities in persistence unit.

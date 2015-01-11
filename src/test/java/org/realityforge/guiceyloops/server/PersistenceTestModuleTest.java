@@ -2,6 +2,8 @@ package org.realityforge.guiceyloops.server;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -44,11 +46,11 @@ public class PersistenceTestModuleTest
     final Injector injector =
       Guice.createInjector( new TestPersistenceTestModule(), new JEETestingModule() );
 
-    assertNotNull( injector.getInstance( EntityManager.class ) );
+    assertNotNull( injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) ) );
 
     assertTrue( injector.getInstance( UserTransaction.class ) instanceof TestUserTransaction );
 
-    final DbCleaner cleaner = injector.getInstance( DbCleaner.class );
+    final DbCleaner cleaner = injector.getInstance( Key.get( DbCleaner.class, Names.named( "TestUnit" ) ) );
     assertNotNull( cleaner );
 
     final Field field = cleaner.getClass().getDeclaredField( "_tableNames" );
@@ -64,7 +66,7 @@ public class PersistenceTestModuleTest
   {
     TestPersistenceTestModule()
     {
-      super( true );
+      super( "TestUnit" );
     }
 
     @Override
@@ -76,12 +78,6 @@ public class PersistenceTestModuleTest
       collectTableName( tables, TestEntity2.class );
       requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
       registerUserTransaction();
-    }
-
-    @Override
-    protected String getPersistenceUnitName()
-    {
-      return "TestUnit";
     }
   }
 }
