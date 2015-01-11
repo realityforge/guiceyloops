@@ -1,14 +1,16 @@
 package org.realityforge.guiceyloops.server;
 
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import org.realityforge.guiceyloops.shared.AbstractModule;
 
 public class MockPersistenceTestModule
   extends AbstractModule
 {
+  @Nonnull
   private final String _persistenceUnit;
 
-  public MockPersistenceTestModule( final String persistenceUnit )
+  public MockPersistenceTestModule( @Nonnull final String persistenceUnit )
   {
     _persistenceUnit = persistenceUnit;
   }
@@ -16,9 +18,6 @@ public class MockPersistenceTestModule
   @Override
   protected void configure()
   {
-    if ( null != _persistenceUnit )
-    {
-      bindMock( EntityManager.class, _persistenceUnit );
-    }
+    bindMock( EntityManager.class, _persistenceUnit );
   }
 }

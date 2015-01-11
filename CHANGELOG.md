@@ -1,4 +1,5 @@
 ## 0.55 (Pending):
+* Require a non-null persistence unit name be passed into MockPersistenceTestModule.
 * Remove AbstractPersistenceTestModule as no longer providing functionality to any sub-class.
 * Remove ability of MockPersistenceTestModule to bind EntityManager without a name.
 * Remove MockPersistenceTestModule.registerUserTransaction() as this is unused in any sub-class.
