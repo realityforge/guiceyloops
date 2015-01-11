@@ -12,9 +12,10 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.descriptors.DescriptorEventManager;
 import org.eclipse.persistence.internal.jpa.metadata.listeners.EntityListener;
 import org.eclipse.persistence.sessions.Session;
+import org.realityforge.guiceyloops.shared.AbstractModule;
 
 public abstract class PersistenceTestModule
-  extends AbstractPersistenceTestModule
+  extends AbstractModule
 {
   private final boolean _singleEntityManagerProject;
   private EntityManager _entityManager;
@@ -98,6 +99,11 @@ public abstract class PersistenceTestModule
         toInstance( new DbCleaner( tables, getEntityManager() ) );
     }
   }
+
+  /**
+   * @return the name of the persistence unit under test.
+   */
+  protected abstract String getPersistenceUnitName();
 
   /**
    * Request injection for entity listeners on all entities in persistence unit.

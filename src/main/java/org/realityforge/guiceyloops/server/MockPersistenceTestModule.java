@@ -1,9 +1,10 @@
 package org.realityforge.guiceyloops.server;
 
 import javax.persistence.EntityManager;
+import org.realityforge.guiceyloops.shared.AbstractModule;
 
 public class MockPersistenceTestModule
-  extends AbstractPersistenceTestModule
+  extends AbstractModule
 {
   private final boolean _bindWithoutName;
   private final String _persistenceUnit;
@@ -17,7 +18,6 @@ public class MockPersistenceTestModule
   @Override
   protected void configure()
   {
-    super.configure();
     if ( _bindWithoutName )
     {
       bindMock( EntityManager.class );
@@ -26,11 +26,5 @@ public class MockPersistenceTestModule
     {
       bindMock( EntityManager.class, _persistenceUnit );
     }
-  }
-
-  @Override
-  protected String getPersistenceUnitName()
-  {
-    return _persistenceUnit;
   }
 }
