@@ -22,6 +22,23 @@ public abstract class FlushingTestModule
     _interceptor = new FlushingInterceptor( flushAtStart, flushable );
   }
 
+  protected final void bindService( final String interfaceName, final String implementationName )
+  {
+    try
+    {
+      final Class interfaceClass = Class.forName( interfaceName );
+      final Class implClass = Class.forName( implementationName );
+      bindService( interfaceClass, implClass );
+    }
+    catch ( final ClassNotFoundException e )
+    {
+      final String message =
+        "Error attempting to define service with interface: " + interfaceName +
+        " and implementation " + implementationName;
+      throw new IllegalStateException( message, e );
+    }
+  }
+
   protected final <T> void bindService( final Class<T> service,
                                         final Class<? extends T> implementation )
   {

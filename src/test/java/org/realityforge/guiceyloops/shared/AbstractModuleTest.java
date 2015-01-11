@@ -131,6 +131,7 @@ public class AbstractModuleTest
     {
       bindMock( EntityManager.class );
       bindService( Service1.class, Component1.class );
+      bindService( Service2.class.getName(), Component2.class.getName() );
     }
   }
 
@@ -150,5 +151,9 @@ public class AbstractModuleTest
     instance.foo();
     verify( flushable, times( 2 ) ).flush();
     assertEquals( component1._count, 1 );
+
+    final Service2 instance2 = injector.getInstance( Service2.class );
+    final Component2 component2 = InjectUtil.toObject( Component2.class, instance2 );
+    assertNotNull( component2 );
   }
 }
