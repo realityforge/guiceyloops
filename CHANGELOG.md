@@ -1,4 +1,5 @@
 ## 0.55 (Pending):
+* Rework PersistenceTestModule constructor to pass databasePrefix as an optional parameter.
 * Remove PersistenceTestModule.registerUserTransaction() as it is unused.
 * Add abstract PersistenceTestModule.getTablesToClean() to simplify the mechanisms via which tables
   that need cleaning are identified.

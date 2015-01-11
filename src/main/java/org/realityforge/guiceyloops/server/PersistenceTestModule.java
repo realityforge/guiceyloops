@@ -1,7 +1,6 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
-import java.util.List;
 import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,11 +15,19 @@ public abstract class PersistenceTestModule
   extends AbstractModule
 {
   private final String _persistenceUnitName;
+  private final String _databasePrefix;
   private EntityManager _entityManager;
 
   public PersistenceTestModule( @Nonnull final String persistenceUnitName )
   {
+    this( persistenceUnitName, null );
+  }
+
+  public PersistenceTestModule( @Nonnull final String persistenceUnitName,
+                                @Nullable final String databasePrefix )
+  {
     _persistenceUnitName = persistenceUnitName;
+    _databasePrefix = databasePrefix;
   }
 
   protected final EntityManager getEntityManager()
@@ -32,15 +39,15 @@ public abstract class PersistenceTestModule
    * @return the prefix used to lookup database properties.
    */
   @Nullable
-  protected String getDatabasePrefix()
+  protected final String getDatabasePrefix()
   {
-    return null;
+    return _databasePrefix;
   }
 
   /**
    * Override this to further customize the persistence elements.
    */
-  protected void configure()
+  protected final void configure()
   {
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
     bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
