@@ -6,7 +6,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import javax.persistence.EntityManager;
-import javax.transaction.UserTransaction;
 import org.mockito.cglib.proxy.Factory;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -18,13 +17,12 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", false, true ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", false ), new JEETestingModule() );
 
     final EntityManager entityManager =
       injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
     assertMockEntityManager( entityManager );
 
-    assertTrue( injector.getInstance( UserTransaction.class ) instanceof Factory );
     assertNoDbCleaner( injector );
   }
 
@@ -33,7 +31,7 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", true, true ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", true ), new JEETestingModule() );
 
     final EntityManager entityManager = injector.getInstance( EntityManager.class );
 
@@ -46,7 +44,7 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( null, true, true ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( null, true ), new JEETestingModule() );
 
     assertMockEntityManager( injector.getInstance( EntityManager.class ) );
     assertNoDbCleaner( injector );

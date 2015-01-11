@@ -1,4 +1,5 @@
 ## 0.55 (Pending):
+* Remove MockPersistenceTestModule.registerUserTransaction() as this is unused in any sub-class.
 * Remove AbstractPersistenceTestModule.registerTransactionSynchronizationRegistry() as this is unused
   since equivalent functionality became part of the ServerTestModule class.
 
