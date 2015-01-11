@@ -1,4 +1,5 @@
 ## 0.55 (Pending):
+* Always inject EntityListeners in PersistenceTestModule as no longer need to support EE6.
 * Make the persistence unit name mandatory in PersistenceTestModule and pass it in through the constructor.
 * Require a non-null persistence unit name be passed into MockPersistenceTestModule.
 * Remove AbstractPersistenceTestModule as no longer providing functionality to any sub-class.

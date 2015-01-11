@@ -46,18 +46,7 @@ public abstract class PersistenceTestModule
   {
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
     bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
-    if ( shouldInjectEntityListeners() )
-    {
-      requestInjectionForAllEntityListeners();
-    }
-  }
-
-  /**
-   * @return true if entity listeners for all entities should be injected.
-   */
-  protected boolean shouldInjectEntityListeners()
-  {
-    return true;
+    requestInjectionForAllEntityListeners();
   }
 
   protected void registerUserTransaction()
