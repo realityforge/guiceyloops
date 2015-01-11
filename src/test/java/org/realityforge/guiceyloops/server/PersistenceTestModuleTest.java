@@ -77,7 +77,6 @@ public class PersistenceTestModuleTest
       tables.add( "Test.tblTestEntity1" );
       tables.add( "Test.tblTestEntity2" );
       requestCleaningOfTables( tables.toArray( new String[ tables.size() ] ) );
-      registerUserTransaction();
     }
   }
 }

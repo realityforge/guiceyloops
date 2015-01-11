@@ -5,7 +5,6 @@ import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
-import javax.transaction.UserTransaction;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.descriptors.DescriptorEventManager;
 import org.eclipse.persistence.internal.jpa.metadata.listeners.EntityListener;
@@ -45,11 +44,6 @@ public abstract class PersistenceTestModule
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
     bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
     requestInjectionForAllEntityListeners();
-  }
-
-  protected void registerUserTransaction()
-  {
-    bind( UserTransaction.class ).toInstance( new TestUserTransaction( _entityManager ) );
   }
 
   protected final void requestCleaningOfTables( @Nonnull final String[] tables )
