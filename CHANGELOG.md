@@ -2,7 +2,8 @@
 * Remove PersistenceTestModule.registerUserTransaction() as it is unused.
 * Remove support for deriving the tables to clean in PersistenceTestModule from @Table annotations as
   domgen now explicitly lists all the tables to clean.
-* Always inject EntityListeners in PersistenceTestModule as no longer need to support EE6.
+* Always inject EntityListeners in PersistenceTestModule as no longer need to support EE6 and make
+  requestInjectionForAllEntityListeners() method private.
 * Make the persistence unit name mandatory in PersistenceTestModule and pass it in through the constructor.
 * Require a non-null persistence unit name be passed into MockPersistenceTestModule.
 * Remove AbstractPersistenceTestModule as no longer providing functionality to any sub-class.

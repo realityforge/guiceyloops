@@ -56,7 +56,7 @@ public abstract class PersistenceTestModule
   /**
    * Request injection for entity listeners on all entities in persistence unit.
    */
-  protected final void requestInjectionForAllEntityListeners()
+  private void requestInjectionForAllEntityListeners()
   {
     final Session session = _entityManager.unwrap( Session.class );
     for ( final ClassDescriptor descriptor : session.getDescriptors().values() )
