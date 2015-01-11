@@ -1,5 +1,6 @@
 ## 0.55 (Pending):
 * Remove AbstractPersistenceTestModule as no longer providing functionality to any sub-class.
+* Remove ability of MockPersistenceTestModule to bind EntityManager without a name.
 * Remove MockPersistenceTestModule.registerUserTransaction() as this is unused in any sub-class.
 * Remove AbstractPersistenceTestModule.registerTransactionSynchronizationRegistry() as this is unused
   since equivalent functionality became part of the ServerTestModule class.

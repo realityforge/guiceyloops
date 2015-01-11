@@ -17,47 +17,13 @@ public class MockPersistenceTestModuleTest
     throws Throwable
   {
     final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", false ), new JEETestingModule() );
+      Guice.createInjector( new MockPersistenceTestModule( "TestUnit" ), new JEETestingModule() );
 
     final EntityManager entityManager =
       injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
     assertMockEntityManager( entityManager );
 
     assertNoDbCleaner( injector );
-  }
-
-  @Test
-  public void basicOperation_withBindUnnamed()
-    throws Throwable
-  {
-    final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( "TestUnit", true ), new JEETestingModule() );
-
-    final EntityManager entityManager = injector.getInstance( EntityManager.class );
-
-    assertMockEntityManager( entityManager );
-    assertNoDbCleaner( injector );
-  }
-
-  @Test
-  public void basicOperation_withNullPersistenceUnitName()
-    throws Throwable
-  {
-    final Injector injector =
-      Guice.createInjector( new MockPersistenceTestModule( null, true ), new JEETestingModule() );
-
-    assertMockEntityManager( injector.getInstance( EntityManager.class ) );
-    assertNoDbCleaner( injector );
-
-    try
-    {
-      injector.getInstance( Key.get( EntityManager.class, Names.named( "TestUnit" ) ) );
-      fail("Unexpected got named persistence unit");
-    }
-    catch ( final ConfigurationException ce )
-    {
-      //Expected
-    }
   }
 
   private void assertMockEntityManager( final EntityManager entityManager )
