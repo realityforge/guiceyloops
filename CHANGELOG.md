@@ -1,4 +1,4 @@
-## 0.55 (Pending):
+## 0.55:
 * Rework PersistenceTestModule constructor to pass databasePrefix as an optional parameter.
 * Remove PersistenceTestModule.registerUserTransaction() as it is unused.
 * Pass the tables to clean as a parameter to the constructor.
