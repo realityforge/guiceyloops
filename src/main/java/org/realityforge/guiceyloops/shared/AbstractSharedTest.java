@@ -60,10 +60,7 @@ public abstract class AbstractSharedTest
 
   /**
    * Return the module used if no per-test module defined.
-   *
-   * @deprecated Avoid using method and instead override getModules() to add EntityModule(s).
    */
-  @Deprecated
   protected Module getDefaultTestModule()
   {
     return null;

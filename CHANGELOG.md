@@ -1,7 +1,6 @@
 ## 0.56 (Pending):
 * Implement AbstractServerTest.getEntityModule() and make return null so that subclasses need not implement.
-* Deprecate AbstractServerTest.getEntityModule() and AbstractServerTest.getDefaultTestModule() and suggest
-  overriding getModules() instead.
+* Deprecate AbstractServerTest.getEntityModule() and suggest overriding getModules() instead.
 
 ## 0.55:
 * Add FlushingTestModule.bindService() method that takes classnames.
