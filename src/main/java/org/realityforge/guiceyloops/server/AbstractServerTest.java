@@ -302,7 +302,13 @@ public abstract class AbstractServerTest
     return null;
   }
 
-  protected abstract Module getEntityModule();
+  /**
+   * Return the module used to provide entity support.
+   */
+  protected Module getEntityModule()
+  {
+    return null;
+  }
 
   protected Module getTestModule()
   {

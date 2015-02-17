@@ -1,4 +1,5 @@
 ## 0.56 (Pending):
+* Implement AbstractServerTest.getEntityModule() and make return null so that subclasses need not implement.
 
 ## 0.55:
 * Add FlushingTestModule.bindService() method that takes classnames.
