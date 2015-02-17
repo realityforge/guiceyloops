@@ -304,7 +304,10 @@ public abstract class AbstractServerTest
 
   /**
    * Return the module used to provide entity support.
+   *
+   * @deprecated Avoid using method and instead override getModules() to add EntityModule(s).
    */
+  @Deprecated
   protected Module getEntityModule()
   {
     return null;
