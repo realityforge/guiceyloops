@@ -28,7 +28,7 @@ import javax.persistence.Persistence;
  * <tr>
  * <td>javax.persistence.jdbc.driver</td>
  * <td>test.db.driver</td>
- * <td>net.sourceforge.jtds.jdbc.Driver</td>
+ * <td></td>
  * </tr>
  * <tr>
  * <td>javax.persistence.jdbc.user</td>
@@ -50,8 +50,7 @@ public final class DatabaseUtil
   static final String PASSWORD_KEY = "javax.persistence.jdbc.password";
 
   static final String DB_DRIVER_SYS_PROPERTY = "test.db.driver";
-  static final String MSSQL_DRIVER = "net.sourceforge.jtds.jdbc.Driver";
-  static final String DEFAULT_DRIVER = MSSQL_DRIVER;
+  static final String DEFAULT_DRIVER = "DATABASE_DRIVER_UNSET";
 
   static final String DB_URL_SYS_PROPERTY = "test.db.url";
   static final String DEFAULT_URL = "DATABASE_URL_UNSET";

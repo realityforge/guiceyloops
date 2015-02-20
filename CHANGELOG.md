@@ -1,4 +1,5 @@
 ## 0.56 (Pending):
+* Remove default database driver, from DatabaseUtil and force users to specify driver.
 * Implement AbstractServerTest.getEntityModule() and make return null so that subclasses need not implement.
 * Deprecate AbstractServerTest.getEntityModule() and suggest overriding getModules() instead.
 

@@ -27,7 +27,7 @@ public final class DatabaseUtilTest
   public void initDatabaseProperties_default()
     throws Exception
   {
-    assertPersistenceUnitProperties( null, DatabaseUtil.MSSQL_DRIVER, "DATABASE_URL_UNSET", null, null );
+    assertPersistenceUnitProperties( null, "DATABASE_DRIVER_UNSET", "DATABASE_URL_UNSET", null, null );
   }
 
   @Test
