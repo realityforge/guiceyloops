@@ -201,7 +201,20 @@ public final class GlassFishContainerUtil
     }
     else
     {
-      return System.getenv( "HOME" ) + File.separator + ".m2" + File.separator + "repository";
+      if ( null != System.getenv( "HOME" ) )
+      {
+        return System.getenv( "HOME" ) + File.separator + ".m2" + File.separator + "repository";
+      }
+      else
+      {
+        return System.getenv( "HOMEDRIVE" ) +
+               File.separator +
+               System.getenv( "HOMEPATH" ) +
+               File.separator +
+               ".m2" +
+               File.separator +
+               "repository";
+      }
     }
   }
 }

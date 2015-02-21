@@ -61,6 +61,7 @@ public final class DatabaseUtil
   static final String DB_PASSWORD_SYS_PROPERTY = "test.db.password";
   static final String DEFAULT_PASSWORD = null;
   public static final String JTDS_SQL_SERVER_JDBC_URL_PREFIX = "jdbc:jtds:sqlserver://";
+  public static final String POSTGRES_SERVER_JDBC_URL_PREFIX = "jdbc:postgresql://";
 
   private DatabaseUtil()
   {
@@ -124,6 +125,10 @@ public final class DatabaseUtil
     {
       parseSqlServerURL( gfProperties, jdbcUrl );
     }
+    else if ( jdbcUrl.startsWith( POSTGRES_SERVER_JDBC_URL_PREFIX ) )
+    {
+      parsePostgresURL( gfProperties, jdbcUrl );
+    }
     else
     {
       throw new IllegalArgumentException( "Can not yet parse jdbc url of the form: " + jdbcUrl );
@@ -156,6 +161,44 @@ public final class DatabaseUtil
     }
 
     final int prefixEnd = JTDS_SQL_SERVER_JDBC_URL_PREFIX.length();
+    final int hostEnd = jdbcUrl.indexOf( "/", prefixEnd );
+
+    final String databaseName =
+      jdbcUrl.substring( hostEnd + 1, ( -1 == paramSeparator ? jdbcUrl.length() : paramSeparator ) );
+    setProperty( gfProperties, "DatabaseName", databaseName );
+
+    final int portStart = jdbcUrl.indexOf( ":", prefixEnd );
+    if ( -1 != portStart && portStart < hostEnd )
+    {
+      final String portString = jdbcUrl.substring( portStart + 1, hostEnd );
+      setProperty( gfProperties, "PortNumber", portString );
+    }
+
+    final String serverName = jdbcUrl.substring( prefixEnd, ( -1 == portStart ? hostEnd : portStart ) );
+    setProperty( gfProperties, "ServerName", serverName );
+  }
+
+  private static void parsePostgresURL( final Properties gfProperties, final String jdbcUrl )
+  {
+    final int paramSeparator = jdbcUrl.indexOf( "?" );
+    if ( -1 != paramSeparator )
+    {
+      final String[] params = jdbcUrl.substring( paramSeparator + 1 ).split( "&" );
+      for ( final String param : params )
+      {
+        final String[] components = param.split( "=" );
+        if ( "user".equals( components[ 0 ] ) )
+        {
+          setProperty( gfProperties, "User", components[ 1 ] );
+        }
+        else if ( "password".equals( components[ 0 ] ) )
+        {
+          setProperty( gfProperties, "Password", components[ 1 ] );
+        }
+      }
+    }
+
+    final int prefixEnd = POSTGRES_SERVER_JDBC_URL_PREFIX.length();
     final int hostEnd = jdbcUrl.indexOf( "/", prefixEnd );
 
     final String databaseName =
