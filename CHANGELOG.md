@@ -1,4 +1,4 @@
-## 0.56 (Pending):
+## 0.56:
 * Add support for MSWindows environment vars when attempting to determine Maven repo path. Submitted by James Walker.
 * Add Support for parsing postgres urls in DatabaseUtil. Submitted by James Walker.
 * Add GlassFishContainer.createPostgresJdbcResource() helper methods. Submitted by James Walker.
