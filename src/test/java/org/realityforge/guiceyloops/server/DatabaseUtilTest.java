@@ -89,7 +89,7 @@ public final class DatabaseUtilTest
   }
 
   @Test
-  public void getGlassFishDataSourceProperties_allProperties()
+  public void getGlassFishDataSourceProperties_sqlsvr_allProperties()
     throws Exception
   {
     TestUtil.setDBProperties( null,
@@ -106,12 +106,45 @@ public final class DatabaseUtilTest
   }
 
   @Test
-  public void getGlassFishDataSourceProperties_minimal()
+  public void getGlassFishDataSourceProperties_sqlsvr_minimal()
     throws Exception
   {
     TestUtil.setDBProperties( null,
                               "",
                               "jdbc:jtds:sqlserver://example.com/SomeDB",
+                              "MyUserName",
+                              "My-Password" );
+    final Properties properties = DatabaseUtil.getGlassFishDataSourceProperties();
+    assertEquals( properties.getProperty( "ServerName" ), "example.com" );
+    assertEquals( properties.getProperty( "DatabaseName" ), "SomeDB" );
+    assertEquals( properties.getProperty( "User" ), "MyUserName" );
+    assertEquals( properties.getProperty( "Password" ), "My-Password" );
+  }
+
+  @Test
+  public void getGlassFishDataSourceProperties_pgsql_allProperties()
+    throws Exception
+  {
+    TestUtil.setDBProperties( null,
+                              "",
+                              "jdbc:postgresql://example.com:5432/SomeDB?user=MyUserName&password=My-Password",
+                              null,
+                              null );
+    final Properties properties = DatabaseUtil.getGlassFishDataSourceProperties();
+    assertEquals( properties.getProperty( "ServerName" ), "example.com" );
+    assertEquals( properties.getProperty( "DatabaseName" ), "SomeDB" );
+    assertEquals( properties.getProperty( "User" ), "MyUserName" );
+    assertEquals( properties.getProperty( "Password" ), "My-Password" );
+    assertEquals( properties.getProperty( "PortNumber" ), "5432" );
+  }
+
+  @Test
+  public void getGlassFishDataSourceProperties_pgsql_minimal()
+    throws Exception
+  {
+    TestUtil.setDBProperties( null,
+                              "",
+                              "jdbc:postgresql://example.com/SomeDB",
                               "MyUserName",
                               "My-Password" );
     final Properties properties = DatabaseUtil.getGlassFishDataSourceProperties();
