@@ -208,9 +208,7 @@ public class GlassFishContainer
   public void createPostgresJdbcResource( final String key )
     throws Exception
   {
-    final String databasePoolProperties =
-      toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() );
-    createJdbcResource( key, "org.postgresql.ds.PGSimpleDataSource", databasePoolProperties );
+    createPostgresJdbcResource( key, toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() ) );
   }
 
   public void createSqlServerJdbcResource( final String key,
@@ -223,9 +221,7 @@ public class GlassFishContainer
   public void createSqlServerJdbcResource( final String key )
     throws Exception
   {
-    final String databasePoolProperties =
-      toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() );
-    createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databasePoolProperties );
+    createSqlServerJdbcResource( key, toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() ) );
   }
 
   public String toGlassFishPropertiesString( final Properties properties )
