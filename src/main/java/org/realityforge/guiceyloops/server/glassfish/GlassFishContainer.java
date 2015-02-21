@@ -198,6 +198,21 @@ public class GlassFishContainer
     return getBaseHttpURL() + contextRoot;
   }
 
+  public void createPostgresJdbcResource( final String key,
+                                          final String databaseConnectionProperty )
+    throws Exception
+  {
+    createJdbcResource( key, "org.postgresql.ds.PGSimpleDataSource", databaseConnectionProperty );
+  }
+
+  public void createPostgresJdbcResource( final String key )
+    throws Exception
+  {
+    final String databasePoolProperties =
+      toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() );
+    createJdbcResource( key, "org.postgresql.ds.PGSimpleDataSource", databasePoolProperties );
+  }
+
   public void createSqlServerJdbcResource( final String key,
                                            final String databaseConnectionProperty )
     throws Exception
