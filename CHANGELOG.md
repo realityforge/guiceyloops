@@ -1,4 +1,7 @@
 ## 0.56 (Pending):
+* Add support for MSWindows environment vars when attempting to determine Maven repo path. Submitted by James Walker.
+* Add Support for parsing postgres urls in DatabaseUtil. Submitted by James Walker.
+* Add GlassFishContainer.createPostgresJdbcResource() helper methods. Submitted by James Walker.
 * Remove default database driver, from DatabaseUtil and force users to specify driver.
 * Implement AbstractServerTest.getEntityModule() and make return null so that subclasses need not implement.
 * Deprecate AbstractServerTest.getEntityModule() and suggest overriding getModules() instead.
