@@ -1,5 +1,5 @@
 ## 0.56:
-* Add support for MSWindows environment vars when attempting to determine Maven repo path. Submitted by James Walker.
+* Add support for Microsoft Windows environment vars when attempting to determine Maven repo path. Submitted by James Walker.
 * Add Support for parsing postgres urls in DatabaseUtil. Submitted by James Walker.
 * Add GlassFishContainer.createPostgresJdbcResource() helper methods. Submitted by James Walker.
 * Remove default database driver, from DatabaseUtil and force users to specify driver.
