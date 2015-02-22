@@ -1,3 +1,5 @@
+## 0.58 (Pending):
+
 ## 0.57:
 * Add support for specifying additional database properties in PersistenceTestModule constructor
   and DatabaseUtil.createEntityManager() method.
