@@ -1,4 +1,4 @@
-## 0.58 (Pending):
+## 0.58:
 * Ensure that the DbCleaner clears the second level EntityManager cache when it performs a clean.
 
 ## 0.57:
