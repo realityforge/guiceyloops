@@ -1,4 +1,6 @@
 ## 0.57 (Pending):
+* Add support for specifying additional database properties in PersistenceTestModule constructor
+  and DatabaseUtil.createEntityManager() method.
 
 ## 0.56:
 * Add support for Microsoft Windows environment vars when attempting to determine Maven repo path. Submitted by James Walker.

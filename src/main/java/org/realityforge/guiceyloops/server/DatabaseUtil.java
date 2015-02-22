@@ -238,7 +238,18 @@ public final class DatabaseUtil
   public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName,
                                                    @Nullable final String databasePrefix )
   {
+    return createEntityManager( persistenceUnitName, databasePrefix, null );
+  }
+
+  public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName,
+                                                   @Nullable final String databasePrefix,
+                                                   @Nullable final Properties additionalDatabaseProperties )
+  {
     final Properties properties = initPersistenceUnitProperties( databasePrefix );
+    if( null != additionalDatabaseProperties )
+    {
+      properties.putAll( additionalDatabaseProperties );
+    }
     final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
     return factory.createEntityManager();
   }

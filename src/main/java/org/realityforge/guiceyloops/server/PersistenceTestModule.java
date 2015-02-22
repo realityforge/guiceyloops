@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
+import java.util.Properties;
 import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,6 +18,7 @@ public abstract class PersistenceTestModule
   private final String _persistenceUnitName;
   private final String[] _tablesToClean;
   private final String _databasePrefix;
+  private final Properties _additionalDatabaseProperties;
   private EntityManager _entityManager;
 
   public PersistenceTestModule( @Nonnull final String persistenceUnitName, @Nonnull final String[] tablesToClean )
@@ -28,9 +30,18 @@ public abstract class PersistenceTestModule
                                 @Nonnull final String[] tablesToClean,
                                 @Nullable final String databasePrefix )
   {
+    this(persistenceUnitName, tablesToClean, databasePrefix, null );
+  }
+
+  public PersistenceTestModule( @Nonnull final String persistenceUnitName,
+                                @Nonnull final String[] tablesToClean,
+                                @Nullable final String databasePrefix,
+                                @Nullable final Properties additionalDatabaseProperties )
+  {
     _persistenceUnitName = persistenceUnitName;
     _tablesToClean = tablesToClean;
     _databasePrefix = databasePrefix;
+    _additionalDatabaseProperties = additionalDatabaseProperties;
   }
 
   protected final EntityManager getEntityManager()
@@ -52,7 +63,9 @@ public abstract class PersistenceTestModule
    */
   protected final void configure()
   {
-    _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName, getDatabasePrefix() );
+    _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName,
+                                                       getDatabasePrefix(),
+                                                       _additionalDatabaseProperties );
     bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
     requestInjectionForAllEntityListeners();
     if ( 0 != _tablesToClean.length )
