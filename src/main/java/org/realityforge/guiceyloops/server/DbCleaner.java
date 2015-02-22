@@ -85,6 +85,7 @@ public class DbCleaner
         _em.createNativeQuery( "DELETE FROM " + tableName ).executeUpdate();
       }
       _em.getTransaction().commit();
+      _em.getEntityManagerFactory().getCache().evictAll();
       _clean = true;
     }
   }

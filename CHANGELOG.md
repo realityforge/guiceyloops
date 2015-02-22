@@ -1,4 +1,5 @@
 ## 0.58 (Pending):
+* Ensure that the DbCleaner clears the second level EntityManager cache when it performs a clean.
 
 ## 0.57:
 * Add support for specifying additional database properties in PersistenceTestModule constructor
