@@ -262,21 +262,34 @@ public class GlassFishContainer
   public void createCustomResource( final String key, final String value )
     throws Exception
   {
-    LOG.info( "Creating custom resource: " + key + "=" + value );
-    execute( "create-custom-resource",
-             "--factoryclass", "org.glassfish.resources.custom.factory.PrimitivesAndStringFactory",
-             "--restype", "java.lang.String",
-             "--property", "value=" + value.replace( ":", "\\:" ),
-             key );
+    createCustomResource( "java.lang.String", key, value );
   }
 
   public void createCustomResource( final String key, final boolean value )
     throws Exception
   {
+    createCustomResource( "java.lang.Boolean", key, String.valueOf( value ) );
+  }
+
+  public void createCustomResource( final String key, final long value )
+    throws Exception
+  {
+    createCustomResource( "java.lang.Long", key, String.valueOf( value ) );
+  }
+
+  public void createCustomResource( final String key, final short value )
+    throws Exception
+  {
+    createCustomResource( "java.lang.Short", key, String.valueOf( value ) );
+  }
+
+  public void createCustomResource( final String type, final String key, final String value )
+    throws Exception
+  {
     LOG.info( "Creating custom resource: " + key + "=" + value );
     execute( "create-custom-resource",
              "--factoryclass", "org.glassfish.resources.custom.factory.PrimitivesAndStringFactory",
-             "--restype", "java.lang.Boolean",
+             "--restype", type,
              "--property", "value=" + value,
              key );
   }

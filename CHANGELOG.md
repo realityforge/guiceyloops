@@ -1,4 +1,5 @@
 ## 0.59 (Pending):
+* Add some new methods to GlassFishContainer for creating custom resources of different types.
 
 ## 0.58:
 * Ensure that the DbCleaner clears the second level EntityManager cache when it performs a clean.
