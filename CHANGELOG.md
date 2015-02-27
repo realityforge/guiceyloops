@@ -1,4 +1,4 @@
-## 0.59 (Pending):
+## 0.59:
 * Add some new methods to GlassFishContainer for creating custom resources of different types.
 
 ## 0.58:
