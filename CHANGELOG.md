@@ -1,3 +1,6 @@
+## 0.60:
+* Ensure properties are correctly encoded when creating custom resources.
+
 ## 0.59:
 * Add some new methods to GlassFishContainer for creating custom resources of different types.
 

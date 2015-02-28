@@ -290,7 +290,7 @@ public class GlassFishContainer
     execute( "create-custom-resource",
              "--factoryclass", "org.glassfish.resources.custom.factory.PrimitivesAndStringFactory",
              "--restype", type,
-             "--property", "value=" + value,
+             "--property", "value=" + value.replace( ":", "\\:" ),
              key );
   }
 
