@@ -1,3 +1,5 @@
+## 0.61 (Pending):
+
 ## 0.60:
 * Ensure properties are correctly encoded when creating custom resources.
 
