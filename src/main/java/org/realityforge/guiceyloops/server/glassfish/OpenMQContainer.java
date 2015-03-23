@@ -19,6 +19,7 @@ public final class OpenMQContainer
   private final int _port;
   private BrokerInstance _instance;
   private ConnectionFactory _connectionFactory;
+  private Properties _properties;
 
   public OpenMQContainer()
     throws Exception
@@ -34,6 +35,16 @@ public final class OpenMQContainer
   public int getPort()
   {
     return _port;
+  }
+
+  @Nonnull
+  public Properties getProperties()
+  {
+    if ( null == _properties )
+    {
+      throw new IllegalStateException( "getProperties() invoked before start()" );
+    }
+    return new Properties( _properties );
   }
 
   public Connection createConnection()
@@ -122,8 +133,8 @@ public final class OpenMQContainer
       throw new IllegalStateException( message );
     }
 
-    final Properties properties = getDefaultProperties();
-    properties.store( new FileOutputStream( new File( propertiesDir, "default.properties" ) ), "" );
+    _properties = getDefaultProperties();
+    _properties.store( new FileOutputStream( new File( propertiesDir, "default.properties" ) ), "" );
     return runtimeDir;
   }
 
