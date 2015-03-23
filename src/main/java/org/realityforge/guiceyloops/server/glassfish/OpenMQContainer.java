@@ -56,7 +56,6 @@ public final class OpenMQContainer
                               "-imqhome", runtimeDir.getAbsolutePath(),
                               "-libhome", runtimeDir.getAbsolutePath() + "/lib" };
 
-
       final BrokerInstance instance = ClientRuntime.getRuntime().createBrokerInstance();
       instance.init( instance.parseArgs( args ), null );
 
