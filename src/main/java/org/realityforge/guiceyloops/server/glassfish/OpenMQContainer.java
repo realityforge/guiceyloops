@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Properties;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 
@@ -17,6 +19,8 @@ public final class OpenMQContainer
   private static final Logger LOG = Logger.getLogger( OpenMQContainer.class.getName() );
 
   private final int _port;
+  @Nullable
+  private final Properties _propertyOverrides;
   private BrokerInstance _instance;
   private ConnectionFactory _connectionFactory;
   private Properties _properties;
@@ -29,7 +33,13 @@ public final class OpenMQContainer
 
   public OpenMQContainer( final int port )
   {
+    this( port, null );
+  }
+
+  public OpenMQContainer( final int port, @Nullable final Properties propertyOverrides )
+  {
     _port = port;
+    _propertyOverrides = propertyOverrides;
   }
 
   public int getPort()
@@ -134,6 +144,15 @@ public final class OpenMQContainer
     }
 
     _properties = getDefaultProperties();
+    if ( null != _propertyOverrides )
+    {
+      for ( final String key : _propertyOverrides.stringPropertyNames() )
+      {
+        _properties.setProperty( key, _propertyOverrides.getProperty( key ) );
+      }
+    }
+    _properties.setProperty( "imq.portmapper.port", String.valueOf( _port ) );
+
     _properties.store( new FileOutputStream( new File( propertiesDir, "default.properties" ) ), "" );
     return runtimeDir;
   }

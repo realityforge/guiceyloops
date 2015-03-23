@@ -1,6 +1,7 @@
 ## 0.61 (Pending):
 * Expose port in test MQ instance via OpenMQContainer.getPort().
 * Mark OpenMQContainer class as final.
+* Support overriding of properties in MQ instance by passing overrides into th constructor.
 * Expose complete properties for MQ instance via OpenMQContainer.getProperties().
 
 ## 0.60:
