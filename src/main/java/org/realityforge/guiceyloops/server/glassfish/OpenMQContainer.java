@@ -127,7 +127,7 @@ public final class OpenMQContainer
     return runtimeDir;
   }
 
-  protected Properties getDefaultProperties()
+  private Properties getDefaultProperties()
     throws IOException
   {
     final Properties properties = new Properties();
