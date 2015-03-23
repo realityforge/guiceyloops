@@ -31,6 +31,11 @@ public class OpenMQContainer
     _port = port;
   }
 
+  public int getPort()
+  {
+    return _port;
+  }
+
   public Connection createConnection()
     throws Exception
   {
