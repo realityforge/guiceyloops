@@ -1,5 +1,6 @@
 ## 0.61 (Pending):
 * Expose port in test MQ instance via OpenMQContainer.getPort().
+* Mark OpenMQContainer class as final.
 
 ## 0.60:
 * Ensure properties are correctly encoded when creating custom resources.

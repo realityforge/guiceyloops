@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 
-public class OpenMQContainer
+public final class OpenMQContainer
 {
   private static final Logger LOG = Logger.getLogger( OpenMQContainer.class.getName() );
 
