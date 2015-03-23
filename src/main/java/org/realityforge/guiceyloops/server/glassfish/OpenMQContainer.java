@@ -88,6 +88,7 @@ public final class OpenMQContainer
         _instance.stop();
         _instance.shutdown();
       }
+      //CHECKSTYLE OFF: EmptyBlock
       catch ( final Exception e )
       {
         // Ignored
