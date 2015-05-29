@@ -1,3 +1,5 @@
+## 0.62 (Pending):
+
 ## 0.61:
 * Support setRollbackOnly(), getRollbackOnly() and getTransactionStatus() on TestTransactionSynchronizationRegistry.
 * Move to using embedded payara rather than embedded glassfish.
