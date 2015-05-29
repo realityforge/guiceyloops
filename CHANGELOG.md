@@ -1,4 +1,5 @@
 ## 0.61 (Pending):
+* Support setRollbackOnly(), getRollbackOnly() and getTransactionStatus() on TestTransactionSynchronizationRegistry.
 * Move to using embedded payara rather than embedded glassfish.
 * Expose port in test MQ instance via OpenMQContainer.getPort().
 * Mark OpenMQContainer class as final.

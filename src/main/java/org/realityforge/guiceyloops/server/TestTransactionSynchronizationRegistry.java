@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
 import java.util.HashMap;
+import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.TransactionSynchronizationRegistry;
 
@@ -8,6 +9,8 @@ public class TestTransactionSynchronizationRegistry
   implements TransactionSynchronizationRegistry
 {
   private final HashMap<Object, Object> _resources = new HashMap<Object, Object>();
+  private boolean _rollbackOnly;
+  private Integer _transactionStatus;
 
   public Object getTransactionKey()
   {
@@ -35,21 +38,37 @@ public class TestTransactionSynchronizationRegistry
     throw new UnsupportedOperationException();
   }
 
+  public void setTransactionStatus( final int transactionStatus )
+  {
+    _transactionStatus = transactionStatus;
+  }
+
   @Override
   public int getTransactionStatus()
   {
-    throw new UnsupportedOperationException();
+    if ( null != _transactionStatus )
+    {
+      return _transactionStatus;
+    }
+    else if ( _rollbackOnly )
+    {
+      return Status.STATUS_MARKED_ROLLBACK;
+    }
+    else
+    {
+      return Status.STATUS_ACTIVE;
+    }
   }
 
   @Override
   public void setRollbackOnly()
   {
-    throw new UnsupportedOperationException();
+    _rollbackOnly = true;
   }
 
   @Override
   public boolean getRollbackOnly()
   {
-    return false;
+    return _rollbackOnly;
   }
 }
