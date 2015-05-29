@@ -1,4 +1,5 @@
 ## 0.61 (Pending):
+* Move to using embedded payara rather than embedded glassfish.
 * Expose port in test MQ instance via OpenMQContainer.getPort().
 * Mark OpenMQContainer class as final.
 * Support overriding of properties in MQ instance by passing overrides into th constructor.
