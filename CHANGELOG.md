@@ -1,3 +1,6 @@
+## 0.63:
+* Resurrect part of DerbyUtil that ensures logs are not emmitted in working directory.
+
 ## 0.62:
 * Add some utility methods to GlassFishContainer to simplify manipulation of jms, javamail and iiop resources.
 * Expose host address in OpenMQContainer via getHostAddress().

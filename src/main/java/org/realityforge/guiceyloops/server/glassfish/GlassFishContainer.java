@@ -123,6 +123,9 @@ public class GlassFishContainer
     if ( null == _glassfish )
     {
       LOG.info( "Starting GlassFish." );
+      // Set system property for derby that will result in a warning but
+      // will also mean logs are not emitted in working directory.
+      System.setProperty( "derby.stream.error.field", "X.X" );
 
       final ClassLoader loader = ClassLoader.getSystemClassLoader().getParent();
       assert null != loader;
