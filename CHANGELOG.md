@@ -1,6 +1,7 @@
 ## 0.62 (Pending):
 * Expose host address in OpenMQContainer via getHostAddress().
 * Add some nullability annotations to GlassFishContainer.
+* Remove DerbyUtil as has not worked in a long time.
 
 ## 0.61:
 * Support setRollbackOnly(), getRollbackOnly() and getTransactionStatus() on TestTransactionSynchronizationRegistry.

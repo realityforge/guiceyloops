@@ -123,7 +123,6 @@ public class GlassFishContainer
     if ( null == _glassfish )
     {
       LOG.info( "Starting GlassFish." );
-      DerbyUtil.configureNullLogger();
 
       final ClassLoader loader = ClassLoader.getSystemClassLoader().getParent();
       assert null != loader;
