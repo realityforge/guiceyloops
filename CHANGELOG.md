@@ -1,4 +1,5 @@
 ## 0.62 (Pending):
+* Expose host address in OpenMQContainer via getHostAddress().
 * Add some nullability annotations to GlassFishContainer.
 
 ## 0.61:

@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
@@ -85,7 +86,7 @@ public final class OpenMQContainer
 
       final com.sun.messaging.ConnectionFactory connectionFactory = new com.sun.messaging.ConnectionFactory();
 
-      final String address = "mq://" + InetAddress.getLocalHost().getHostAddress() + ":" + _port;
+      final String address = "mq://" + getHostAddress() + ":" + _port;
       connectionFactory.setProperty( ConnectionConfiguration.imqAddressList, address );
 
       _connectionFactory = connectionFactory;
@@ -97,6 +98,13 @@ public final class OpenMQContainer
     {
       LOG.warning( "Attempted to start already started OpenMQ instance." );
     }
+  }
+
+  @Nonnull
+  public String getHostAddress()
+    throws Exception
+  {
+    return InetAddress.getLocalHost().getHostAddress();
   }
 
   public void stop()
