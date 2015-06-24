@@ -143,7 +143,7 @@ public class GlassFishContainer
       _glassfish = runtime.getClass().
         getMethod( "newGlassFish", new Class[]{ properties.getClass() } ).invoke( runtime, properties );
       System.getProperties().remove( "java.naming.factory.initial" );
-      _glassfish.getClass().getMethod( "start" ).invoke( _glassfish );
+      doStart();
 
       // Need to set java.security.auth.login.config otherwise the embedded container will
       // fail to find the login config ... even though it creates it...
@@ -158,6 +158,19 @@ public class GlassFishContainer
     }
   }
 
+  private void doStart()
+    throws Exception
+  {
+    _glassfish.getClass().getMethod( "start" ).invoke( _glassfish );
+  }
+
+  public void restart()
+    throws Exception
+  {
+    doStop();
+    doStart();
+  }
+
   public void stop()
   {
     if ( null != _glassfish )
@@ -165,7 +178,7 @@ public class GlassFishContainer
       LOG.info( "Stopping GlassFish." );
       try
       {
-        _glassfish.getClass().getMethod( "stop" ).invoke( _glassfish );
+        doStop();
         _glassfish.getClass().getMethod( "dispose" ).invoke( _glassfish );
       }
       catch ( final Exception e )
@@ -179,6 +192,12 @@ public class GlassFishContainer
     {
       LOG.warning( "Attempted to stop already stopped GlassFish instance." );
     }
+  }
+
+  private void doStop()
+    throws Exception
+  {
+    _glassfish.getClass().getMethod( "stop" ).invoke( _glassfish );
   }
 
   @Nonnull
@@ -295,7 +314,155 @@ public class GlassFishContainer
              key );
   }
 
-  public void createUser( @Nonnull final String username, @Nonnull final String password, @Nonnull final String[] groups )
+  public void set( @Nonnull final String key, @Nonnull final String value )
+    throws Exception
+  {
+    execute( "set", key + "=" + value );
+  }
+
+  public void createLocalIiopListener( @Nonnull final String key )
+    throws Exception
+  {
+    createIiopListener( key, InetAddress.getLocalHost().getHostAddress(), GlassFishContainerUtil.getRandomPort() );
+  }
+
+  public void createIiopListener( @Nonnull final String key, @Nonnull final String hostAddress, final int port )
+    throws Exception
+  {
+    execute( "create-iiop-listener",
+             "--listeneraddress", hostAddress,
+             "--iiopport", String.valueOf( port ),
+             "--securityenabled", "false",
+             "--enabled", "true",
+             key );
+  }
+
+  public void deleteIiopListener( @Nonnull final String key )
+    throws Exception
+  {
+    execute( "delete-iiop-listener", key );
+  }
+
+  public void deleteDefaultIiopListeners()
+    throws Exception
+  {
+    deleteIiopListener( "orb-listener-1" );
+    deleteIiopListener( "SSL" );
+    deleteIiopListener( "SSL_MUTUALAUTH" );
+  }
+
+  public void deleteJmsHost( @Nonnull final String key )
+    throws Exception
+  {
+    execute( "delete-jms-host", key );
+  }
+
+  public void setDefaultJmsHost( @Nonnull final String key,
+                                 @Nonnull final OpenMQContainer container )
+    throws Exception
+  {
+    createJmsHost( key, container );
+    setAsDefaultJmsHost( key );
+    deleteDefaultJmsHost();
+  }
+
+  public void deleteDefaultJmsHost()
+    throws Exception
+  {
+    deleteJmsHost( "default_JMS_host" );
+  }
+
+  public void setAsDefaultJmsHost( @Nonnull final String key )
+    throws Exception
+  {
+    set( "configs.config.server-config.jms-service.type", "REMOTE" );
+    set( "configs.config.server-config.jms-service.default-jms-host", key );
+  }
+
+  public void createJmsHost( @Nonnull final String key,
+                             @Nonnull final OpenMQContainer container )
+    throws Exception
+  {
+    createJmsHost( key, container.getHostAddress(), container.getPort() );
+  }
+
+  public void createJmsHost( @Nonnull final String key,
+                             @Nonnull final String hostAddress,
+                             final int port )
+    throws Exception
+  {
+    createJmsHost( key, hostAddress, port, "admin", "admin" );
+  }
+
+  public void createJmsHost( @Nonnull final String key,
+                             @Nonnull final String hostAddress,
+                             final int port,
+                             @Nonnull final String adminUser,
+                             @Nonnull final String adminPassword )
+    throws Exception
+  {
+    execute( "create-jms-host",
+             "--mqhost", hostAddress,
+             "--mqport", String.valueOf( port ),
+             "--mquser", adminUser,
+             "--mqpassword", adminPassword,
+             key );
+  }
+
+  public void createJmsConnectionFactory( @Nonnull final String key,
+                                          @Nonnull final OpenMQContainer container )
+    throws Exception
+  {
+    createJmsConnectionFactory( key, container.getHostAddress(), container.getPort() );
+  }
+
+  public void createJmsConnectionFactory( @Nonnull final String key,
+                                          @Nonnull final String hostAddress,
+                                          final int port )
+    throws Exception
+  {
+    createJmsConnectionFactory( key, hostAddress, port, "admin", "admin" );
+  }
+
+  public void createJmsConnectionFactory( @Nonnull final String key,
+                                          @Nonnull final String hostAddress,
+                                          final int port,
+                                          @Nonnull final String adminUser,
+                                          @Nonnull final String adminPassword )
+    throws Exception
+  {
+    execute( "create-jms-resource",
+             "--restype", "javax.jms.ConnectionFactory",
+             "--property",
+             "UserName=" + adminUser +
+             ":Password=" + adminPassword +
+             ":AddressList=" + hostAddress + "\\:" + port,
+             key );
+  }
+
+  public void createJmsQueue( @Nonnull final String key,
+                              @Nonnull final String queue )
+    throws Exception
+  {
+    execute( "create-jms-resource", "--restype", "javax.jms.Queue", "--property", "Name=" + queue, key );
+  }
+
+  public void createJavamailResource( @Nonnull final String key,
+                                      @Nonnull final String mailhost,
+                                      @Nonnull final String mailuser,
+                                      @Nonnull final String fromaddress )
+    throws Exception
+  {
+    execute( "create-javamail-resource",
+             "--mailhost", mailhost,
+             "--mailuser", mailuser,
+             "--fromaddress", fromaddress,
+             key );
+  }
+
+  public void createUser( @Nonnull final String username,
+                          @Nonnull final String password,
+                          @Nonnull final String[] groups )
     throws Exception
   {
     LOG.info( "Creating user: " + username );

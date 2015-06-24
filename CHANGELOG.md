@@ -1,4 +1,5 @@
 ## 0.62 (Pending):
+* Add some utility methods to GlassFishContainer to simplify manipulation of jms, javamail and iiop resources.
 * Expose host address in OpenMQContainer via getHostAddress().
 * Add some nullability annotations to GlassFishContainer.
 * Remove DerbyUtil as has not worked in a long time.
