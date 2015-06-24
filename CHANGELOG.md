@@ -1,4 +1,4 @@
-## 0.62 (Pending):
+## 0.62:
 * Add some utility methods to GlassFishContainer to simplify manipulation of jms, javamail and iiop resources.
 * Expose host address in OpenMQContainer via getHostAddress().
 * Add some nullability annotations to GlassFishContainer.
