@@ -49,7 +49,7 @@ public class GlassFishContainer
     this( port, GlassFishContainerUtil.getEmbeddedGlassFishClasspath( version ) );
   }
 
-  public GlassFishContainer( final int port, final URL[] classpath )
+  public GlassFishContainer( final int port, @Nonnull final URL[] classpath )
   {
     _port = port;
     _glassfishClasspath = new ArrayList<URL>();
@@ -66,7 +66,7 @@ public class GlassFishContainer
    *
    * @param spec the dependency spec.
    */
-  public void addSpecToClasspath( final String spec )
+  public void addSpecToClasspath( @Nonnull final String spec )
   {
     final File file = GlassFishContainerUtil.specToFile( GlassFishContainerUtil.getMavenRepository(), spec );
     if ( !file.exists() )
@@ -78,7 +78,7 @@ public class GlassFishContainer
     addToClasspath( file );
   }
 
-  public void addToClasspath( final File file )
+  public void addToClasspath( @Nonnull final File file )
   {
     if ( !file.exists() )
     {
@@ -95,7 +95,7 @@ public class GlassFishContainer
     }
   }
 
-  public void addToClasspath( final URL url )
+  public void addToClasspath( @Nonnull final URL url )
   {
     if ( null != _glassfish )
     {
@@ -109,6 +109,7 @@ public class GlassFishContainer
     return _port;
   }
 
+  @Nonnull
   public String getBaseHttpURL()
     throws Exception
   {
@@ -181,7 +182,8 @@ public class GlassFishContainer
     }
   }
 
-  public String deploy( final String contextRoot, final String appName, final File warFile )
+  @Nonnull
+  public String deploy( @Nonnull final String contextRoot, @Nonnull final String appName, @Nonnull final File warFile )
     throws Exception
   {
     LOG.info( "Deploying war: " + warFile.getAbsolutePath() + " to " + getBaseHttpURL() + contextRoot );
@@ -198,33 +200,33 @@ public class GlassFishContainer
     return getBaseHttpURL() + contextRoot;
   }
 
-  public void createPostgresJdbcResource( final String key,
-                                          final String databaseConnectionProperty )
+  public void createPostgresJdbcResource( @Nonnull final String key,
+                                          @Nonnull final String databaseConnectionProperty )
     throws Exception
   {
     createJdbcResource( key, "org.postgresql.ds.PGSimpleDataSource", databaseConnectionProperty );
   }
 
-  public void createPostgresJdbcResource( final String key )
+  public void createPostgresJdbcResource( @Nonnull final String key )
     throws Exception
   {
     createPostgresJdbcResource( key, toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() ) );
   }
 
-  public void createSqlServerJdbcResource( final String key,
-                                           final String databaseConnectionProperty )
+  public void createSqlServerJdbcResource( @Nonnull final String key,
+                                           @Nonnull final String databaseConnectionProperty )
     throws Exception
   {
     createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databaseConnectionProperty );
   }
 
-  public void createSqlServerJdbcResource( final String key )
+  public void createSqlServerJdbcResource( @Nonnull final String key )
     throws Exception
   {
     createSqlServerJdbcResource( key, toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() ) );
   }
 
-  public String toGlassFishPropertiesString( final Properties properties )
+  public String toGlassFishPropertiesString( @Nonnull final Properties properties )
   {
     final StringBuilder sb = new StringBuilder();
     for ( final String property : properties.stringPropertyNames() )
@@ -240,9 +242,9 @@ public class GlassFishContainer
     return sb.toString();
   }
 
-  public void createJdbcResource( final String key,
-                                  final String dataSourceClassName,
-                                  final String databaseConnectionProperty )
+  public void createJdbcResource( @Nonnull final String key,
+                                  @Nonnull final String dataSourceClassName,
+                                  @Nonnull final String databaseConnectionProperty )
     throws Exception
   {
     LOG.info( "Creating jdbc resource: " + key );
@@ -259,31 +261,31 @@ public class GlassFishContainer
     execute( "create-jdbc-resource", "--connectionpoolid", poolID, key );
   }
 
-  public void createCustomResource( final String key, final String value )
+  public void createCustomResource( @Nonnull final String key, @Nonnull final String value )
     throws Exception
   {
     createCustomResource( "java.lang.String", key, value );
   }
 
-  public void createCustomResource( final String key, final boolean value )
+  public void createCustomResource( @Nonnull final String key, final boolean value )
     throws Exception
   {
     createCustomResource( "java.lang.Boolean", key, String.valueOf( value ) );
   }
 
-  public void createCustomResource( final String key, final long value )
+  public void createCustomResource( @Nonnull final String key, final long value )
     throws Exception
   {
     createCustomResource( "java.lang.Long", key, String.valueOf( value ) );
   }
 
-  public void createCustomResource( final String key, final short value )
+  public void createCustomResource( @Nonnull final String key, final short value )
     throws Exception
   {
     createCustomResource( "java.lang.Short", key, String.valueOf( value ) );
   }
 
-  public void createCustomResource( final String type, final String key, final String value )
+  public void createCustomResource( @Nonnull final String type, @Nonnull final String key, final String value )
     throws Exception
   {
     LOG.info( "Creating custom resource: " + key + "=" + value );
@@ -294,7 +296,7 @@ public class GlassFishContainer
              key );
   }
 
-  public void createUser( final String username, final String password, final String[] groups )
+  public void createUser( @Nonnull final String username, @Nonnull final String password, @Nonnull final String[] groups )
     throws Exception
   {
     LOG.info( "Creating user: " + username );
@@ -318,7 +320,7 @@ public class GlassFishContainer
              username );
   }
 
-  public final String execute( final String command, final String... args )
+  public final String execute( @Nonnull final String command, @Nonnull final String... args )
     throws Exception
   {
     final Object runner = _glassfish.getClass().getMethod( "getCommandRunner" ).invoke( _glassfish );
@@ -340,7 +342,7 @@ public class GlassFishContainer
   }
 
   @SuppressWarnings( "unchecked" )
-  private <T> T invokeMethod( final Object object, final String methodName )
+  private <T> T invokeMethod( @Nonnull final Object object, @Nonnull final String methodName )
     throws Exception
   {
     final Method method = object.getClass().getDeclaredMethod( methodName );

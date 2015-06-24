@@ -1,4 +1,5 @@
 ## 0.62 (Pending):
+* Add some nullability annotations to GlassFishContainer.
 
 ## 0.61:
 * Support setRollbackOnly(), getRollbackOnly() and getTransactionStatus() on TestTransactionSynchronizationRegistry.
