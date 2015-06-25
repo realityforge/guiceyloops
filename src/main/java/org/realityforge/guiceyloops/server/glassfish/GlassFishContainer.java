@@ -367,6 +367,7 @@ public class GlassFishContainer
     createJmsHost( key, container );
     setAsDefaultJmsHost( key );
     deleteDefaultJmsHost();
+    restart();
   }
 
   public void deleteDefaultJmsHost()

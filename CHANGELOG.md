@@ -1,3 +1,6 @@
+## 0.64:
+* Issue restart to GlassFish container after jms host changes.
+
 ## 0.63:
 * Resurrect part of DerbyUtil that ensures logs are not emmitted in working directory.
 
