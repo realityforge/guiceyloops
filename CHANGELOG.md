@@ -1,3 +1,6 @@
+## 0.65 (Pending):
+* Remove excessive logging in GreenMailTestModule.
+
 ## 0.64:
 * Issue restart to GlassFish container after jms host changes.
 
