@@ -1,4 +1,4 @@
-## 0.65 (Pending):
+## 0.65:
 * Remove excessive logging in GreenMailTestModule.
 * Add AbstractSharedTest.postInjector() hook method that is invoked after the injector is created.
 * Import ValueUtil from all downstream projects.
