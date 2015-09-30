@@ -1,5 +1,6 @@
 ## 0.65 (Pending):
 * Remove excessive logging in GreenMailTestModule.
+* Add AbstractSharedTest.postInjector() hook method that is invoked after the injector is created.
 
 ## 0.64:
 * Issue restart to GlassFish container after jms host changes.

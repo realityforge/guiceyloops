@@ -22,6 +22,14 @@ public abstract class AbstractSharedTest
     throws Exception
   {
     _injector = Guice.createInjector( getModules() );
+    postInjector();
+  }
+
+  /**
+   * Template method that is invoked after the injector has been created but beofre other services are enabled.
+   */
+  protected void postInjector()
+  {
   }
 
   @AfterMethod
