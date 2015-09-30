@@ -1,3 +1,6 @@
+## 0.66 (Pending):
+* Add simplified accessor AbstractServerTest.em(UnitName) for EntityManagers with specific names.
+
 ## 0.65:
 * Remove excessive logging in GreenMailTestModule.
 * Add AbstractSharedTest.postInjector() hook method that is invoked after the injector is created.
