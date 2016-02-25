@@ -1,5 +1,6 @@
 ## 0.66 (Pending):
 * Add simplified accessor AbstractServerTest.em(UnitName) for EntityManagers with specific names.
+* Bind mock Principal in ServerTestModule. Useful to get caller principal in CDI applications.
 
 ## 0.65:
 * Remove excessive logging in GreenMailTestModule.
