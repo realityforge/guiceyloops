@@ -1,6 +1,5 @@
 language: java
 jdk:
-
   - oraclejdk7
 rvm:
   - 2.1.3
