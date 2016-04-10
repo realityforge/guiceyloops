@@ -2,6 +2,7 @@
 * Add simplified accessor AbstractServerTest.em(UnitName) for EntityManagers with specific names.
 * Bind mock Principal in ServerTestModule. Useful to get caller principal in CDI applications.
 * Update ServerTestModule to make it possible to override creation of specific resources.
+* Add AssertUtil.assertNoFinalMethodsForCDI() helper method to help test to ensure types are CDI compatible.
 
 ## 0.65:
 * Remove excessive logging in GreenMailTestModule.
