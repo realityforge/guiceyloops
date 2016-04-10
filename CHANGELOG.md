@@ -13,7 +13,7 @@
 * Issue restart to GlassFish container after jms host changes.
 
 ## 0.63:
-* Resurrect part of DerbyUtil that ensures logs are not emmitted in working directory.
+* Resurrect part of DerbyUtil that ensures logs are not emitted in working directory.
 
 ## 0.62:
 * Add some utility methods to GlassFishContainer to simplify manipulation of jms, javamail and iiop resources.
