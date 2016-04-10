@@ -16,12 +16,37 @@ public final class ServerTestModule
   @Override
   protected void configure()
   {
+    bindDependentScope();
+    bindSessionContext();
+    bindPrincipal();
+    bindTransactionSynchronizationRegistry();
+    bindBeanManager();
+  }
+
+  protected void bindDependentScope()
+  {
     bindScope( Dependent.class, Scopes.NO_SCOPE );
+  }
+
+  protected void bindSessionContext()
+  {
     bindMock( SessionContext.class );
+  }
+
+  protected void bindPrincipal()
+  {
     bindMock( Principal.class );
+  }
+
+  protected void bindBeanManager()
+  {
+    bind( BeanManager.class ).to( TestBeanManager.class ).asEagerSingleton();
+  }
+
+  protected void bindTransactionSynchronizationRegistry()
+  {
     bind( TransactionSynchronizationRegistry.class ).
       to( TestTransactionSynchronizationRegistry.class ).
       asEagerSingleton();
-    bind( BeanManager.class ).to( TestBeanManager.class ).asEagerSingleton();
   }
 }
