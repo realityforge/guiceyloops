@@ -1,4 +1,5 @@
-## 0.67 (Pending):
+## 0.67:
+* Fix AssertUtil.assertNoFinalMethodsForCDI() so that parent classes are also checked.
 
 ## 0.66:
 * Add simplified accessor AbstractServerTest.em(UnitName) for EntityManagers with specific names.

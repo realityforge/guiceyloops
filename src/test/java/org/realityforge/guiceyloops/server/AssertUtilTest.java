@@ -1,5 +1,6 @@
 package org.realityforge.guiceyloops.server;
 
+import javax.annotation.Nonnull;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -85,18 +86,18 @@ public class AssertUtilTest
     AssertUtil.assertNoFinalMethodsForCDI( TypeWithoutFinal.class );
     AssertUtil.assertNoFinalMethodsForCDI( TypeWithoutFinal2.class );
 
-    assertNotCDI( TypeWithFinalPublic.class );
-    assertNotCDI( TypeWithFinalProtected.class );
-    assertNotCDI( TypeWithFinalPrivate.class );
-    assertNotCDI( TypeWithFinalPackage.class );
+    assertNotCDI( TypeWithFinalPublic.class, TypeWithFinalPublic.class );
+    assertNotCDI( TypeWithFinalProtected.class, TypeWithFinalProtected.class );
+    assertNotCDI( TypeWithFinalPrivate.class, TypeWithFinalPrivate.class );
+    assertNotCDI( TypeWithFinalPackage.class, TypeWithFinalPackage.class );
 
-    assertNotCDI( TypeWithFinalPublic2.class );
-    assertNotCDI( TypeWithFinalProtected2.class );
-    assertNotCDI( TypeWithFinalPrivate2.class );
-    assertNotCDI( TypeWithFinalPackage2.class );
+    assertNotCDI( TypeWithFinalPublic.class, TypeWithFinalPublic2.class );
+    assertNotCDI( TypeWithFinalProtected.class, TypeWithFinalProtected2.class );
+    assertNotCDI( TypeWithFinalPrivate.class, TypeWithFinalPrivate2.class );
+    assertNotCDI( TypeWithFinalPackage.class, TypeWithFinalPackage2.class );
   }
 
-  private void assertNotCDI( final Class<?> type )
+  private void assertNotCDI( @Nonnull final  Class<?> declaredType, @Nonnull final Class<?> type )
   {
     try
     {
@@ -106,10 +107,11 @@ public class AssertUtilTest
     {
       final String expected =
         "Method m1 on " +
-        type.getName() +
+        declaredType.getName() +
         " is final and thus not compatible with CDI expected [false] but found [true]";
-      final String actual = e.getMessage();
-      assertEquals( actual, expected );
+      assertEquals( e.getMessage(), expected );
+      return;
     }
+    fail( "Expected to fail " + type.getName() + "as bad CDI type" );
   }
 }

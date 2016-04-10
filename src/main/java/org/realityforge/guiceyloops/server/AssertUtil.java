@@ -29,5 +29,10 @@ public final class AssertUtil
         assertFalse( Modifier.isFinal( method.getModifiers() ), message );
       }
     }
+    final Class parent = clazz.getSuperclass();
+    if( null != parent )
+    {
+      assertNoFinalMethodsForCDI( parent );
+    }
   }
 }
