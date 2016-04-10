@@ -1,3 +1,5 @@
+## 0.68 (Pending):
+
 ## 0.67:
 * Fix AssertUtil.assertNoFinalMethodsForCDI() so that parent classes are also checked.
 
