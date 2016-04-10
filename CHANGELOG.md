@@ -1,4 +1,4 @@
-## 0.66 (Pending):
+## 0.66:
 * Add simplified accessor AbstractServerTest.em(UnitName) for EntityManagers with specific names.
 * Bind mock Principal in ServerTestModule. Useful to get caller principal in CDI applications.
 * Update ServerTestModule to make it possible to override creation of specific resources.
