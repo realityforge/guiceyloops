@@ -1,4 +1,4 @@
-## 0.69 (Pending):
+## 0.69:
 * Support managing OpenMQ in AbstractAppServer.
 * Remove AbstractAppServer.getProperty() as not really the right place to put it.
 
