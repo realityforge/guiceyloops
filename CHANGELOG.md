@@ -1,4 +1,4 @@
-## 0.68 (Pending):
+## 0.68:
 * Introduce AbstractAppServer to simplify managing singleton GlassFish instance within test suite.
 
 ## 0.67:
