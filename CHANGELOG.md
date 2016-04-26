@@ -1,4 +1,5 @@
 ## 0.69 (Pending):
+* Remove AbstractAppServer.getProperty() as not really the right place to put it.
 
 ## 0.68:
 * Introduce AbstractAppServer to simplify managing singleton GlassFish instance within test suite.

@@ -78,15 +78,4 @@ public abstract class AbstractAppServer
     assert null != _glassfish;
     return _glassfish;
   }
-
-  @Nonnull
-  protected final String getProperty( @Nonnull final String name )
-  {
-    final String property = System.getProperties().getProperty( name, null );
-    if ( null == property )
-    {
-      throw new IllegalStateException( "Missing property: " + name );
-    }
-    return property;
-  }
 }
