@@ -7,8 +7,10 @@ import javax.annotation.Nonnull;
  */
 public abstract class AbstractAppServer
 {
+  private OpenMQContainer _openMQContainer;
   private GlassFishContainer _glassfish;
   private String _baseHttpURL;
+  private boolean _enableOpenMQ;
 
   public final String getSiteURL()
   {
@@ -22,33 +24,28 @@ public abstract class AbstractAppServer
 
   protected abstract String getContextRoot();
 
+  public boolean isOpenMQEnabled()
+  {
+    return _enableOpenMQ;
+  }
+
+  public void enableOpenMQ()
+  {
+    _enableOpenMQ = true;
+  }
+
   public final void setUp()
     throws Exception
   {
-    if ( null == _glassfish )
-    {
-      performSetup();
-    }
+    setUpOpenMQ();
+    setUpGlassFish();
   }
 
   public final void tearDown()
   {
-    if ( null != _glassfish )
-    {
-      performTeardown();
-    }
-  }
-
-  private void performSetup()
-    throws Exception
-  {
-    _glassfish = new GlassFishContainer();
-
-    _glassfish.start();
-    configureGlassFish( _glassfish );
-
-    performDeploy();
-    postDeploy();
+    teardownGlassFish();
+    teardownOpenMQ();
+    postTeardown();
   }
 
   protected void postDeploy()
@@ -65,10 +62,51 @@ public abstract class AbstractAppServer
   protected abstract void performDeploy()
     throws Exception;
 
-  protected void performTeardown()
+  private void setUpGlassFish()
+    throws Exception
   {
-    _glassfish.stop();
-    _glassfish = null;
+    if ( null == _glassfish )
+    {
+      _glassfish = new GlassFishContainer();
+      _glassfish.start();
+
+      configureGlassFish( _glassfish );
+
+      performDeploy();
+      postDeploy();
+    }
+  }
+
+  private void setUpOpenMQ()
+    throws Exception
+  {
+    if ( isOpenMQEnabled() && null == _openMQContainer )
+    {
+      _openMQContainer = new OpenMQContainer();
+      _openMQContainer.start();
+    }
+  }
+
+  private void teardownOpenMQ()
+  {
+    if ( null != _openMQContainer )
+    {
+      _openMQContainer.stop();
+      _openMQContainer = null;
+    }
+  }
+
+  private void teardownGlassFish()
+  {
+    if ( null != _glassfish )
+    {
+      _glassfish.stop();
+      _glassfish = null;
+    }
+  }
+
+  protected void postTeardown()
+  {
     _baseHttpURL = null;
   }
 
@@ -77,5 +115,12 @@ public abstract class AbstractAppServer
   {
     assert null != _glassfish;
     return _glassfish;
+  }
+
+  @Nonnull
+  protected final OpenMQContainer getOpenMQContainer()
+  {
+    assert null != _openMQContainer;
+    return _openMQContainer;
   }
 }
