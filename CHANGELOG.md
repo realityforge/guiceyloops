@@ -1,4 +1,5 @@
 ## 0.68 (Pending):
+* Introduce AbstractAppServer to simplify managing singleton GlassFish instance within test suite.
 
 ## 0.67:
 * Fix AssertUtil.assertNoFinalMethodsForCDI() so that parent classes are also checked.
