@@ -1,4 +1,6 @@
 ## 0.70 (Pending):
+* Ensure jdbc30DataSource is set to true when configuring jtds driver as Payara as of version
+  4.1.1.162 will no longer silently ignore jdbc3 only drivers.
 
 ## 0.69:
 * Support managing OpenMQ in AbstractAppServer.

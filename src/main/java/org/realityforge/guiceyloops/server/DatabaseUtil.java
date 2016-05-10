@@ -176,6 +176,8 @@ public final class DatabaseUtil
 
     final String serverName = jdbcUrl.substring( prefixEnd, ( -1 == portStart ? hostEnd : portStart ) );
     setProperty( gfProperties, "ServerName", serverName );
+
+    setProperty( gfProperties, "jdbc30DataSource", "true" );
   }
 
   private static void parsePostgresURL( final Properties gfProperties, final String jdbcUrl )
