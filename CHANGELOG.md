@@ -1,3 +1,5 @@
+## 0.71 (Pending):
+
 ## 0.70:
 * Ensure jdbc30DataSource is set to true when configuring jtds driver as Payara as of version
   4.1.1.162 will no longer silently ignore jdbc3 only drivers.
