@@ -18,18 +18,15 @@ public final class TinyHttpd
   implements HttpHandler
 {
   private final Lock _lock = new ReentrantLock();
-  private final HttpServer _server;
+  private HttpServer _server;
   private HttpHandler _httpHandler;
+  private InetSocketAddress _address;
 
   public TinyHttpd()
     throws Exception
   {
     final int port = new Random().nextInt( 3000 ) + 10000;
-    final InetSocketAddress addr = new InetSocketAddress( InetAddress.getLocalHost(), port );
-    _server = HttpServer.create( addr, 0 );
-
-    _server.createContext( "/", this );
-    _server.setExecutor( Executors.newCachedThreadPool() );
+    _address = new InetSocketAddress( InetAddress.getLocalHost(), port );
   }
 
   public String getBaseURL()
@@ -39,7 +36,7 @@ public final class TinyHttpd
 
   public String getAddressString()
   {
-    final InetSocketAddress address = _server.getAddress();
+    final InetSocketAddress address = _address;
     return address.getAddress().getCanonicalHostName() + ":" + address.getPort();
   }
 
@@ -56,12 +53,24 @@ public final class TinyHttpd
   public void start()
     throws Exception
   {
+    if ( null != _server )
+    {
+      throw new IllegalStateException( "Attempting to start server that is already started" );
+    }
+    _server = HttpServer.create( _address, 0 );
+    _server.createContext( "/", this );
+    _server.setExecutor( Executors.newCachedThreadPool() );
+
     _server.start();
   }
 
   public void stop()
   {
-    _server.stop( 1 );
+    if ( null != _server )
+    {
+      _server.stop( 1 );
+      _server = null;
+    }
   }
 
   public void handle( final HttpExchange exchange )

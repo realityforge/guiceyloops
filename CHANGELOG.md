@@ -1,4 +1,5 @@
 ## 0.73 (Pending):
+* Delay the creation of the underlying httpd server until TinyHttpd.start() called.
 
 ## 0.72:
 * Add GlassFishContainer.createJmsTopic() helper method.
