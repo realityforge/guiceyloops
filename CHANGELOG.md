@@ -1,4 +1,4 @@
-## 0.73 (Pending):
+## 0.73:
 * Delay the creation of the underlying httpd server until TinyHttpd.start() called.
 
 ## 0.72:
