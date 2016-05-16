@@ -1,7 +1,8 @@
 ## 0.72 (Pending):
+* Add GlassFishContainer.createJmsTopic() helper method.
 
 ## 0.71:
-* Incorporate the TinyHttpd tet code that is duplicated through our codebases.
+* Incorporate the TinyHttpd test code that is duplicated through our codebases.
 
 ## 0.70:
 * Ensure jdbc30DataSource is set to true when configuring jtds driver as Payara as of version

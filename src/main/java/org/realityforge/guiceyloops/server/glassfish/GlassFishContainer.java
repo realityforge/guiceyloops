@@ -444,11 +444,26 @@ public class GlassFishContainer
              key );
   }
 
+  public void createJmsTopic( @Nonnull final String key,
+                              @Nonnull final String queue )
+    throws Exception
+  {
+    createJmsDestination( "javax.jms.Topic", key, queue );
+  }
+
   public void createJmsQueue( @Nonnull final String key,
                               @Nonnull final String queue )
     throws Exception
   {
-    execute( "create-jms-resource", "--restype", "javax.jms.Queue", "--property", "Name=" + queue, key );
+    createJmsDestination( "javax.jms.Queue", key, queue );
+  }
+
+  public void createJmsDestination( @Nonnull final String type,
+                                    @Nonnull final String key,
+                                    @Nonnull final String physicalName )
+    throws Exception
+  {
+    execute( "create-jms-resource", "--restype", type, "--property", "Name=" + physicalName, key );
   }
 
   public void createJavamailResource( @Nonnull final String key,
