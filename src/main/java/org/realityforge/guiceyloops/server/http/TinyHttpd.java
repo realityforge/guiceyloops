@@ -25,7 +25,12 @@ public final class TinyHttpd
   public TinyHttpd()
     throws Exception
   {
-    final int port = new Random().nextInt( 3000 ) + 10000;
+    this( new Random().nextInt( 3000 ) + 10000 );
+  }
+
+  public TinyHttpd( final int port )
+    throws Exception
+  {
     _address = new InetSocketAddress( InetAddress.getLocalHost(), port );
   }
 
