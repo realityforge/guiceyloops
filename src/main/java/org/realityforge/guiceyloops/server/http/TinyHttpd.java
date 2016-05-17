@@ -36,8 +36,12 @@ public final class TinyHttpd
 
   public String getAddressString()
   {
-    final InetSocketAddress address = _address;
-    return address.getAddress().getCanonicalHostName() + ":" + address.getPort();
+    return getAddress().getAddress().getCanonicalHostName() + ":" + getAddress().getPort();
+  }
+
+  public InetSocketAddress getAddress()
+  {
+    return _address;
   }
 
   public void setHttpHandler( final HttpHandler httpHandler )

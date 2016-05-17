@@ -1,4 +1,5 @@
 ## 0.74 (Pending):
+* Add TinyHttpd.getAddress() method.
 
 ## 0.73:
 * Delay the creation of the underlying httpd server until TinyHttpd.start() called.
