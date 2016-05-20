@@ -111,7 +111,7 @@ public final class GlassFishContainerUtil
   public static URL[] getEmbeddedGlassFishClasspath( @Nonnull final String[] defaultDependencies )
     throws Exception
   {
-    final ArrayList<URL> elements = new ArrayList<URL>();
+    final ArrayList<URL> elements = new ArrayList<>();
     final String classpath = System.getProperties().getProperty( "embedded.glassfish.classpath", null );
     final String artifactsPath = System.getProperties().getProperty( "embedded.glassfish.artifacts", null );
     if ( null != classpath )
