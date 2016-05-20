@@ -1,5 +1,5 @@
 ## 0.74 (Pending):
-* Make the port for TinyHttpd configurable.
+* Make the port for TinyHttpd configurable but default to the OS selecting a free port.
 * Add TinyHttpd.getAddress() method.
 
 ## 0.73:

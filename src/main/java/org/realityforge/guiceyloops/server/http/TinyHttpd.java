@@ -6,7 +6,6 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -25,7 +24,7 @@ public final class TinyHttpd
   public TinyHttpd()
     throws Exception
   {
-    this( new Random().nextInt( 3000 ) + 10000 );
+    this( 0 );
   }
 
   public TinyHttpd( final int port )
