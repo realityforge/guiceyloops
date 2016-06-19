@@ -1,6 +1,7 @@
 # guiceyloops
 
 [![Build Status](https://secure.travis-ci.org/realityforge/guiceyloops.png?branch=master)](http://travis-ci.org/realityforge/guiceyloops)
+[<img src="https://img.shields.io/maven-central/v/org.realityforge.guiceyloops/guiceyloops.svg?label=latest%20release"/>](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.realityforge.guiceyloops%22%20a%3A%22guiceyloops%22)
 
 GuiceyLoops is a minimalistic library for aiding the testing of JEE applications
 using Guice. The library add some type listeners that are aware of the JEE annotations
