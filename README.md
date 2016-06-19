@@ -1,6 +1,6 @@
-= guiceyloops
+# guiceyloops
 
-{<img src="https://travis-ci.org/realityforge/guiceyloops.png" />}[https://travis-ci.org/realityforge/guiceyloops]
+[![Build Status](https://secure.travis-ci.org/realityforge/guiceyloops.png?branch=master)](http://travis-ci.org/realityforge/guiceyloops)
 
 GuiceyLoops is a minimalistic library for aiding the testing of JEE applications
 using Guice. The library add some type listeners that are aware of the JEE annotations
@@ -12,6 +12,7 @@ required to provide resources used in the test (i.e. an EntityManager module) as
 any module that defines the components under test into one injector and access the components
 under test from specified module. i.e.
 
+```java
   Injector injector =
     Guice.createInjector( new MyTestModule(),
                           new MyEntityManagerModule(),
@@ -19,3 +20,4 @@ under test from specified module. i.e.
 
   MyEJBService objectToTest = injector.getInstance( MyEJBService.class );
   ...
+```
