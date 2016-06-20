@@ -1,4 +1,5 @@
 ## 0.75 (Pending):
+* Prefix the default sentinel values in DatabaseUtil with the database prefix. 
 
 ## 0.74:
 * Make the port for TinyHttpd configurable but default to the OS selecting a free port.

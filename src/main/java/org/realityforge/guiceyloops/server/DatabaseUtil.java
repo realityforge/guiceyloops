@@ -72,8 +72,16 @@ public final class DatabaseUtil
   static Properties initDatabaseProperties( @Nullable final String databasePrefix )
   {
     final Properties properties = new Properties();
-    setProperty( properties, databasePrefix, DRIVER_KEY, DB_DRIVER_SYS_PROPERTY, DEFAULT_DRIVER );
-    setProperty( properties, databasePrefix, URL_KEY, DB_URL_SYS_PROPERTY, DEFAULT_URL );
+    setProperty( properties,
+                 databasePrefix,
+                 DRIVER_KEY,
+                 DB_DRIVER_SYS_PROPERTY,
+                 ( databasePrefix == null ? "" : databasePrefix ) + DEFAULT_DRIVER );
+    setProperty( properties,
+                 databasePrefix,
+                 URL_KEY,
+                 DB_URL_SYS_PROPERTY,
+                 ( databasePrefix == null ? "" : databasePrefix ) + DEFAULT_URL );
     setProperty( properties, databasePrefix, USER_KEY, DB_USER_SYS_PROPERTY, DEFAULT_USER );
     setProperty( properties, databasePrefix, PASSWORD_KEY, DB_PASSWORD_SYS_PROPERTY, DEFAULT_PASSWORD );
     return properties;
@@ -248,7 +256,7 @@ public final class DatabaseUtil
                                                    @Nullable final Properties additionalDatabaseProperties )
   {
     final Properties properties = initPersistenceUnitProperties( databasePrefix );
-    if( null != additionalDatabaseProperties )
+    if ( null != additionalDatabaseProperties )
     {
       properties.putAll( additionalDatabaseProperties );
     }
