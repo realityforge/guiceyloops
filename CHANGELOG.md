@@ -1,4 +1,4 @@
-## 0.75 (Pending):
+## 0.75:
 * Prefix the default sentinel values in DatabaseUtil with the database prefix. 
 * Make sure TinyHttpd returns the correct address after the server has been started.
 * Support named servers in TinyHttpdFactory.
