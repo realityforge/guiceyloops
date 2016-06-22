@@ -43,9 +43,21 @@ public final class TinyHttpd
     return getAddress().getAddress().getCanonicalHostName() + ":" + getAddress().getPort();
   }
 
+  /**
+   * Return the address associated with httpd.
+   * If called before start then it may not be the actual address and may instead be
+   * the requested address with a host like 0.0.0.0 or a port such as 0.
+   */
   public InetSocketAddress getAddress()
   {
-    return _address;
+    if ( null != _server )
+    {
+      return _server.getAddress();
+    }
+    else
+    {
+      return _address;
+    }
   }
 
   public void setHttpHandler( final HttpHandler httpHandler )
