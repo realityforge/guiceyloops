@@ -1,4 +1,4 @@
-## 0.76 (Pending):
+## 0.76:
 * Lock down the default timezone to Australia/Melbourne.
 
 ## 0.75:
