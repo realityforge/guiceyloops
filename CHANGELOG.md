@@ -1,4 +1,5 @@
 ## 0.76 (Pending):
+* Lock down the default timezone to Australia/Melbourne.
 
 ## 0.75:
 * Prefix the default sentinel values in DatabaseUtil with the database prefix. 

@@ -106,7 +106,10 @@ public final class ValueUtil
   @Nonnull
   public static Date now()
   {
-    return trunc( new Date() );
+    final Calendar calendar = Calendar.getInstance();
+    calendar.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
+    calendar.set( Calendar.MILLISECOND, 0 );
+    return calendar.getTime();
   }
 
   /**
@@ -115,7 +118,11 @@ public final class ValueUtil
   @Nonnull
   public static Date trunc( @Nonnull final Date date )
   {
-    return new Date( ( date.getTime() / 1000 ) * 1000 );
+    final Calendar calendar = Calendar.getInstance();
+    calendar.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
+    calendar.setTime( date );
+    calendar.set( Calendar.MILLISECOND, 0 );
+    return calendar.getTime();
   }
 
   /**
@@ -175,6 +182,7 @@ public final class ValueUtil
   public static Date addDays( @Nonnull final Date time, final int dayCount )
   {
     final Calendar cal = Calendar.getInstance();
+    cal.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
     cal.setTime( time );
     cal.add( Calendar.DAY_OF_YEAR, dayCount );
     return cal.getTime();
@@ -184,6 +192,7 @@ public final class ValueUtil
   public static Date addHours( @Nonnull final Date time, final int count )
   {
     final Calendar cal = Calendar.getInstance();
+    cal.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
     cal.setTime( time );
     cal.add( Calendar.HOUR, count );
     return cal.getTime();
@@ -193,6 +202,7 @@ public final class ValueUtil
   public static Date addMinutes( @Nonnull final Date time, final int count )
   {
     final Calendar cal = Calendar.getInstance();
+    cal.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
     cal.setTime( time );
     cal.add( Calendar.MINUTE, count );
     return cal.getTime();
