@@ -50,6 +50,15 @@ public abstract class PersistenceTestModule
   }
 
   /**
+   * @return the name of the persistence unit.
+   */
+  @Nonnull
+  protected final String getPersistenceUnitName()
+  {
+    return _persistenceUnitName;
+  }
+
+  /**
    * @return the prefix used to lookup database properties.
    */
   @Nullable

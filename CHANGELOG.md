@@ -1,3 +1,6 @@
+## 0.78:
+* Add PersistenceTestModule.getPersistenceUnitName() helper method.
+
 ## 0.77:
 * Make PersistenceTestModule.configure non-final.
 
