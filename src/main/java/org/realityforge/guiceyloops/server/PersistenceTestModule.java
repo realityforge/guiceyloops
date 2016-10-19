@@ -16,6 +16,7 @@ public abstract class PersistenceTestModule
   extends AbstractModule
 {
   private final String _persistenceUnitName;
+  private final String _bindName;
   private final String[] _tablesToClean;
   private final String _databasePrefix;
   private final Properties _additionalDatabaseProperties;
@@ -30,7 +31,7 @@ public abstract class PersistenceTestModule
                                 @Nonnull final String[] tablesToClean,
                                 @Nullable final String databasePrefix )
   {
-    this(persistenceUnitName, tablesToClean, databasePrefix, null );
+    this( persistenceUnitName, tablesToClean, databasePrefix, null );
   }
 
   public PersistenceTestModule( @Nonnull final String persistenceUnitName,
@@ -38,6 +39,16 @@ public abstract class PersistenceTestModule
                                 @Nullable final String databasePrefix,
                                 @Nullable final Properties additionalDatabaseProperties )
   {
+    this( persistenceUnitName, persistenceUnitName, tablesToClean, databasePrefix, additionalDatabaseProperties );
+  }
+
+  public PersistenceTestModule( @Nonnull final String bindName,
+                                @Nonnull final String persistenceUnitName,
+                                @Nonnull final String[] tablesToClean,
+                                @Nullable final String databasePrefix,
+                                @Nullable final Properties additionalDatabaseProperties )
+  {
+    _bindName = bindName;
     _persistenceUnitName = persistenceUnitName;
     _tablesToClean = tablesToClean;
     _databasePrefix = databasePrefix;
@@ -75,7 +86,7 @@ public abstract class PersistenceTestModule
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName,
                                                        getDatabasePrefix(),
                                                        _additionalDatabaseProperties );
-    bindResource( EntityManager.class, _persistenceUnitName, _entityManager );
+    bindResource( EntityManager.class, getBindName(), _entityManager );
     requestInjectionForAllEntityListeners();
     if ( 0 != _tablesToClean.length )
     {
@@ -83,10 +94,18 @@ public abstract class PersistenceTestModule
     }
   }
 
+  /**
+   * @return the name under which to bind EntityManager.
+   */
+  protected final String getBindName()
+  {
+    return _bindName;
+  }
+
   private void requestCleaningOfTables( @Nonnull final String[] tables )
   {
     bind( DbCleaner.class ).
-      annotatedWith( Names.named( _persistenceUnitName ) ).
+      annotatedWith( Names.named( getBindName() ) ).
       toInstance( new DbCleaner( tables, getEntityManager() ) );
   }
 

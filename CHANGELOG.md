@@ -1,3 +1,6 @@
+## 0.79:
+* Update PersistenceTestModule to support binding under alternative name.
+
 ## 0.78:
 * Add PersistenceTestModule.getPersistenceUnitName() helper method.
 
