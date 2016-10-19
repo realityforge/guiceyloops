@@ -61,7 +61,7 @@ public abstract class PersistenceTestModule
   /**
    * Override this to further customize the persistence elements.
    */
-  protected final void configure()
+  protected void configure()
   {
     _entityManager = DatabaseUtil.createEntityManager( _persistenceUnitName,
                                                        getDatabasePrefix(),

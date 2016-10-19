@@ -1,4 +1,5 @@
 ## 0.77 (Pending):
+* Make PersistenceTestModule.configure non-final.
 
 ## 0.76:
 * Lock down the default timezone to Australia/Melbourne.
