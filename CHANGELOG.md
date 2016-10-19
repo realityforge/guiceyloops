@@ -1,4 +1,4 @@
-## 0.77 (Pending):
+## 0.77:
 * Make PersistenceTestModule.configure non-final.
 
 ## 0.76:
