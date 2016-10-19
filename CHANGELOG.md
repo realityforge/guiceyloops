@@ -1,4 +1,5 @@
 ## 0.80 (Pending):
+* Update AbstractServerTest to support binding EntityManager under alternative name.
 
 ## 0.79:
 * Update PersistenceTestModule to support binding under alternative name.

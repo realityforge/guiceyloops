@@ -294,13 +294,23 @@ public abstract class AbstractServerTest
   }
 
   /**
-   * Override this to return the name of the persistence unit that will be flushed between service calls.
-   * If not overridden or if the method returns null, EntityManager will be the one not bound to a name.
+   * The name of the primary persistence unit. Should correspond to the unit identified by getPrimaryPersistenceBindName().
    */
   @Nullable
   protected String getPrimaryPersistenceUnitName()
   {
     return null;
+  }
+
+  /**
+   * Override this to return the name under which the persistence unit is bound. It will be flushed
+   * between service calls. If not overridden or if the method returns null, EntityManager will be
+   * the one not bound to a name.
+   */
+  @Nullable
+  protected String getPrimaryPersistenceBindName()
+  {
+    return getPrimaryPersistenceUnitName();
   }
 
   /**
@@ -404,7 +414,7 @@ public abstract class AbstractServerTest
   @Nonnull
   protected final EntityManager em()
   {
-    return em( getPrimaryPersistenceUnitName() );
+    return em( getPrimaryPersistenceBindName() );
   }
 
   @Nonnull
