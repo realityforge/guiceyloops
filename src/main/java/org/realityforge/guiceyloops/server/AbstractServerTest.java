@@ -405,6 +405,39 @@ public abstract class AbstractServerTest
     }
   }
 
+  protected final void beginTransaction()
+  {
+    final List<Binding<EntityManager>> bindings =
+      getInjector().findBindingsByType( TypeLiteral.get( EntityManager.class ) );
+    for ( final Binding<EntityManager> binding : bindings )
+    {
+      final EntityManager em = binding.getProvider().get();
+      em.getTransaction().begin();
+    }
+  }
+
+  protected final void commitTransaction()
+  {
+    final List<Binding<EntityManager>> bindings =
+      getInjector().findBindingsByType( TypeLiteral.get( EntityManager.class ) );
+    for ( final Binding<EntityManager> binding : bindings )
+    {
+      final EntityManager em = binding.getProvider().get();
+      em.getTransaction().commit();
+    }
+  }
+
+  protected final void rollbackTransaction()
+  {
+    final List<Binding<EntityManager>> bindings =
+      getInjector().findBindingsByType( TypeLiteral.get( EntityManager.class ) );
+    for ( final Binding<EntityManager> binding : bindings )
+    {
+      final EntityManager em = binding.getProvider().get();
+      em.getTransaction().rollback();
+    }
+  }
+
   protected final <T> T refresh( final T entity )
   {
     em().refresh( entity );
