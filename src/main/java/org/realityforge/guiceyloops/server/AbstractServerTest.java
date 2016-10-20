@@ -391,7 +391,13 @@ public abstract class AbstractServerTest
 
   protected final void clear()
   {
-    em().clear();
+    final List<Binding<EntityManager>> bindings =
+      getInjector().findBindingsByType( TypeLiteral.get( EntityManager.class ) );
+    for ( final Binding<EntityManager> binding : bindings )
+    {
+      final EntityManager em = binding.getProvider().get();
+      em.clear();
+    }
   }
 
   protected final void usesTransaction()
