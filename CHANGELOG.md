@@ -1,4 +1,4 @@
-## 0.80 (Pending):
+## 0.80:
 * Update AbstractServerTest to support binding EntityManager under alternative name.
 * Update AbstractServerTest to add helper methods that iterate over all EntityManager
   and begin, commit and rollback transactions on EntityManager instances.
