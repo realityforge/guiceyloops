@@ -372,14 +372,19 @@ public abstract class AbstractServerTest
       try
       {
         _inFlush = true;
-        final EntityManager em = em();
-        final EntityTransaction transaction = em.getTransaction();
-        // We check for null here to simplify testing with Mock persistence modules
-        // If we don't guard against null then we have to ensure every test mocks
-        // out the transaction and returns a transaction which is a PITA.
-        if ( null != transaction && transaction.isActive() && !transaction.getRollbackOnly() )
+        final List<Binding<EntityManager>> bindings =
+          getInjector().findBindingsByType( TypeLiteral.get( EntityManager.class ) );
+        for ( final Binding<EntityManager> binding : bindings )
         {
-          em.flush();
+          final EntityManager em = binding.getProvider().get();
+          final EntityTransaction transaction = em.getTransaction();
+          // We check for null here to simplify testing with Mock persistence modules
+          // If we don't guard against null then we have to ensure every test mocks
+          // out the transaction and returns a transaction which is a PITA.
+          if ( null != transaction && transaction.isActive() && !transaction.getRollbackOnly() )
+          {
+            em.flush();
+          }
         }
       }
       finally

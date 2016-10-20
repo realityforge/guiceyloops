@@ -3,6 +3,7 @@
 * Update AbstractServerTest to add helper methods that iterate over all EntityManager
   and begin, commit and rollback transactions on EntityManager instances.
 * Update AbstractServerTest.clear() to clear all EntityManager instances.
+* Update AbstractServerTest.flush() to flush all EntityManager instances.
 
 ## 0.79:
 * Update PersistenceTestModule to support binding under alternative name.
