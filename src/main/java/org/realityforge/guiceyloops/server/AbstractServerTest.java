@@ -197,7 +197,7 @@ public abstract class AbstractServerTest
     unbindJndiResource( "java:comp/BeanManager" );
   }
 
-  protected void setupJndiSubContext( final String name )
+  protected void setupJndiSubContext( @Nonnull final String name )
     throws NamingException
   {
     try
