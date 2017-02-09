@@ -4,17 +4,21 @@ import com.google.inject.Module;
 import com.google.inject.name.Names;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
 import org.realityforge.guiceyloops.shared.AbstractModule;
+import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public class AbstractServerTestTest
 {
+  public static final String SECONDARY_UNIT_NAME = ValueUtil.randomString();
+
   public interface Service1
   {
   }
@@ -35,36 +39,62 @@ public class AbstractServerTestTest
     DbCleaner _dbCleaner;
     private final String _persistenceUnit;
     private final boolean _registerCleaner;
+    private EntityTransaction _transaction;
 
-    public MyServerTest()
+    MyServerTest()
     {
       this( null );
     }
 
-    public MyServerTest( final String persistenceUnit )
+    MyServerTest( final String persistenceUnit )
     {
       this( persistenceUnit, false );
     }
 
-    public MyServerTest( final String persistenceUnit,
-                         final boolean registerCleaner )
+    MyServerTest( final String persistenceUnit, final boolean registerCleaner )
     {
       this( persistenceUnit, registerCleaner, true, false );
     }
 
-    public MyServerTest( final String persistenceUnit,
-                         final boolean registerCleaner,
-                         final boolean inActiveTransaction,
-                         final boolean inRollback )
+    MyServerTest( final String persistenceUnit,
+                  final boolean registerCleaner,
+                  final boolean inActiveTransaction,
+                  final boolean inRollback )
     {
       _persistenceUnit = persistenceUnit;
       _registerCleaner = registerCleaner;
       _entityManager = mock( EntityManager.class );
       _dbCleaner = mock( DbCleaner.class );
-      final EntityTransaction transaction = mock( EntityTransaction.class );
-      when( _entityManager.getTransaction() ).thenReturn( transaction );
-      when( transaction.isActive() ).thenReturn( inActiveTransaction );
-      when( transaction.getRollbackOnly() ).thenReturn( inRollback );
+      _transaction = mock( EntityTransaction.class );
+      when( _entityManager.getTransaction() ).thenReturn( _transaction );
+      when( _transaction.isActive() ).thenReturn( inActiveTransaction );
+      when( _transaction.getRollbackOnly() ).thenReturn( inRollback );
+    }
+
+    @SuppressWarnings( "unchecked" )
+    protected <T> T getInstance( final Class<T> type )
+    {
+      if ( EntityManager.class == type )
+      {
+        return (T) _entityManager;
+      }
+      else
+      {
+        return super.getInstance( type );
+      }
+    }
+
+    @SuppressWarnings( "unchecked" )
+    protected <T> T getInstance( final String name, final Class<T> type )
+    {
+      if ( EntityManager.class == type && SECONDARY_UNIT_NAME.equals( name ) )
+      {
+        return (T) _entityManager;
+      }
+      else
+      {
+        return super.getInstance( name, type );
+      }
     }
 
     @Nullable
@@ -82,6 +112,7 @@ public class AbstractServerTestTest
       return modules.toArray( new Module[ modules.size() ] );
     }
 
+    @SuppressWarnings( "deprecation" )
     @Override
     protected Module getEntityModule()
     {
@@ -197,5 +228,148 @@ public class AbstractServerTestTest
 
     test.usesTransaction();
     verify( test._dbCleaner, times( 1 ) ).usesTransaction();
+  }
+
+  @Test
+  public void inTransaction_Runnable()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    test.inTransaction( latch::countDown );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+  @Test
+  public void inTransaction_Runnable_named()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    test.inTransaction( SECONDARY_UNIT_NAME, latch::countDown );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+  @Test
+  public void inTransaction_Callable()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    final Integer result =
+      test.inTransaction( () ->
+                          {
+                            latch.countDown();
+                            return 2;
+                          } );
+
+    assertEquals( result, (Integer) 2 );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+  @Test
+  public void inTransaction_Callable_named()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    final Integer result =
+      test.inTransaction( SECONDARY_UNIT_NAME,
+                          () ->
+                          {
+                            latch.countDown();
+                            return 2;
+                          } );
+
+    assertEquals( result, (Integer) 2 );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+
+  @Test
+  public void tran_Runnable()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    test.tran( latch::countDown );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+  @Test
+  public void tran_Runnable_named()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    test.tran( SECONDARY_UNIT_NAME, latch::countDown );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+  @Test
+  public void tran_Callable()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    final Integer result =
+      test.tran( () ->
+                 {
+                   latch.countDown();
+                   return 2;
+                 } );
+
+    assertEquals( result, (Integer) 2 );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
+  }
+
+  @Test
+  public void tran_Callable_named()
+    throws Exception
+  {
+    final CountDownLatch latch = new CountDownLatch( 1 );
+    final MyServerTest test = new MyServerTest( null, false );
+    final Integer result =
+      test.tran( SECONDARY_UNIT_NAME,
+                 () ->
+                 {
+                   latch.countDown();
+                   return 2;
+                 } );
+
+    assertEquals( result, (Integer) 2 );
+
+    verify( test._transaction, times( 1 ) ).begin();
+    verify( test._transaction, times( 1 ) ).commit();
+
+    assertEquals( latch.getCount(), 0 );
   }
 }

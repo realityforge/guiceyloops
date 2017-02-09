@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.enterprise.inject.spi.BeanManager;
@@ -23,6 +24,7 @@ import org.realityforge.guiceyloops.shared.AbstractSharedTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+@SuppressWarnings( "WeakerAccess" )
 public abstract class AbstractServerTest
   extends AbstractSharedTest
   implements Flushable
@@ -471,6 +473,106 @@ public abstract class AbstractServerTest
     else
     {
       return getInstance( unitName, EntityManager.class );
+    }
+  }
+
+  protected final <T> T tran( @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( action );
+  }
+
+  protected final <T> T tran( @Nonnull final String entityManagerName,
+                              @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( em( entityManagerName ), action );
+  }
+
+  protected final <T> T tran( @Nonnull final EntityManager entityManager,
+                              @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( entityManager, action );
+  }
+
+  protected final <T> T inTransaction( @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( em(), action );
+  }
+
+  protected final <T> T inTransaction( @Nonnull final String entityManagerName,
+                                       @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( em( entityManagerName ), action );
+  }
+
+  protected final <T> T inTransaction( @Nonnull final EntityManager entityManager,
+                                       @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    final EntityTransaction transaction = entityManager.getTransaction();
+    try
+    {
+      transaction.begin();
+      return action.call();
+    }
+    finally
+    {
+      completeTransaction( transaction );
+    }
+  }
+
+  protected final void tran( @Nonnull final Runnable action )
+  {
+    inTransaction( action );
+  }
+
+  protected final void tran( @Nonnull final String entityManagerName, @Nonnull final Runnable action )
+  {
+    tran( em( entityManagerName ), action );
+  }
+
+  protected final void tran( @Nonnull final EntityManager entityManager, @Nonnull final Runnable action )
+  {
+    inTransaction( entityManager, action );
+  }
+
+  protected final void inTransaction( @Nonnull final Runnable action )
+  {
+    inTransaction( em(), action );
+  }
+
+  protected final void inTransaction( @Nonnull final String entityManagerName, @Nonnull final Runnable action )
+  {
+    inTransaction( em( entityManagerName ), action );
+  }
+
+  protected final void inTransaction( @Nonnull final EntityManager entityManager, @Nonnull final Runnable action )
+  {
+    final EntityTransaction transaction = entityManager.getTransaction();
+    try
+    {
+      transaction.begin();
+      action.run();
+    }
+    finally
+    {
+      completeTransaction( transaction );
+    }
+  }
+
+  protected final void completeTransaction( @Nonnull final EntityTransaction transaction )
+  {
+    if ( transaction.getRollbackOnly() )
+    {
+      transaction.rollback();
+    }
+    else
+    {
+      transaction.commit();
     }
   }
 }

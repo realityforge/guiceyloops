@@ -1,4 +1,6 @@
 ## 0.81 (Pending):
+* Add helper methods `AbstractServerTest.inTransaction` and `AbstractServerTest.tran`
+  to make execute code blocks in a transaction easier in Java 8.
 * Make several methods in AbstractAppServer public to ease access from within test
   infrastructure.
 * Throw an exception in OpenMQContainer.createConnection() if it is called before the
