@@ -5,8 +5,8 @@
 
 GuiceyLoops is a minimalistic library for aiding the testing of JEE applications
 using Guice. The library add some type listeners that are aware of the JEE annotations
-such as @EJB, @Resource, @WebServiceRef and @PersistenceContext so that fields marked with these
-annotations will be injected in a Guice container.
+such as `@EJB`, `@Resource`, `@WebServiceRef` and `@PersistenceContext` so that fields
+marked with these annotations will be injected in a Guice container.
 
 The simplest way to use the library is to add the JEETestingModule as well as any modules
 required to provide resources used in the test (i.e. an EntityManager module) as well as
