@@ -20,16 +20,16 @@ import static org.testng.Assert.*;
 
 public class AbstractModuleTest
 {
-  public static interface Service1
+  public interface Service1
   {
     void foo();
   }
 
-  public static interface Service2
+  public interface Service2
   {
   }
 
-  public static interface Service3
+  public interface Service3
   {
   }
 

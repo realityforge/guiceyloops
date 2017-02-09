@@ -6,11 +6,11 @@ import static org.testng.Assert.*;
 
 public class AbstractSharedTestTest
 {
-  public static interface Service1
+  public interface Service1
   {
   }
 
-  public static interface Service2
+  public interface Service2
   {
   }
 
