@@ -92,7 +92,7 @@ public final class OpenMQContainer
       _connectionFactory = connectionFactory;
 
       _instance = instance;
-      LOG.info( "OpenMQ started." );
+      LOG.info( "OpenMQ started at " + address );
     }
     else
     {

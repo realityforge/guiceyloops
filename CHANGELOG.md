@@ -1,4 +1,5 @@
 ## 0.81 (Pending):
+* Update logging in OpenMQContainer to emit the address that the broker is bound to.
 
 ## 0.80:
 * Update AbstractServerTest to support binding EntityManager under alternative name.
