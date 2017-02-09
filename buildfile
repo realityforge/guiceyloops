@@ -1,4 +1,3 @@
-require 'buildr/jacoco'
 require 'buildr/git_auto_version'
 require 'buildr/gpg'
 require 'buildr/custom_pom'
@@ -41,8 +40,4 @@ define 'guiceyloops' do
   package(:jar)
   package(:sources)
   package(:javadoc)
-
-  jacoco.includes << 'org.realityforge.*'
-  jacoco.generate_html = true
-  jacoco.generate_xml = true
 end
