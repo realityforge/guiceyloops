@@ -1,4 +1,5 @@
 ## 0.81 (Pending):
+* Add `JaxbUtil` to help testing jaxb annotated entities.
 * Add helper methods `AbstractServerTest.inTransaction` and `AbstractServerTest.tran`
   to make execute code blocks in a transaction easier in Java 8.
 * Make several methods in AbstractAppServer public to ease access from within test
