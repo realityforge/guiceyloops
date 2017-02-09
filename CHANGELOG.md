@@ -1,4 +1,4 @@
-## 0.81 (Pending):
+## 0.81:
 * Add `JaxbUtil` to help testing jaxb annotated entities.
 * Add helper methods `AbstractServerTest.inTransaction` and `AbstractServerTest.tran`
   to make execute code blocks in a transaction easier in Java 8.
