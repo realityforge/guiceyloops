@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 /**
  * A field based injector that bases the injection of the field on the type of the field.
- * <p/>
+ *
  * <p>Designed to be sub-classed. Subclasses should override {@link #getValue()} to determine the value injected.</p>
  *
  * @param <T> the type of the object that declares the field

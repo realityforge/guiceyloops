@@ -9,8 +9,8 @@ OPTIONAL_DEPS = [:jndikit, :greenmail, :glassfish_embedded]
 desc 'GuiceyLoops: Guice EE testing support to Guicey-fruit'
 define 'guiceyloops' do
   project.group = 'org.realityforge.guiceyloops'
-  compile.options.source = '1.7'
-  compile.options.target = '1.7'
+  compile.options.source = '1.8'
+  compile.options.target = '1.8'
   compile.options.lint = 'all'
 
   project.version = ENV['PRODUCT_VERSION'] if ENV['PRODUCT_VERSION']

@@ -15,6 +15,7 @@ import javax.persistence.Persistence;
  * gets the database characteristics from a system property. The following
  * table indicates the lookup keys for each property.</p>
  * <table>
+ * <caption>System properties</caption>
  * <tr>
  * <th>Property</th>
  * <th>System property</th>

@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 /**
  * The abstract TypeListener used to ensure fields annotated with a particular annotation are injected.
- * <p/>
+ *
  * <p>Subclasses should pass in the specific annotation and allowable field types that should be
  * injected into the constructor. The actual injector will be created in the {@link #createInjector} method.</p>
  */
