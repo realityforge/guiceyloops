@@ -61,6 +61,10 @@ public final class OpenMQContainer
   public Connection createConnection()
     throws Exception
   {
+    if ( null == _connectionFactory )
+    {
+      throw new IllegalStateException( "createConnection() invoked before start()" );
+    }
     return _connectionFactory.createConnection();
   }
 

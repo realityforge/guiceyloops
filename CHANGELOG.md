@@ -1,4 +1,6 @@
 ## 0.81 (Pending):
+* Throw an exception in OpenMQContainer.createConnection() if it is called before the
+  broker is started.
 * Update logging in OpenMQContainer to emit the address that the broker is bound to.
 
 ## 0.80:
