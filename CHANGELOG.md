@@ -1,4 +1,6 @@
 ## 0.81 (Pending):
+* Make several methods in AbstractAppServer public to ease access from within test
+  infrastructure.
 * Throw an exception in OpenMQContainer.createConnection() if it is called before the
   broker is started.
 * Update logging in OpenMQContainer to emit the address that the broker is bound to.

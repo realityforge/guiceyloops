@@ -22,7 +22,7 @@ public abstract class AbstractAppServer
     return _baseHttpURL;
   }
 
-  protected abstract String getContextRoot();
+  public abstract String getContextRoot();
 
   public boolean isOpenMQEnabled()
   {
@@ -111,14 +111,14 @@ public abstract class AbstractAppServer
   }
 
   @Nonnull
-  protected final GlassFishContainer getGlassfish()
+  public final GlassFishContainer getGlassfish()
   {
     assert null != _glassfish;
     return _glassfish;
   }
 
   @Nonnull
-  protected final OpenMQContainer getOpenMQContainer()
+  public final OpenMQContainer getOpenMQContainer()
   {
     assert null != _openMQContainer;
     return _openMQContainer;
