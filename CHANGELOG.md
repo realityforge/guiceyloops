@@ -1,3 +1,5 @@
+## 0.82 (Pending):
+
 ## 0.81:
 * Add `JaxbUtil` to help testing jaxb annotated entities.
 * Add helper methods `AbstractServerTest.inTransaction` and `AbstractServerTest.tran`
