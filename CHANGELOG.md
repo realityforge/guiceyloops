@@ -1,4 +1,4 @@
-## 0.82 (Pending):
+## 0.82:
 * Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
 
 ## 0.81:
