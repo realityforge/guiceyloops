@@ -476,6 +476,48 @@ public abstract class AbstractServerTest
     }
   }
 
+  private final class EntityManagerClearingCallable<T>
+    implements Callable<T>
+  {
+    private final Callable<T> _target;
+
+    EntityManagerClearingCallable( final Callable<T> target )
+    {
+      _target = target;
+    }
+
+    @Override
+    public T call()
+      throws Exception
+    {
+      em().clear();
+      return _target.call();
+    }
+  }
+
+  /**
+   * Clear EntityManager and wrap in transaction.
+   */
+  protected final <T> T ctran( @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( new EntityManagerClearingCallable<>( action ) );
+  }
+
+  protected final <T> T ctran( @Nonnull final String entityManagerName,
+                               @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( entityManagerName, new EntityManagerClearingCallable<>( action ) );
+  }
+
+  protected final <T> T ctran( @Nonnull final EntityManager entityManager,
+                               @Nonnull final Callable<T> action )
+    throws Exception
+  {
+    return inTransaction( entityManager, new EntityManagerClearingCallable<>( action ) );
+  }
+
   protected final <T> T tran( @Nonnull final Callable<T> action )
     throws Exception
   {
@@ -523,6 +565,39 @@ public abstract class AbstractServerTest
     {
       completeTransaction( transaction );
     }
+  }
+
+  private final class EntityManagerClearingRunnable
+    implements Runnable
+  {
+    private final Runnable _target;
+
+    EntityManagerClearingRunnable( final Runnable target )
+    {
+      _target = target;
+    }
+
+    @Override
+    public void run()
+    {
+      em().clear();
+      _target.run();
+    }
+  }
+
+  protected final void ctran( @Nonnull final Runnable action )
+  {
+    inTransaction( new EntityManagerClearingRunnable( action ) );
+  }
+
+  protected final void ctran( @Nonnull final String entityManagerName, @Nonnull final Runnable action )
+  {
+    inTransaction( entityManagerName, new EntityManagerClearingRunnable( action ) );
+  }
+
+  protected final void ctran( @Nonnull final EntityManager entityManager, @Nonnull final Runnable action )
+  {
+    inTransaction( entityManager, new EntityManagerClearingRunnable( action ) );
   }
 
   protected final void tran( @Nonnull final Runnable action )

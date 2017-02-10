@@ -1,4 +1,5 @@
 ## 0.82 (Pending):
+* Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
 
 ## 0.81:
 * Add `JaxbUtil` to help testing jaxb annotated entities.
