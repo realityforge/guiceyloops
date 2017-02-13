@@ -669,7 +669,10 @@ public abstract class AbstractServerTest
   }
 
   @Nonnull
-  protected abstract String getPrimaryJmsConnectionFactoryName();
+  protected String getPrimaryJmsConnectionFactoryName()
+  {
+    throw new IllegalStateException( "getPrimaryJmsConnectionFactoryName invoked but method not overridden" );
+  }
 
   @Nonnull
   protected JMSContext jmsContext( @Nonnull final String name )
@@ -684,7 +687,10 @@ public abstract class AbstractServerTest
   }
 
   @Nonnull
-  protected abstract String getPrimaryBrokerName();
+  protected String getPrimaryBrokerName()
+  {
+    throw new IllegalStateException( "getPrimaryBrokerName invoked but method not overridden" );
+  }
 
   @Nonnull
   protected OpenMQContainer broker( @Nonnull final String name )
