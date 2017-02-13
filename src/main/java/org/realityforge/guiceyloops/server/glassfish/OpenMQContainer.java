@@ -3,9 +3,13 @@ package org.realityforge.guiceyloops.server.glassfish;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.runtime.BrokerInstance;
 import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
+import com.sun.messaging.jms.management.server.DestinationOperations;
+import com.sun.messaging.jms.management.server.DestinationType;
+import com.sun.messaging.jms.management.server.MQObjectName;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -14,6 +18,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.management.AttributeList;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 public final class OpenMQContainer
 {
@@ -263,5 +270,42 @@ public final class OpenMQContainer
     properties.setProperty( "imq.fix.JMSMessageID", "true" );
 
     return properties;
+  }
+
+  protected final void createQueue( @Nonnull final String destinationName )
+    throws Exception
+  {
+    createQueue( destinationName, new AttributeList() );
+  }
+
+  protected final void createQueue( @Nonnull final String destinationName, @Nonnull final AttributeList attrList )
+    throws Exception
+  {
+    createDestination( destinationName, attrList, true );
+  }
+
+  protected final void createTopic( @Nonnull final String destinationName )
+    throws Exception
+  {
+    createTopic( destinationName, new AttributeList() );
+  }
+
+  protected final void createTopic( @Nonnull final String destinationName, @Nonnull final AttributeList attrList )
+    throws Exception
+  {
+    createDestination( destinationName, attrList, false );
+  }
+
+  protected final void createDestination( @Nonnull final String destinationName,
+                                          @Nonnull final AttributeList attrList,
+                                          final boolean queue )
+    throws Exception
+  {
+    final Object[] parameters = { queue ? DestinationType.QUEUE : DestinationType.TOPIC, destinationName, attrList };
+    final String[] signature = { String.class.getName(), String.class.getName(), attrList.getClass().getName() };
+
+    final ObjectName destMgrConfigName = new ObjectName( MQObjectName.DESTINATION_MANAGER_CONFIG_MBEAN_NAME );
+    final MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+    server.invoke( destMgrConfigName, DestinationOperations.CREATE, parameters, signature );
   }
 }
