@@ -140,7 +140,7 @@ public final class TypeListenerTest
   {
     protected void configure()
     {
-      bind( JMSContext.class ).annotatedWith( Names.named( "jms/Blah" ) ).to( TestJMSContext.class );
+      bind( JMSContext.class ).annotatedWith( new JMSConnectionFactoryImpl( "jms/Blah" ) ).to( TestJMSContext.class );
       bind( EntityManager.class ).to( TestEntityManager.class );
       bind( EntityManager.class ).annotatedWith( Names.named( "X" ) ).toInstance( new TestEntityManager2() );
       bind( ComponentB.class ).annotatedWith( Names.named( "some/resource/name" ) ).toInstance( new ComponentB() );

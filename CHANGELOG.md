@@ -5,7 +5,7 @@
 * Add method to expose the `BrokerInstance` in `OpenMQContainer`.
 * Add method to expose the `ConnectionFactory` field in `OpenMQContainer`.
 * Add method to create queue and topic references in `OpenMQContainer`.
-* Add type listener that handles injection of fields annotated with `JMSConnectionFactory`.
+* Customize `JMSConnectionFactory` to make it a binding annotation so that it works within the tests.
 
 ## 0.82:
 * Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
