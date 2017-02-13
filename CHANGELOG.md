@@ -3,6 +3,7 @@
 * Add several methods to `OpenMQContainer` that support creating queues and topics
   within the broker.
 * Add method to expose the `BrokerInstance` in `OpenMQContainer`.
+* Add method to expose the `ConnectionFactory` field in `OpenMQContainer`.
 
 ## 0.82:
 * Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
