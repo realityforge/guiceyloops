@@ -306,33 +306,33 @@ public final class OpenMQContainer
     return properties;
   }
 
-  protected final void createQueue( @Nonnull final String destinationName )
+  public final void createQueue( @Nonnull final String destinationName )
     throws Exception
   {
     createQueue( destinationName, new AttributeList() );
   }
 
-  protected final void createQueue( @Nonnull final String destinationName, @Nonnull final AttributeList attrList )
+  public final void createQueue( @Nonnull final String destinationName, @Nonnull final AttributeList attrList )
     throws Exception
   {
     createDestination( destinationName, attrList, true );
   }
 
-  protected final void createTopic( @Nonnull final String destinationName )
+  public final void createTopic( @Nonnull final String destinationName )
     throws Exception
   {
     createTopic( destinationName, new AttributeList() );
   }
 
-  protected final void createTopic( @Nonnull final String destinationName, @Nonnull final AttributeList attrList )
+  public final void createTopic( @Nonnull final String destinationName, @Nonnull final AttributeList attrList )
     throws Exception
   {
     createDestination( destinationName, attrList, false );
   }
 
-  protected final void createDestination( @Nonnull final String destinationName,
-                                          @Nonnull final AttributeList attrList,
-                                          final boolean queue )
+  public final void createDestination( @Nonnull final String destinationName,
+                                       @Nonnull final AttributeList attrList,
+                                       final boolean queue )
     throws Exception
   {
     final Object[] parameters = { queue ? DestinationType.QUEUE : DestinationType.TOPIC, destinationName, attrList };
