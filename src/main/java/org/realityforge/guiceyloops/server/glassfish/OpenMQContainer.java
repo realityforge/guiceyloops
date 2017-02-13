@@ -110,6 +110,15 @@ public final class OpenMQContainer
     }
   }
 
+  public BrokerInstance getBrokerInstance()
+  {
+    if ( null == _instance )
+    {
+      throw new IllegalStateException( "Attempted to invoke getBrokerInstance() before start()" );
+    }
+    return _instance;
+  }
+
   @Nonnull
   public String getHostAddress()
     throws Exception

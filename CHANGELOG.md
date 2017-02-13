@@ -2,6 +2,7 @@
 * Add helper class `OpenMQUtil` to help test OpenMQ state during tests.
 * Add several methods to `OpenMQContainer` that support creating queues and topics
   within the broker.
+* Add method to expose `BrokerInstance` in `OpenMQContainer`.
 
 ## 0.82:
 * Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
