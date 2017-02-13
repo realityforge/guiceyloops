@@ -18,5 +18,6 @@ public class JEETestingModule
     bindListener( Matchers.any(), new EjbTypeListener() );
     bindListener( Matchers.any(), new ResourceTypeListener() );
     bindListener( Matchers.any(), new WebServiceRefTypeListener() );
+    bindListener( Matchers.any(), new JmsTypeListener() );
   }
 }
