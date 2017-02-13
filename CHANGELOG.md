@@ -1,4 +1,4 @@
-## 0.83 (Pending):
+## 0.83:
 * Add helper class `OpenMQUtil` to help test OpenMQ state during tests.
 * Add several methods to `OpenMQContainer` that support creating queues and topics
   within the broker.
