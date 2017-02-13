@@ -280,7 +280,7 @@ public abstract class AbstractServerTest
   @Override
   protected Module[] getModules()
   {
-    final ArrayList<Module> modules = new ArrayList<Module>();
+    final ArrayList<Module> modules = new ArrayList<>();
     Collections.addAll( modules, super.getModules() );
     modules.add( new JEETestingModule() );
     modules.add( new ServerTestModule() );

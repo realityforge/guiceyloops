@@ -69,7 +69,7 @@ public class TestBeanManager
     try
     {
       _injector.getProvider( (Class) beanType );
-      final HashSet<Bean<?>> beans = new HashSet<Bean<?>>();
+      final HashSet<Bean<?>> beans = new HashSet<>();
       beans.add( mock( Bean.class ) );
       return beans;
     }

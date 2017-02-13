@@ -52,7 +52,7 @@ public class GlassFishContainer
   public GlassFishContainer( final int port, @Nonnull final URL[] classpath )
   {
     _port = port;
-    _glassfishClasspath = new ArrayList<URL>();
+    _glassfishClasspath = new ArrayList<>();
     for ( final URL url : classpath )
     {
       addToClasspath( url );

@@ -36,7 +36,7 @@ public class FieldBasedInjector<T>
   {
 
     final Provider<?> provider = typeEncounter.getProvider( Key.get( field.getType(), Names.named( name ) ) );
-    return new FieldBasedInjector<T>( provider, field );
+    return new FieldBasedInjector<>( provider, field );
   }
 
   /**
@@ -51,7 +51,7 @@ public class FieldBasedInjector<T>
                                                                @Nonnull final Field field )
   {
     final Provider<?> provider = typeEncounter.getProvider( field.getType() );
-    return new FieldBasedInjector<T>( provider, field );
+    return new FieldBasedInjector<>( provider, field );
   }
 
   /**
