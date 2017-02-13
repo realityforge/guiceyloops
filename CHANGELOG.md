@@ -1,5 +1,5 @@
 ## 0.83 (Pending):
-* Add helper class `OpenMQUtil` to help test OpenMQ state during tests. 
+* Add helper class `OpenMQUtil` to help test OpenMQ state during tests.
 
 ## 0.82:
 * Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
