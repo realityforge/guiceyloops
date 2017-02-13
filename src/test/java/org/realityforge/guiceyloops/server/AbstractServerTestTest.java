@@ -5,6 +5,7 @@ import com.google.inject.name.Names;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -137,6 +138,20 @@ public class AbstractServerTestTest
           multiBind( Component1.class, Service1.class, Service2.class );
         }
       };
+    }
+
+    @Nonnull
+    @Override
+    protected String getPrimaryJmsConnectionFactoryName()
+    {
+      return "";
+    }
+
+    @Nonnull
+    @Override
+    protected String getPrimaryBrokerName()
+    {
+      return "";
     }
   }
 

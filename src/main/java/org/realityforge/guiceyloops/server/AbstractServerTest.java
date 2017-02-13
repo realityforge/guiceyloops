@@ -3,6 +3,7 @@ package org.realityforge.guiceyloops.server;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
 import com.google.inject.ConfigurationException;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.icegreen.greenmail.util.GreenMail;
@@ -14,12 +15,16 @@ import java.util.concurrent.Callable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.jms.JMSContext;
+import javax.jms.Queue;
+import javax.jms.QueueBrowser;
 import javax.naming.Context;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
+import org.realityforge.guiceyloops.server.glassfish.OpenMQContainer;
 import org.realityforge.guiceyloops.shared.AbstractSharedTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -649,5 +654,41 @@ public abstract class AbstractServerTest
     {
       transaction.commit();
     }
+  }
+
+  @Nonnull
+  protected QueueBrowser getQueueBrowser( @Nonnull final String resourceName )
+  {
+    return jmsContext().createBrowser( s( resourceName, Queue.class ) );
+  }
+
+  @Nonnull
+  protected JMSContext jmsContext()
+  {
+    return jmsContext( getPrimaryJmsConnectionFactoryName() );
+  }
+
+  @Nonnull
+  protected abstract String getPrimaryJmsConnectionFactoryName();
+
+  @Nonnull
+  protected JMSContext jmsContext( @Nonnull final String name )
+  {
+    return getInjector().getInstance( Key.get( JMSContext.class, new JMSConnectionFactoryImpl( name ) ) );
+  }
+
+  @Nonnull
+  protected OpenMQContainer broker()
+  {
+    return broker( getPrimaryBrokerName() );
+  }
+
+  @Nonnull
+  protected abstract String getPrimaryBrokerName();
+
+  @Nonnull
+  protected OpenMQContainer broker( @Nonnull final String name )
+  {
+    return getInstance( name, OpenMQContainer.class );
   }
 }
