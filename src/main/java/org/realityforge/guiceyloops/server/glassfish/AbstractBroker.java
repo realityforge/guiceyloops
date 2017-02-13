@@ -12,7 +12,7 @@ public abstract class AbstractBroker
   public void start()
     throws Exception
   {
-    if ( null != _openMQContainer )
+    if ( null == _openMQContainer )
     {
       final Properties properties = new Properties();
       properties.setProperty( "imq.autocreate.topic", "false" );
