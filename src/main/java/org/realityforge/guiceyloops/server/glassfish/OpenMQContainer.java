@@ -17,6 +17,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.Queue;
+import javax.jms.Topic;
 import javax.management.AttributeList;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -82,6 +84,20 @@ public final class OpenMQContainer
       throw new IllegalStateException( "getConnectionFactory() invoked before start()" );
     }
     return _connectionFactory;
+  }
+
+  @Nonnull
+  public Queue createQueueReference( @Nonnull final String name )
+    throws Exception
+  {
+    return new com.sun.messaging.Queue( name );
+  }
+
+  @Nonnull
+  public Topic createTopicReference( @Nonnull final String name )
+    throws Exception
+  {
+    return new com.sun.messaging.Topic( name );
   }
 
   public void start()
