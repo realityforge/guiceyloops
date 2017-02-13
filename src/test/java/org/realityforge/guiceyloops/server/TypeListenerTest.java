@@ -159,10 +159,10 @@ public final class TypeListenerTest
     @Resource
     private ComponentB _componentBViaResource;
 
-    @Resource(name = "some/resource/name")
+    @Resource( name = "some/resource/name" )
     private ComponentB _componentBViaNamedResource;
 
-    @Resource(lookup = "some/resource/name")
+    @Resource( lookup = "some/resource/name" )
     private ComponentB _componentBViaResourceLookup;
 
     @Inject
@@ -176,7 +176,7 @@ public final class TypeListenerTest
     @PersistenceContext
     private EntityManager _entityManagerBViaPersistenceContext;
 
-    @PersistenceContext(unitName = "X")
+    @PersistenceContext( unitName = "X" )
     private EntityManager _entityManagerBViaPersistenceContextWithKey;
 
     @WebServiceRef
