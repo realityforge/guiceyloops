@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
+@SuppressWarnings( "WeakerAccess" )
 public class AbstractServerTestTest
 {
   public static final String SECONDARY_UNIT_NAME = ValueUtil.randomString();
