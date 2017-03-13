@@ -1,3 +1,5 @@
+## 0.85 (Pending):
+
 ## 0.84:
 * Ensure `PersistenceTestModule` will gracefully handle listeners that do not
   implement `EntityListener`. 
