@@ -132,8 +132,11 @@ public abstract class PersistenceTestModule
   {
     for ( final Object o : eventListeners )
     {
-      final EntityListener listener = (EntityListener) o;
-      requestInjection( listener.getListener( listener.getOwningSession() ) );
+      if ( o instanceof EntityListener )
+      {
+        final EntityListener listener = (EntityListener) o;
+        requestInjection( listener.getListener( listener.getOwningSession() ) );
+      }
     }
   }
 }

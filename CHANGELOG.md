@@ -1,4 +1,6 @@
 ## 0.84 (Pending):
+* Ensure `PersistenceTestModule` will gracefully handle listeners that do not
+  implement `EntityListener`. 
 
 ## 0.83:
 * Add helper class `OpenMQUtil` to help test OpenMQ state during tests.
