@@ -1,4 +1,5 @@
 ## 0.85 (Pending):
+* Add some factory methods to `GlassFishContainer` to create concurrent resources.
 
 ## 0.84:
 * Ensure `PersistenceTestModule` will gracefully handle listeners that do not

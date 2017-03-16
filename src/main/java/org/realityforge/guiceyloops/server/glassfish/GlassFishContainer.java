@@ -466,6 +466,30 @@ public class GlassFishContainer
     execute( "create-jms-resource", "--restype", type, "--property", "Name=" + physicalName, key );
   }
 
+  public void createManagedScheduledExecutorService( @Nonnull final String jndiName )
+    throws Exception
+  {
+    execute( "create-managed-scheduled-executor-service", jndiName );
+  }
+
+  public void createManagedExecutorService( @Nonnull final String jndiName )
+    throws Exception
+  {
+    execute( "create-managed-executor-service", jndiName );
+  }
+
+  public void createManagedThreadFactory( @Nonnull final String jndiName )
+    throws Exception
+  {
+    execute( "create-managed-thread-factory", jndiName );
+  }
+
+  public void createContextService( @Nonnull final String jndiName )
+    throws Exception
+  {
+    execute( "create-context-service", jndiName );
+  }
+
   public void createJavamailResource( @Nonnull final String key,
                                       @Nonnull final String mailhost,
                                       @Nonnull final String mailuser,
