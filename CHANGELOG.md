@@ -1,4 +1,4 @@
-## 0.87 (Pending):
+## 0.87:
 * Call `ValueUtil.setNow()` as part of test setup.
 
 ## 0.86:
