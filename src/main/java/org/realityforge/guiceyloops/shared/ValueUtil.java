@@ -20,6 +20,7 @@ public final class ValueUtil
 
   private static final AtomicInteger c_currentID = new AtomicInteger( INITIAL_VALUE );
   private static final Random c_random = new Random();
+  private static Date c_now;
 
   private static int c_seed;
 
@@ -85,6 +86,7 @@ public final class ValueUtil
 
   public static void reset()
   {
+    c_now = null;
     c_currentID.set( INITIAL_VALUE );
     if ( 0 != c_seed )
     {
@@ -101,15 +103,32 @@ public final class ValueUtil
   }
 
   /**
+   * Helper function to set "now" time.
+   */
+  public static void setNow( final Date now )
+  {
+    c_now = now;
+  }
+
+  /**
    * Current time truncated to database resolution.
    */
   @Nonnull
   public static Date now()
   {
+    return trunc( null != c_now ? c_now : new Date() );
+  }
+
+  /**
+   * Current time as a calendar.
+   */
+  @Nonnull
+  public static Calendar nowAsCalendar()
+  {
     final Calendar calendar = Calendar.getInstance();
     calendar.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
-    calendar.set( Calendar.MILLISECOND, 0 );
-    return calendar.getTime();
+    calendar.setTime( now() );
+    return calendar;
   }
 
   /**
@@ -157,8 +176,7 @@ public final class ValueUtil
   @Nonnull
   public static Date today()
   {
-    final Calendar calendar = Calendar.getInstance();
-    calendar.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
+    final Calendar calendar = nowAsCalendar();
     calendar.set( Calendar.HOUR_OF_DAY, 0 );
     calendar.set( Calendar.MINUTE, 0 );
     calendar.set( Calendar.SECOND, 0 );

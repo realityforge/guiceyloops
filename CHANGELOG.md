@@ -1,4 +1,5 @@
 ## 0.86 (Pending):
+* Add utility function `ValueUtil.setNow()` that allows the explicit configuration of now time in tests.
 
 ## 0.85:
 * Add some factory methods to `GlassFishContainer` to create concurrent resources.
