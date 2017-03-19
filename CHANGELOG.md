@@ -1,4 +1,5 @@
 ## 0.87 (Pending):
+* Call `ValueUtil.setNow()` as part of test setup.
 
 ## 0.86:
 * Add utility function `ValueUtil.setNow()` that allows the explicit configuration of now time in tests.

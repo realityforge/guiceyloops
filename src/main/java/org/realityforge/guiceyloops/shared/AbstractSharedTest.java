@@ -8,6 +8,7 @@ import com.google.inject.Module;
 import com.google.inject.name.Names;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.Nullable;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,13 +17,30 @@ import static org.testng.Assert.*;
 public abstract class AbstractSharedTest
 {
   private Injector _injector;
+  private boolean _nowSet;
 
   @BeforeMethod
   public void preTest()
     throws Exception
   {
+    setNow();
     _injector = Guice.createInjector( getModules() );
     postInjector();
+  }
+
+  /**
+   * Utility function that sets the "now" time.
+   * This can be called multiple times within a test run and will set the "now" to the time
+   * of the first call. This is useful when the user is overriding preTest() and performs an action
+   * that interacts with ValueUtil before calling super.preTest().
+   */
+  protected void setNow()
+  {
+    if ( !_nowSet )
+    {
+      _nowSet = true;
+      ValueUtil.setNow( new Date() );
+    }
   }
 
   /**
@@ -36,6 +54,7 @@ public abstract class AbstractSharedTest
   public void postTest()
   {
     _injector = null;
+    _nowSet = false;
   }
 
   protected Module[] getModules()
