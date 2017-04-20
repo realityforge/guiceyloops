@@ -1,4 +1,5 @@
 ## 0.88 (Pending):
+* Import `org.realityforge.guiceyloops.server.EventStub` code to help support testing CDI events.
 
 ## 0.87:
 * Call `ValueUtil.setNow()` as part of test setup.
