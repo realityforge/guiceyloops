@@ -1,6 +1,5 @@
 require 'buildr/git_auto_version'
 require 'buildr/gpg'
-require 'buildr/custom_pom'
 
 PROVIDED_DEPS = [:javax_javaee, :javax_annotation]
 
