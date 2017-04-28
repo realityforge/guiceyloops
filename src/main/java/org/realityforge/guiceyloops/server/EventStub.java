@@ -47,7 +47,7 @@ public final class EventStub<T>
   }
 
   /**
-   * Returns qualifiers used with {@link #select(java.lang.annotation.Annotation...)} in conjunction with event firing.
+   * Returns qualifiers used with {@link #select(Annotation...)} in conjunction with event firing.
    *
    * @param event The event that was fired upon.
    * @return list of qualifiers invoked for the event or <tt>null</tt> if none.
