@@ -54,7 +54,7 @@ public final class EventStub<T>
    */
   public List<Annotation> getQualifiers( final T event )
   {
-    return _eventQualifiersMap.get( event );
+    return Collections.unmodifiableList( _eventQualifiersMap.get( event ) );
   }
 
   @Override
