@@ -1,4 +1,4 @@
-## 0.90:
+## 0.90 (Pending):
 * Add method to AbstractServerTest and AbstractSharedTest to retrieve objects by type literal.
 
 ## 0.89:
