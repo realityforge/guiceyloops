@@ -13,8 +13,8 @@ import javax.enterprise.util.TypeLiteral;
 public final class EventStub<T>
   implements Event<T>
 {
-  private List<T> _events = new ArrayList<>();
-  private Map<T, List<Annotation>> _eventQualifiersMap = new HashMap<>();
+  private final List<T> _events = new ArrayList<>();
+  private final Map<T, List<Annotation>> _eventQualifiersMap = new HashMap<>();
 
   @Override
   public void fire( final T event )
