@@ -1,3 +1,5 @@
+## 0.89:
+
 ## 0.88:
 * Import `org.realityforge.guiceyloops.server.EventStub` code to help support testing CDI events.
 
