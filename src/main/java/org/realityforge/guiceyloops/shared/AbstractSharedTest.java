@@ -5,6 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -91,6 +92,11 @@ public abstract class AbstractSharedTest
   protected Module getDefaultTestModule()
   {
     return null;
+  }
+
+  protected <T> T s( final TypeLiteral<T> literal )
+  {
+    return getInjector().getInstance( Key.get( literal ) );
   }
 
   protected <T> T s( final Class<T> type )

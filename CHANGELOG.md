@@ -1,3 +1,6 @@
+## 0.90:
+* Add method to AbstractServerTest and AbstractSharedTest to retrieve objects by type literal.
+
 ## 0.89:
 * Add helper method `EventStub#getEvents` to retrieve ths list of events directly.
 

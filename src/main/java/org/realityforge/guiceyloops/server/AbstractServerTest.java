@@ -345,6 +345,13 @@ public abstract class AbstractServerTest
   }
 
   @Override
+  protected <T> T s( final TypeLiteral<T> literal )
+  {
+    flush();
+    return super.s( literal );
+  }
+
+  @Override
   protected final <T> T s( final Class<T> type )
   {
     // Flush the entity manager prior to invoking the service. Ensures that the service method can
