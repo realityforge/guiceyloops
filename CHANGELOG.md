@@ -1,4 +1,5 @@
 ## 0.89:
+* Add helper method `EventStub#getEvents` to retrieve ths list of events directly.
 
 ## 0.88:
 * Import `org.realityforge.guiceyloops.server.EventStub` code to help support testing CDI events.
