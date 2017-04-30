@@ -1,4 +1,4 @@
-## 0.90 (Pending):
+## 0.90:
 * Add method `AbstractServerTest.eventStub` that retrieves the test event stub.
 * Add method to AbstractServerTest and AbstractSharedTest to retrieve objects by type literal.
 
