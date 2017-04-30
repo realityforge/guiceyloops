@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.jms.JMSContext;
 import javax.jms.Queue;
@@ -367,6 +368,16 @@ public abstract class AbstractServerTest
     // find all created artifacts
     flush();
     return super.s( name, type );
+  }
+
+  /**
+   * Retrieve the EventStub implementation associated with event literal.
+   * It is assumed that the event stub is bound in the associated module.
+   */
+  @Nonnull
+  protected final <T> EventStub<T> eventStub( @Nonnull final TypeLiteral<Event<T>> literal )
+  {
+    return (EventStub<T>) s( literal );
   }
 
   protected final void resetTransactionSynchronizationRegistry()
