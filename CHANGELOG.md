@@ -1,3 +1,6 @@
+## 0.91:
+* Added `ValueUtil.randomUUID()` utility method that uses the Random object associated with ValueUtil.
+
 ## 0.90:
 * Add method `AbstractServerTest.eventStub` that retrieves the test event stub.
 * Add method to AbstractServerTest and AbstractSharedTest to retrieve objects by type literal.
