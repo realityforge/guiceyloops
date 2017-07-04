@@ -1,3 +1,6 @@
+## 0.92:
+* Add `ValueUtil.addMonths()` utility method. Submitted by Viren Wickramaratne.
+
 ## 0.91:
 * Added `ValueUtil.randomUUID()` utility method that uses the Random object associated with ValueUtil.
 
