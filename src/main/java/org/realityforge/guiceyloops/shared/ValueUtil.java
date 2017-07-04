@@ -205,6 +205,16 @@ public final class ValueUtil
     cal.add( Calendar.DAY_OF_YEAR, dayCount );
     return cal.getTime();
   }
+  
+  @Nonnull
+  public static Date addMonths( @Nonnull final Date time, final int monthCount )
+  {
+    final Calendar cal = Calendar.getInstance();
+    cal.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
+    cal.setTime( time );
+    cal.add( Calendar.MONTH, monthCount );
+    return cal.getTime();
+  }
 
   @Nonnull
   public static Date addHours( @Nonnull final Date time, final int count )
