@@ -54,7 +54,7 @@ public abstract class AbstractAppServer
     _baseHttpURL = getGlassfish().getBaseHttpURL();
   }
 
-  protected void configureGlassFish( @Nonnull GlassFishContainer glassfish )
+  protected void configureGlassFish( @Nonnull final GlassFishContainer glassfish )
     throws Exception
   {
   }
