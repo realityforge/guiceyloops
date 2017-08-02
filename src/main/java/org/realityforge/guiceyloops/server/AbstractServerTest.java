@@ -459,7 +459,15 @@ public abstract class AbstractServerTest
     for ( final Binding<EntityManager> binding : bindings )
     {
       final EntityManager em = binding.getProvider().get();
-      em.getTransaction().commit();
+      final EntityTransaction transaction = em.getTransaction();
+      if ( transaction.getRollbackOnly() )
+      {
+        transaction.rollback();
+      }
+      else
+      {
+        transaction.commit();
+      }
     }
   }
 

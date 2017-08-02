@@ -1,3 +1,7 @@
+## 0.93 (Pending):
+* Make `AbstractServerTest.commitTransaction()` tolerant to a transaction that has been marked
+  for rollback.
+
 ## 0.92:
 * Add `ValueUtil.addMonths()` utility method. Submitted by Viren Wickramaratne.
 
