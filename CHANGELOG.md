@@ -1,4 +1,5 @@
 ## 0.93 (Pending):
+* Make `AbstractServerTest.refresh()` variant that accepts persistence unit name.
 * Make `AbstractServerTest.commitTransaction()` tolerant to a transaction that has been marked
   for rollback.
 

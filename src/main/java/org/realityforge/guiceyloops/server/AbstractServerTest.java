@@ -482,7 +482,15 @@ public abstract class AbstractServerTest
     }
   }
 
-  protected final <T> T refresh( final T entity )
+  @Nonnull
+  protected final <T> T refresh( @Nullable final String unitName, @Nonnull final T entity )
+  {
+    em( unitName ).refresh( entity );
+    return entity;
+  }
+
+  @Nonnull
+  protected final <T> T refresh( @Nonnull final T entity )
   {
     em().refresh( entity );
     return entity;
