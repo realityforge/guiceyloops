@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.realityforge.guiceyloops.server.DatabaseUtil;
 
 /**
@@ -221,32 +222,43 @@ public class GlassFishContainer
     return getBaseHttpURL() + contextRoot;
   }
 
-  public void createPostgresJdbcResource( @Nonnull final String key,
-                                          @Nonnull final String databaseConnectionProperty )
+  public void createPostgresJdbcResource( @Nonnull final String key, @Nonnull final Properties properties )
     throws Exception
   {
-    createJdbcResource( key, "org.postgresql.ds.PGSimpleDataSource", databaseConnectionProperty );
+    createJdbcResource( key, "org.postgresql.ds.PGSimpleDataSource", properties );
   }
 
   public void createPostgresJdbcResource( @Nonnull final String key )
     throws Exception
   {
-    createPostgresJdbcResource( key, toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() ) );
+    createPostgresJdbcResource( key, (String) null );
   }
 
-  public void createSqlServerJdbcResource( @Nonnull final String key,
-                                           @Nonnull final String databaseConnectionProperty )
+  public void createPostgresJdbcResource( @Nonnull final String key, @Nullable final String databasePrefix )
     throws Exception
   {
-    createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", databaseConnectionProperty );
+    createPostgresJdbcResource( key, DatabaseUtil.getGlassFishDataSourceProperties( databasePrefix ) );
+  }
+
+  public void createSqlServerJdbcResource( @Nonnull final String key, @Nonnull final Properties properties )
+    throws Exception
+  {
+    createJdbcResource( key, "net.sourceforge.jtds.jdbcx.JtdsDataSource", properties );
   }
 
   public void createSqlServerJdbcResource( @Nonnull final String key )
     throws Exception
   {
-    createSqlServerJdbcResource( key, toGlassFishPropertiesString( DatabaseUtil.getGlassFishDataSourceProperties() ) );
+    createSqlServerJdbcResource( key, (String) null );
   }
 
+  public void createSqlServerJdbcResource( @Nonnull final String key, @Nullable final String databasePrefix )
+    throws Exception
+  {
+    createSqlServerJdbcResource( key, DatabaseUtil.getGlassFishDataSourceProperties( databasePrefix ) );
+  }
+
+  @Nonnull
   public String toGlassFishPropertiesString( @Nonnull final Properties properties )
   {
     final StringBuilder sb = new StringBuilder();
@@ -265,7 +277,15 @@ public class GlassFishContainer
 
   public void createJdbcResource( @Nonnull final String key,
                                   @Nonnull final String dataSourceClassName,
-                                  @Nonnull final String databaseConnectionProperty )
+                                  @Nonnull final Properties properties )
+    throws Exception
+  {
+    createJdbcResource( key, dataSourceClassName, toGlassFishPropertiesString( properties ) );
+  }
+
+  private void createJdbcResource( @Nonnull final String key,
+                                   @Nonnull final String dataSourceClassName,
+                                   @Nonnull final String databaseConnectionProperty )
     throws Exception
   {
     LOG.info( "Creating jdbc resource: " + key );
