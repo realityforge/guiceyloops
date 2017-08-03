@@ -1,4 +1,4 @@
-## 0.94 (Pending):
+## 0.94:
 * Support passing arbitrary services into `Provisioner` instances.
 
 ## 0.93:
