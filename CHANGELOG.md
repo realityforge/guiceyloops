@@ -1,3 +1,5 @@
+## 0.94 (Pending):
+
 ## 0.93:
 * Introduce `Provisioner` as the interface via which AbstractAppServer is provisioned.
 * Make `AbstractServerTest.refresh()` variant that accepts persistence unit name.
