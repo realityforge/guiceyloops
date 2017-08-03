@@ -1,4 +1,5 @@
 ## 0.94 (Pending):
+* Support passing arbitrary services into `Provisioner` instances.
 
 ## 0.93:
 * Introduce `Provisioner` as the interface via which AbstractAppServer is provisioned.

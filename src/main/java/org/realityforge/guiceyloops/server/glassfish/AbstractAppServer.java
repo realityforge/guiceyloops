@@ -1,6 +1,8 @@
 package org.realityforge.guiceyloops.server.glassfish;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 import javax.annotation.Nonnull;
 
 /**
@@ -46,9 +48,11 @@ public abstract class AbstractAppServer
       _glassfish.start();
 
       preProvision();
+      final Map<String, Object> services =
+        Collections.singletonMap( OpenMQContainer.class.getName(), _openMQContainer );
       for ( final Provisioner provisioner : _provisioners )
       {
-        provisioner.provision( _glassfish );
+        provisioner.provision( _glassfish, services );
       }
       postProvision();
     }
