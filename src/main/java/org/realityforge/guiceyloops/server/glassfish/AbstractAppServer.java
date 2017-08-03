@@ -1,5 +1,6 @@
 package org.realityforge.guiceyloops.server.glassfish;
 
+import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 /**
@@ -7,22 +8,10 @@ import javax.annotation.Nonnull;
  */
 public abstract class AbstractAppServer
 {
+  private final ArrayList<Provisioner> _provisioners = new ArrayList<>();
   private OpenMQContainer _openMQContainer;
   private GlassFishContainer _glassfish;
-  private String _baseHttpURL;
   private boolean _enableOpenMQ;
-
-  public final String getSiteURL()
-  {
-    return _baseHttpURL + getContextRoot();
-  }
-
-  public final String getBaseHttpURL()
-  {
-    return _baseHttpURL;
-  }
-
-  public abstract String getContextRoot();
 
   public boolean isOpenMQEnabled()
   {
@@ -48,20 +37,6 @@ public abstract class AbstractAppServer
     postTeardown();
   }
 
-  protected void postDeploy()
-    throws Exception
-  {
-    _baseHttpURL = getGlassfish().getBaseHttpURL();
-  }
-
-  protected void configureGlassFish( @Nonnull final GlassFishContainer glassfish )
-    throws Exception
-  {
-  }
-
-  protected abstract void performDeploy()
-    throws Exception;
-
   private void setUpGlassFish()
     throws Exception
   {
@@ -70,11 +45,26 @@ public abstract class AbstractAppServer
       _glassfish = new GlassFishContainer();
       _glassfish.start();
 
-      configureGlassFish( _glassfish );
-
-      performDeploy();
-      postDeploy();
+      preProvision();
+      for ( final Provisioner provisioner : _provisioners )
+      {
+        provisioner.provision( _glassfish );
+      }
+      postProvision();
     }
+  }
+
+  protected void preProvision()
+  {
+  }
+
+  protected void postProvision()
+  {
+  }
+
+  protected void addProvisioner( @Nonnull final Provisioner provisioner )
+  {
+    _provisioners.add( provisioner );
   }
 
   private void setUpOpenMQ()
@@ -107,7 +97,6 @@ public abstract class AbstractAppServer
 
   protected void postTeardown()
   {
-    _baseHttpURL = null;
   }
 
   @Nonnull

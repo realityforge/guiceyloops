@@ -1,4 +1,5 @@
 ## 0.93 (Pending):
+* Introduce `Provisioner` as the interface via which AbstractAppServer is provisioned.
 * Make `AbstractServerTest.refresh()` variant that accepts persistence unit name.
 * Make `AbstractServerTest.commitTransaction()` tolerant to a transaction that has been marked
   for rollback.
