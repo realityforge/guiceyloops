@@ -36,7 +36,7 @@
 
 ## 0.84:
 * Ensure `PersistenceTestModule` will gracefully handle listeners that do not
-  implement `EntityListener`. 
+  implement `EntityListener`.
 
 ## 0.83:
 * Add helper class `OpenMQUtil` to help test OpenMQ state during tests.
@@ -80,7 +80,7 @@
 * Lock down the default timezone to Australia/Melbourne.
 
 ## 0.75:
-* Prefix the default sentinel values in DatabaseUtil with the database prefix. 
+* Prefix the default sentinel values in DatabaseUtil with the database prefix.
 * Make sure TinyHttpd returns the correct address after the server has been started.
 * Support named servers in TinyHttpdFactory.
 
