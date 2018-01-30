@@ -1,4 +1,5 @@
 ## 0.95 (Pending):
+* Upgrade the version of guice to a patched version.
 
 ## 0.94:
 * Support passing arbitrary services into `Provisioner` instances.

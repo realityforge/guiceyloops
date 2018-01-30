@@ -6,9 +6,10 @@ artifacts:
   javax_annotation: com.google.code.findbugs:jsr305:jar:3.0.1
   javax_javaee: javax:javaee-api:jar:7.0
 
-  google_guice: com.google.inject:guice:jar:3.0
-  google_guice_assistedinject: com.google.inject.extensions:guice-assistedinject:jar:3.0
+  google_guice: au.com.stocksoftware.com.google.inject:guice:jar:4.1.1-stock
+  asm: org.ow2.asm:asm:jar:5.0.3 # Required for guice
   aopalliance: aopalliance:aopalliance:jar:1.0 # Required for guice
+
   testng: org.testng:testng:jar:6.8
   mockito: org.mockito:mockito-all:jar:1.9.5
   jndikit: org.realityforge.jndikit:jndikit:jar:1.4

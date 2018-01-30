@@ -26,7 +26,7 @@ define 'guiceyloops' do
                :mockito,
                :google_guice,
                :aopalliance,
-               :google_guice_assistedinject
+               :asm
 
   # Make sure embedded glassfish jar is present as it is used in the tests
   compile do
