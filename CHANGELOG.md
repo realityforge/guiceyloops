@@ -1,4 +1,4 @@
-## 0.95 (Pending):
+## 0.95:
 * Upgrade the version of guice to a patched version.
 
 ## 0.94:
