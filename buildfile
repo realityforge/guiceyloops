@@ -33,7 +33,11 @@ define 'guiceyloops' do
     artifact(:glassfish_embedded).invoke
   end
 
-  project.test.options[:properties] = {'embedded.glassfish.artifacts' => artifact(:glassfish_embedded).to_spec}
+  project.test.options[:properties] =
+    {
+      'user.timezone' => 'Australia/Melbourne',
+      'embedded.glassfish.artifacts' => artifact(:glassfish_embedded).to_spec
+    }
 
   test.with :h2db
   test.using :testng
