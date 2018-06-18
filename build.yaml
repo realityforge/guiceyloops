@@ -4,7 +4,7 @@ repositories:
    - https://stocksoftware.jfrog.io/stocksoftware/oss
 
 artifacts:
-  javax_annotation: com.google.code.findbugs:jsr305:jar:3.0.1
+  javax_annotation: org.realityforge.javax.annotation:javax.annotation:jar:1.0.0
   javax_javaee: javax:javaee-api:jar:7.0
 
   google_guice: au.com.stocksoftware.com.google.inject:guice:jar:4.1.1-stock
