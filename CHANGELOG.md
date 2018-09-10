@@ -1,3 +1,7 @@
+## 0.96:
+* Add the method `OpenMQUtil.purgeTopic(...)` as a compliment of `OpenMQUtil.purgeQueue(...)` that is
+  useful when resetting state during tests. Submitted by James Walker.
+
 ## 0.95:
 * Upgrade the version of guice to a patched version.
 
