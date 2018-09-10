@@ -25,9 +25,21 @@ public final class OpenMQUtil
   public static void purgeQueue( @Nonnull final String destinationName )
     throws Exception
   {
-
     final ObjectName objectName =
       MQObjectName.createDestinationConfig( DestinationType.QUEUE, destinationName );
+    final MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+    server.invoke( objectName, DestinationOperations.PURGE, new Object[ 0 ], new String[ 0 ] );
+  }
+
+  /**
+   * Method that purges contents of topics.
+   * Typically this is invoked at the start of tests to reset state
+   */
+  public static void purgeTopic( @Nonnull final String destinationName )
+    throws Exception
+  {
+    final ObjectName objectName =
+      MQObjectName.createDestinationConfig( DestinationType.TOPIC, destinationName );
     final MBeanServer server = ManagementFactory.getPlatformMBeanServer();
     server.invoke( objectName, DestinationOperations.PURGE, new Object[ 0 ], new String[ 0 ] );
   }
