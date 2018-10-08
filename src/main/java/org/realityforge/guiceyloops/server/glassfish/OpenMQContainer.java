@@ -24,6 +24,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 public final class OpenMQContainer
+  implements AutoCloseable
 {
   private static final Logger LOG = Logger.getLogger( OpenMQContainer.class.getName() );
 
@@ -150,6 +151,13 @@ public final class OpenMQContainer
     throws Exception
   {
     return InetAddress.getLocalHost().getHostAddress();
+  }
+
+  @Override
+  public void close()
+    throws Exception
+  {
+    stop();
   }
 
   public void stop()

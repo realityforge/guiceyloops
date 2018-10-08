@@ -1,3 +1,6 @@
+## Unreleased
+* Make `OpenMQContainer` implement `AutoCloseable`.
+
 ## 0.96:
 * Add the method `OpenMQUtil.purgeTopic(...)` as a compliment of `OpenMQUtil.purgeQueue(...)` that is
   useful when resetting state during tests. Submitted by James Walker.
