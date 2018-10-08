@@ -1,6 +1,7 @@
 package org.realityforge.guiceyloops.server.glassfish;
 
 import javax.jms.Connection;
+import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
@@ -11,35 +12,38 @@ import static org.testng.Assert.*;
 
 public class OpenMQContainerTest
 {
-  @Test
+  @Test( timeOut = 30000 )
   public void basicWorkflow()
     throws Exception
   {
-    final OpenMQContainer container = new OpenMQContainer();
+    try ( final OpenMQContainer container = new OpenMQContainer() )
+    {
+      container.start();
+      try ( final Connection connection = container.createConnection() )
+      {
+        assertNotNull( connection );
 
-    container.start();
+        // now create a session and a producer and consumer in the normal way
+        final Session session = connection.createSession( false, Session.AUTO_ACKNOWLEDGE );
+        final Queue queue = session.createQueue( "exampleQueue" );
+        final MessageConsumer consumer = session.createConsumer( queue );
+        final MessageProducer producer = session.createProducer( queue );
 
-    final Connection connection = container.createConnection();
-    assertNotNull( connection );
+        // send a message to the queue in the normal way
+        final String txMessage = "This is a message";
+        producer.send( session.createTextMessage( txMessage ) );
 
-    // now create a session and a producer and consumer in the normal way
-    final Session session = connection.createSession( false, Session.AUTO_ACKNOWLEDGE );
-    final Queue queue = session.createQueue( "exampleQueue" );
-    final MessageConsumer consumer = session.createConsumer( queue );
-    final MessageProducer producer = session.createProducer( queue );
+        // receive a message from the queue in the normal way
+        connection.start();
 
-    // send a message to the queue in the normal way
-    final String txMessage = "This is a message";
-    producer.send( session.createTextMessage( txMessage ) );
+        final Message message = consumer.receive( 30000 );
+        assertNotNull( message );
+        assertTrue( message instanceof TextMessage );
 
-    // receive a message from the queue in the normal way
-    connection.start();
+        final String content = ( (TextMessage) message ).getText();
 
-    final String rxMessage = ( (TextMessage) consumer.receive( 10 ) ).getText();
-
-    assertEquals( rxMessage, txMessage );
-
-    connection.close();
-    container.stop();
+        assertEquals( content, txMessage );
+      }
+    }
   }
 }
