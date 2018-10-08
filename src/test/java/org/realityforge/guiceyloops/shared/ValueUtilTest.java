@@ -111,7 +111,7 @@ public class ValueUtilTest
     final Date tomorrow = ValueUtil.tomorrow();
     final Date yesterday = ValueUtil.yesterday();
 
-    final GregorianCalendar c = new GregorianCalendar(  );
+    final GregorianCalendar c = new GregorianCalendar();
     c.setTime( today );
     assertEquals( c.get( Calendar.HOUR_OF_DAY ), 0 );
     assertEquals( c.get( Calendar.MINUTE ), 0 );
