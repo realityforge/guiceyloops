@@ -3,23 +3,12 @@ jdk:
 - oraclejdk8
 rvm:
 - 2.3.1
-before_install:
-- openssl aes-256-cbc -K $encrypted_dcd7aa55d643_key -iv $encrypted_dcd7aa55d643_iv
-  -in etc/secrets -out ../secrets.tar -d
-- "(cd ../ && tar xvf secrets.tar)"
-- chmod 600 ../release.asc
-- gpg --import ../release.asc
 install:
 - rvm use 2.3.1
 - gem install bundler
 - bundle install
-script: buildr clean package jacoco:report mcrt:publish_if_tagged
+script: buildr package jacoco:report
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 git:
   depth: false
-env:
-  global:
-  - secure: Cy6G94wAIz9Y8yXAWM1MIFUXVFudhUO1yCdaDonzyne70IypHkXJFDUxz0ohIplqbsn0xl1WN8mgOuhEcHMuxLl4gd//tgHdtoDCnjBglMSKVtk+Q5e11SL0Oy24jGkqaZ2nXkDFkG9BkEaCXDZlmxXPNHHqNqeQeTHCZQZmHtU=
-  - secure: Ke/pEU6e4U5//6K3kQZgLlLIFonFTvc+m4AvXIEYcBuQ+UOET2BOBTe+gaX8Ar1vVdXES7M+eWkKXUj5hchIkRl+VITThJQE3mU3bWsHRNEhfsQJ80WDzVY9A+mnBa7eNf8KnnbT9EZoew62C52+pHcElTBV1sCuZpYqA9eaUOE=
-  - secure: PXtf2yTSqf0SCmXlxa+DorwBHp4MjRO5n5ze+5+uyO71LoZIrljZygXS4Pckat2WnHCtemOpz/8FcWbGzLEzbYQcTfMiJ6HbR9i8Vq6ZVgYcs1lr70/O60oaWBNh6mSaqCB2BtPR3XMGYvuoB1sE8yRh/A6OteZhnTMaPRndwEQ=
