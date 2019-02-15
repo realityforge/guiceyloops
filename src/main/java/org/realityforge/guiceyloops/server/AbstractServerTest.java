@@ -127,7 +127,6 @@ public abstract class AbstractServerTest
   {
     if ( enableMailServer() )
     {
-
       try
       {
         final Object greenMail = s( GreenMail.class );
