@@ -1,6 +1,7 @@
 ## Unreleased
 * Make `OpenMQContainer` implement `AutoCloseable`.
 * Remove deployment from TravisCI infrastructure as it is no longer feasible.
+* Ensure that all `EntityManager` bindings are closed in `AbstractServerTest.postTest()`.
 
 ## 0.96:
 * Add the method `OpenMQUtil.purgeTopic(...)` as a compliment of `OpenMQUtil.purgeQueue(...)` that is

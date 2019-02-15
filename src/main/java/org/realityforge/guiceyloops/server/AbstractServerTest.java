@@ -58,24 +58,30 @@ public abstract class AbstractServerTest
     shutdownTransactionSynchronizationRegistry();
     finishDbCleaner();
     shutdownBeanManager();
-    shutdownEntityManager();
+    shutdownEntityManagers();
     super.postTest();
     clearJndiContext();
     _testThread = null;
   }
 
   /**
-   * Completely shutdown the entity manager.
+   * Completely shutdown the entity managers.
    */
-  private void shutdownEntityManager()
+  private void shutdownEntityManagers()
   {
-    try
+    final List<Binding<EntityManager>> bindings =
+      getInjector().findBindingsByType( TypeLiteral.get( EntityManager.class ) );
+    for ( final Binding<EntityManager> binding : bindings )
     {
-      em().close();
-    }
-    catch ( final Throwable e )
-    {
-      //Completely ignorable
+      final EntityManager em = binding.getProvider().get();
+      try
+      {
+        em.close();
+      }
+      catch ( final Throwable e )
+      {
+        //Completely ignorable
+      }
     }
   }
 
