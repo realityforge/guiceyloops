@@ -1,54 +1,72 @@
-## Unreleased
+# Change Log
+
+### Unreleased
+
 * Make `OpenMQContainer` implement `AutoCloseable`.
 * Remove deployment from TravisCI infrastructure as it is no longer feasible.
 * Ensure that all `EntityManager` bindings are closed in `AbstractServerTest.postTest()`.
 
-## 0.96:
+### [v0.96](https://github.com/realityforge/guiceyloops/tree/v0.96) (2018-09-10)
+[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.95...v0.96)
+
 * Add the method `OpenMQUtil.purgeTopic(...)` as a compliment of `OpenMQUtil.purgeQueue(...)` that is
   useful when resetting state during tests. Submitted by James Walker.
 
-## 0.95:
+### [v0.95](https://github.com/realityforge/guiceyloops/tree/v0.95)
+
 * Upgrade the version of guice to a patched version.
 
-## 0.94:
+### [v0.94](https://github.com/realityforge/guiceyloops/tree/v0.94)
+
 * Support passing arbitrary services into `Provisioner` instances.
 
-## 0.93:
+### [v0.93](https://github.com/realityforge/guiceyloops/tree/v0.93)
+
 * Introduce `Provisioner` as the interface via which AbstractAppServer is provisioned.
 * Make `AbstractServerTest.refresh()` variant that accepts persistence unit name.
 * Make `AbstractServerTest.commitTransaction()` tolerant to a transaction that has been marked
   for rollback.
 
-## 0.92:
+### [v0.92](https://github.com/realityforge/guiceyloops/tree/v0.92)
+
 * Add `ValueUtil.addMonths()` utility method. Submitted by Viren Wickramaratne.
 
-## 0.91:
+### [v0.91](https://github.com/realityforge/guiceyloops/tree/v0.91)
+
 * Added `ValueUtil.randomUUID()` utility method that uses the Random object associated with ValueUtil.
 
-## 0.90:
+### [v0.90](https://github.com/realityforge/guiceyloops/tree/v0.90)
+
 * Add method `AbstractServerTest.eventStub` that retrieves the test event stub.
 * Add method to AbstractServerTest and AbstractSharedTest to retrieve objects by type literal.
 
-## 0.89:
+### [v0.89](https://github.com/realityforge/guiceyloops/tree/v0.89)
+
 * Add helper method `EventStub#getEvents` to retrieve ths list of events directly.
 
-## 0.88:
+### [v0.88](https://github.com/realityforge/guiceyloops/tree/v0.88)
+
 * Import `org.realityforge.guiceyloops.server.EventStub` code to help support testing CDI events.
 
-## 0.87:
+### [v0.87](https://github.com/realityforge/guiceyloops/tree/v0.87)
+
 * Call `ValueUtil.setNow()` as part of test setup.
 
-## 0.86:
+### [v0.86](https://github.com/realityforge/guiceyloops/tree/v0.86)
+
 * Add utility function `ValueUtil.setNow()` that allows the explicit configuration of now time in tests.
 
-## 0.85:
+### [v0.85](https://github.com/realityforge/guiceyloops/tree/v0.85)
+
 * Add some factory methods to `GlassFishContainer` to create concurrent resources.
 
-## 0.84:
+### [v0.84](https://github.com/realityforge/guiceyloops/tree/v0.84)
+
 * Ensure `PersistenceTestModule` will gracefully handle listeners that do not
   implement `EntityListener`.
 
-## 0.83:
+### [v0.83](https://github.com/realityforge/guiceyloops/tree/v0.83)
+
 * Add helper class `OpenMQUtil` to help test OpenMQ state during tests.
 * Add several methods to `OpenMQContainer` that support creating queues and topics
   within the broker.
@@ -57,10 +75,12 @@
 * Add method to create queue and topic references in `OpenMQContainer`.
 * Customize `JMSConnectionFactory` to make it a binding annotation so that it works within the tests.
 
-## 0.82:
+### [v0.82](https://github.com/realityforge/guiceyloops/tree/v0.82)
+
 * Add helper methods `AbstractServerTest.ctran` that clear the EntityManager before running block.
 
-## 0.81:
+### [v0.81](https://github.com/realityforge/guiceyloops/tree/v0.81)
+
 * Add `JaxbUtil` to help testing jaxb annotated entities.
 * Add helper methods `AbstractServerTest.inTransaction` and `AbstractServerTest.tran`
   to make execute code blocks in a transaction easier in Java 8.
@@ -70,81 +90,101 @@
   broker is started.
 * Update logging in OpenMQContainer to emit the address that the broker is bound to.
 
-## 0.80:
+### [v0.80](https://github.com/realityforge/guiceyloops/tree/v0.80)
+
 * Update AbstractServerTest to support binding EntityManager under alternative name.
 * Update AbstractServerTest to add helper methods that iterate over all EntityManager
   and begin, commit and rollback transactions on EntityManager instances.
 * Update AbstractServerTest.clear() to clear all EntityManager instances.
 * Update AbstractServerTest.flush() to flush all EntityManager instances.
 
-## 0.79:
+### [v0.79](https://github.com/realityforge/guiceyloops/tree/v0.79)
+
 * Update PersistenceTestModule to support binding under alternative name.
 
-## 0.78:
+### [v0.78](https://github.com/realityforge/guiceyloops/tree/v0.78)
+
 * Add PersistenceTestModule.getPersistenceUnitName() helper method.
 
-## 0.77:
+### [v0.77](https://github.com/realityforge/guiceyloops/tree/v0.77)
+
 * Make PersistenceTestModule.configure non-final.
 
-## 0.76:
+### [v0.76](https://github.com/realityforge/guiceyloops/tree/v0.76)
+
 * Lock down the default timezone to Australia/Melbourne.
 
-## 0.75:
+### [v0.75](https://github.com/realityforge/guiceyloops/tree/v0.75)
+
 * Prefix the default sentinel values in DatabaseUtil with the database prefix.
 * Make sure TinyHttpd returns the correct address after the server has been started.
 * Support named servers in TinyHttpdFactory.
 
-## 0.74:
+### [v0.74](https://github.com/realityforge/guiceyloops/tree/v0.74)
+
 * Make the port for TinyHttpd configurable but default to the OS selecting a free port.
 * Add TinyHttpd.getAddress() method.
 
-## 0.73:
+### [v0.73](https://github.com/realityforge/guiceyloops/tree/v0.73)
+
 * Delay the creation of the underlying httpd server until TinyHttpd.start() called.
 
-## 0.72:
+### [v0.72](https://github.com/realityforge/guiceyloops/tree/v0.72)
+
 * Add GlassFishContainer.createJmsTopic() helper method.
 
-## 0.71:
+### [v0.71](https://github.com/realityforge/guiceyloops/tree/v0.71)
+
 * Incorporate the TinyHttpd test code that is duplicated through our codebases.
 
-## 0.70:
+### [v0.70](https://github.com/realityforge/guiceyloops/tree/v0.70)
+
 * Ensure jdbc30DataSource is set to true when configuring jtds driver as Payara as of version
   4.1.1.162 will no longer silently ignore jdbc3 only drivers.
 
-## 0.69:
+### [v0.69](https://github.com/realityforge/guiceyloops/tree/v0.69)
+
 * Support managing OpenMQ in AbstractAppServer.
 * Remove AbstractAppServer.getProperty() as not really the right place to put it.
 
-## 0.68:
+### [v0.68](https://github.com/realityforge/guiceyloops/tree/v0.68)
+
 * Introduce AbstractAppServer to simplify managing singleton GlassFish instance within test suite.
 
-## 0.67:
+### [v0.67](https://github.com/realityforge/guiceyloops/tree/v0.67)
+
 * Fix AssertUtil.assertNoFinalMethodsForCDI() so that parent classes are also checked.
 
-## 0.66:
+### [v0.66](https://github.com/realityforge/guiceyloops/tree/v0.66)
+
 * Add simplified accessor AbstractServerTest.em(UnitName) for EntityManagers with specific names.
 * Bind mock Principal in ServerTestModule. Useful to get caller principal in CDI applications.
 * Update ServerTestModule to make it possible to override creation of specific resources.
 * Add AssertUtil.assertNoFinalMethodsForCDI() helper method to help test to ensure types are CDI compatible.
 
-## 0.65:
+### [v0.65](https://github.com/realityforge/guiceyloops/tree/v0.65)
+
 * Remove excessive logging in GreenMailTestModule.
 * Add AbstractSharedTest.postInjector() hook method that is invoked after the injector is created.
 * Import ValueUtil from all downstream projects.
 
-## 0.64:
+### [v0.64](https://github.com/realityforge/guiceyloops/tree/v0.64)
+
 * Issue restart to GlassFish container after jms host changes.
 
-## 0.63:
+### [v0.63](https://github.com/realityforge/guiceyloops/tree/v0.63)
+
 * Resurrect part of DerbyUtil that ensures logs are not emitted in working directory.
 
-## 0.62:
+### [v0.62](https://github.com/realityforge/guiceyloops/tree/v0.62)
+
 * Add some utility methods to GlassFishContainer to simplify manipulation of jms, javamail and iiop resources.
 * Expose host address in OpenMQContainer via getHostAddress().
 * Add some nullability annotations to GlassFishContainer.
 * Remove DerbyUtil as has not worked in a long time.
 
-## 0.61:
+### [v0.61](https://github.com/realityforge/guiceyloops/tree/v0.61)
+
 * Support setRollbackOnly(), getRollbackOnly() and getTransactionStatus() on TestTransactionSynchronizationRegistry.
 * Move to using embedded payara rather than embedded glassfish.
 * Expose port in test MQ instance via OpenMQContainer.getPort().
@@ -152,20 +192,25 @@
 * Support overriding of properties in MQ instance by passing overrides into th constructor.
 * Expose complete properties for MQ instance via OpenMQContainer.getProperties().
 
-## 0.60:
+### [v0.60](https://github.com/realityforge/guiceyloops/tree/v0.60)
+
 * Ensure properties are correctly encoded when creating custom resources.
 
-## 0.59:
+### [v0.59](https://github.com/realityforge/guiceyloops/tree/v0.59)
+
 * Add some new methods to GlassFishContainer for creating custom resources of different types.
 
-## 0.58:
+### [v0.58](https://github.com/realityforge/guiceyloops/tree/v0.58)
+
 * Ensure that the DbCleaner clears the second level EntityManager cache when it performs a clean.
 
-## 0.57:
+### [v0.57](https://github.com/realityforge/guiceyloops/tree/v0.57)
+
 * Add support for specifying additional database properties in PersistenceTestModule constructor
   and DatabaseUtil.createEntityManager() method.
 
-## 0.56:
+### [v0.56](https://github.com/realityforge/guiceyloops/tree/v0.56)
+
 * Add support for Microsoft Windows environment vars when attempting to determine Maven repo path. Submitted by James Walker.
 * Add Support for parsing postgres urls in DatabaseUtil. Submitted by James Walker.
 * Add GlassFishContainer.createPostgresJdbcResource() helper methods. Submitted by James Walker.
@@ -173,7 +218,8 @@
 * Implement AbstractServerTest.getEntityModule() and make return null so that subclasses need not implement.
 * Deprecate AbstractServerTest.getEntityModule() and suggest overriding getModules() instead.
 
-## 0.55:
+### [v0.55](https://github.com/realityforge/guiceyloops/tree/v0.55)
+
 * Add FlushingTestModule.bindService() method that takes classnames.
 * Rework PersistenceTestModule constructor to pass databasePrefix as an optional parameter.
 * Remove PersistenceTestModule.registerUserTransaction() as it is unused.
@@ -190,18 +236,22 @@
 * Remove AbstractPersistenceTestModule.registerTransactionSynchronizationRegistry() as this is unused
   since equivalent functionality became part of the ServerTestModule class.
 
-## 0.54:
+### [v0.54](https://github.com/realityforge/guiceyloops/tree/v0.54)
+
 * Add simplified constructor to FlushingTestModule that defaults to flushing at start of interception.
 
-## 0.53:
+### [v0.53](https://github.com/realityforge/guiceyloops/tree/v0.53)
+
 * Remove deprecated org.realityforge.guiceyloops.server.AbstractModule
 * Implement AbstractSharedTest.getDefaultTestModule() and return null, and removed
   implementation in AbstractServerTest.
 
-## 0.52:
+### [v0.52](https://github.com/realityforge/guiceyloops/tree/v0.52)
+
 * Migrate all the type listeners to the server package.
 
-## 0.51:
+### [v0.51](https://github.com/realityforge/guiceyloops/tree/v0.51)
+
 * Refactor ServerTestModule so that it is not able to be extended and ensure it is added to
   modules in AbstractServerTest by default.
 * Introduce a minimalistic BeanManager implementation used during testing.
@@ -211,13 +261,16 @@
 * Update AbstractServerTest.getDefaultTestModule() to stop returning ServerTestModule as all
   subclasses override the method.
 
-## 0.50:
+### [v0.50](https://github.com/realityforge/guiceyloops/tree/v0.50)
+
 * Update AbstractModule.bindMock() to return the mocks.
 
-## 0.49:
+### [v0.49](https://github.com/realityforge/guiceyloops/tree/v0.49)
+
 * Update AbstractServerTest.getDefaultTestModule() to return a module rather than a ServerTestModule.
 
-## 0.48:
+### [v0.48](https://github.com/realityforge/guiceyloops/tree/v0.48)
+
 * Use File.pathSeparator when parsing embedded.glassfish.classpath so that guiceyloops will work
   under windows.
 * Update the GlassFishContainer(int port) constructor to derive the classpath from system properties.
@@ -226,73 +279,91 @@
 * Support embedded.glassfish.artifacts system property to configure the class path for the
   embedded glassfish server.
 
-## 0.47:
+### [v0.47](https://github.com/realityforge/guiceyloops/tree/v0.47)
+
 * Randomize the smtp port used in GreenMail tests to allow multiple tests to run concurrently.
 * Upgrade greenmail dependency to 1.4.0
 
-## 0.46:
+### [v0.46](https://github.com/realityforge/guiceyloops/tree/v0.46)
+
 * Fix regression introduced in 0.45 that meant buildr required greenmail to be present on
   the classpath to scan for test classes.
 
-## 0.45:
+### [v0.45](https://github.com/realityforge/guiceyloops/tree/v0.45)
+
 * Ensure all the GreenMail mail server threads have started before completing start operation.
 
-## 0.44:
+### [v0.44](https://github.com/realityforge/guiceyloops/tree/v0.44)
+
 * Update PersistenceTestModule to change the way that entity listeners are injected.
 
-## 0.43:
+### [v0.43](https://github.com/realityforge/guiceyloops/tree/v0.43)
+
 * Add 4.1 to GlassFishVersion and make it the default.
 
-## 0.42:
+### [v0.42](https://github.com/realityforge/guiceyloops/tree/v0.42)
+
 * Add some helper methods for binding dependencies in AbstractModuleTest.
 
-## 0.41:
+### [v0.41](https://github.com/realityforge/guiceyloops/tree/v0.41)
+
 * Remove some unnecessary final qualifiers on methods in AbstractSharedTest.
 
-## 0.40:
+### [v0.40](https://github.com/realityforge/guiceyloops/tree/v0.40)
+
 * Extract AbstractServerTest.resetJndiContext() from shutdownTransactionSynchronizationRegistry()
 * Fix bug in AbstractSharedTest where getModules() called getDefaultTestModule()
   rather than getTestModule().
 
-## 0.39:
+### [v0.39](https://github.com/realityforge/guiceyloops/tree/v0.39)
+
 * Extract AbstractSharedTest from AbstractServerTest to allow reuse of the test
   infrastructure in client-side (i.e. GWT) and non-JEE frameworks.
 * Move AbstractModule to the shared package but create a deprecated old AbstractModule
   that extends the new AbstractModule.
 
-## 0.38:
+### [v0.38](https://github.com/realityforge/guiceyloops/tree/v0.38)
+
 * Support multiple databases with the framework. Use prefixes to system settings to
   configure the non-primary database.
 
-## 0.37:
+### [v0.37](https://github.com/realityforge/guiceyloops/tree/v0.37)
+
 * Ensure that the @Resource injections will use value of lookup parameter as the name
   if not null.
 
-## 0.36:
+### [v0.36](https://github.com/realityforge/guiceyloops/tree/v0.36)
+
 * Tighten up the types on InjectUtil.toObject( type, object ).
 * Add DbCleaner.isTransactionActive() and DbCleaner.isCleanScheduled() utility methods.
 
-## 0.35:
+### [v0.35](https://github.com/realityforge/guiceyloops/tree/v0.35)
+
 * Add helper method to GlassFishContainer to create custom boolean resources.
 * Avoid calling EntityTransaction.flush() in AbstractServerTest.flush() method when transaction is not active.
 
-## 0.34:
+### [v0.34](https://github.com/realityforge/guiceyloops/tree/v0.34)
+
 * Simplify testing with mock persistence contexts, by null checking in the AbstractServerTest.flush() method.
 
-## 0.33:
+### [v0.33](https://github.com/realityforge/guiceyloops/tree/v0.33)
+
 * Ensure @javax.enterprise.context.Dependent is a scope guice supports.
 * Improve exception throw from PersistenceTestModule.requestInjectionForEntityListener when unable to find model in session.
 
-## 0.32:
+### [v0.32](https://github.com/realityforge/guiceyloops/tree/v0.32)
+
 * Rework GlassFishContainer to raise an exception when the command is anything less than success.
 
-## 0.31:
+### [v0.31](https://github.com/realityforge/guiceyloops/tree/v0.31)
+
 * Support different glassfish container versions in GlassFishContainer. Default to 4.0.
 
-## 0.30:
+### [v0.30](https://github.com/realityforge/guiceyloops/tree/v0.30)
+
 * Move to eclipselink 2.5.1.
 
-## 0.29:
+### [v0.29](https://github.com/realityforge/guiceyloops/tree/v0.29)
 
 * Remove support for recently added "embedded.glassfish.specs" system setting in as the implementation is unlikely
   to be usable.
@@ -301,6 +372,6 @@
 * Add guard against adding file that does not exist to GlassFishContainer's classpath.
 * Add an extra constructor to GlassFishContainer for usability purposes.
 
-## 0.28:
+### [v0.28](https://github.com/realityforge/guiceyloops/tree/v0.28)
 
 * Initial public release.
