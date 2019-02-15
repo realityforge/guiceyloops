@@ -1,7 +1,7 @@
 # Change Log
 
-### [v0.97](https://github.com/realityforge/guiceyloops/tree/v0.97) (2019-02-15)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.96...v0.97)
+### [v0.98](https://github.com/realityforge/guiceyloops/tree/v0.98) (2019-02-15)
+[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.96...v0.98)
 
 * Make `OpenMQContainer` implement `AutoCloseable`.
 * Remove deployment from TravisCI infrastructure as it is no longer feasible.
