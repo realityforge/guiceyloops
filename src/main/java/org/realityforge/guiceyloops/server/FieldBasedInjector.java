@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
  * @param <T> the type of the object that declares the field
  */
 public class FieldBasedInjector<T>
-    implements MembersInjector<T>
+  implements MembersInjector<T>
 {
   private final Field _field;
   private final Provider<?> _provider;
@@ -73,7 +73,7 @@ public class FieldBasedInjector<T>
     {
       getField().set( t, getValue() );
     }
-    catch( final IllegalAccessException iae )
+    catch ( final IllegalAccessException iae )
     {
       throw new IllegalStateException( iae.getMessage(), iae );
     }

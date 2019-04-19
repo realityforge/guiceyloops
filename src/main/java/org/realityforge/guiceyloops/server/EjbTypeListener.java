@@ -11,7 +11,7 @@ import javax.ejb.EJB;
  * The annotation listener responsible for injecting fields annotated with the @EJB annotation.
  */
 public final class EjbTypeListener
-    extends AnnotationTypeListener
+  extends AnnotationTypeListener
 {
   public EjbTypeListener()
   {

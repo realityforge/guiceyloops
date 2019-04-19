@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 public abstract class AbstractModule
   extends com.google.inject.AbstractModule
 {
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings( "unchecked" )
   protected final void multiBind( final Class implementation, final Class... interfaces )
   {
     final Object impl = instantiate( implementation );

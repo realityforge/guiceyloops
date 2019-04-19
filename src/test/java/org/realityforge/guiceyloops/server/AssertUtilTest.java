@@ -97,7 +97,7 @@ public class AssertUtilTest
     assertNotCDI( TypeWithFinalPackage.class, TypeWithFinalPackage2.class );
   }
 
-  private void assertNotCDI( @Nonnull final  Class<?> declaredType, @Nonnull final Class<?> type )
+  private void assertNotCDI( @Nonnull final Class<?> declaredType, @Nonnull final Class<?> type )
   {
     try
     {

@@ -27,7 +27,7 @@ public class GlassFishContainerTest
       assertTrue( container.execute( "list-custom-resources" ).contains( "\n    Foo\n" ) );
 
       databaseFile = TestUtil.setupDatabase();
-//      container.createJdbcResource( "jdbc/Foo", "Bar" );
+      //      container.createJdbcResource( "jdbc/Foo", "Bar" );
 
     }
     finally

@@ -7,7 +7,7 @@ import com.google.inject.matcher.Matchers;
  * The Guice module that should be added to the injector to add annotation listeners.
  */
 public class JEETestingModule
-    extends AbstractModule
+  extends AbstractModule
 {
   protected void configure()
   {

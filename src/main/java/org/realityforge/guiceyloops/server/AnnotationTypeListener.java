@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
  * injected into the constructor. The actual injector will be created in the {@link #createInjector} method.</p>
  */
 public abstract class AnnotationTypeListener
-    implements TypeListener
+  implements TypeListener
 {
   private final Class<? extends Annotation> _annotation;
   private final Class<?>[] _acceptedTypes;

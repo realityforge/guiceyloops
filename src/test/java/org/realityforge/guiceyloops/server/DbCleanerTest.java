@@ -45,10 +45,10 @@ public class DbCleanerTest
   @Test
   public void interactionTest()
   {
-    final String table1 = "my_table" ;
-    final String table2 = "my_other_table" ;
-    final String entry1 = "foo1" ;
-    final String entry2 = "foo2" ;
+    final String table1 = "my_table";
+    final String table2 = "my_other_table";
+    final String entry1 = "foo1";
+    final String entry2 = "foo2";
 
     final String[] tables = { table1 };
     final Injector injector =

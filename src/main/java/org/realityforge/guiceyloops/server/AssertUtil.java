@@ -30,7 +30,7 @@ public final class AssertUtil
       }
     }
     final Class parent = clazz.getSuperclass();
-    if( null != parent )
+    if ( null != parent )
     {
       assertNoFinalMethodsForCDI( parent );
     }

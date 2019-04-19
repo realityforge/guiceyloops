@@ -317,7 +317,6 @@ public class AbstractServerTestTest
     assertEquals( latch.getCount(), 0 );
   }
 
-
   @Test
   public void tran_Runnable()
     throws Exception

@@ -107,7 +107,6 @@ public class AbstractModuleTest
     assertEquals( injector.getInstance( Key.get( Service3.class, Names.named( "X" ) ) ),
                   injector.getInstance( Key.get( Service3.class, Names.named( "X" ) ) ) );
 
-
     //Multibinding tests
     assertSame( injector.getInstance( Service2.class ), injector.getInstance( Service2.class ) );
     assertNotSame( injector.getInstance( Service2.class ), injector.getInstance( Service3.class ) );

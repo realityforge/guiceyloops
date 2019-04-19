@@ -76,7 +76,7 @@ public final class DatabaseUtilTest
     assertNull( DatabaseUtil.initPersistenceUnitProperties( null ).getProperty( key ) );
   }
 
-  @Test(expectedExceptions = { IllegalArgumentException.class })
+  @Test( expectedExceptions = { IllegalArgumentException.class } )
   public void getGlassFishDataSourceProperties_unknownJdbc()
     throws Exception
   {

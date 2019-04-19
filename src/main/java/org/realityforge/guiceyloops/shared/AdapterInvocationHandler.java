@@ -4,8 +4,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 /**
-* A simple handler that wraps an object.
-*/
+ * A simple handler that wraps an object.
+ */
 class AdapterInvocationHandler
   implements InvocationHandler
 {

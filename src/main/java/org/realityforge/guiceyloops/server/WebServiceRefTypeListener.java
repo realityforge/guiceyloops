@@ -11,7 +11,7 @@ import javax.xml.ws.WebServiceRef;
  * The annotation listener responsible for injecting fields annotated with the @WebServiceRef annotation.
  */
 public final class WebServiceRefTypeListener
-    extends AnnotationTypeListener
+  extends AnnotationTypeListener
 {
   public WebServiceRefTypeListener()
   {

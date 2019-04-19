@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
  * the @PersistenceContext annotation.
  */
 public class JpaTypeListener
-    extends AnnotationTypeListener
+  extends AnnotationTypeListener
 {
   public JpaTypeListener()
   {
