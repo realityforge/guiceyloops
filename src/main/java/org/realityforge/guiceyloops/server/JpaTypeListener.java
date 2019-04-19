@@ -20,9 +20,6 @@ public class JpaTypeListener
     super( PersistenceContext.class, new Class[]{ EntityManager.class } );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Nonnull
   protected <T> MembersInjector<T> createInjector( @Nonnull final TypeEncounter<T> typeEncounter,
                                                    @Nonnull final Annotation annotation,

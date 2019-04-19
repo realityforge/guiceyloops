@@ -44,9 +44,6 @@ public abstract class AnnotationTypeListener
     _acceptedTypes = acceptedTypes;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   public <T> void hear( final TypeLiteral<T> typeLiteral,
                         final TypeEncounter<T> typeEncounter )
   {

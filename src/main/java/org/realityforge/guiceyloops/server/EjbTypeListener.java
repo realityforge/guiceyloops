@@ -18,9 +18,6 @@ public final class EjbTypeListener
     super( EJB.class );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Nonnull
   protected <T> MembersInjector<T> createInjector( @Nonnull final TypeEncounter<T> typeEncounter,
                                                    @Nonnull final Annotation annotation,

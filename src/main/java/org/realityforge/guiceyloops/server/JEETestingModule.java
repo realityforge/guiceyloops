@@ -9,9 +9,6 @@ import com.google.inject.matcher.Matchers;
 public class JEETestingModule
     extends AbstractModule
 {
-  /**
-   * {@inheritDoc}
-   */
   protected void configure()
   {
     bindListener( Matchers.any(), new JpaTypeListener() );

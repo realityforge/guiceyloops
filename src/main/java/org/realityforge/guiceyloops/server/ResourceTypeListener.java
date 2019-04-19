@@ -18,9 +18,6 @@ public class ResourceTypeListener
     super( Resource.class );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Nonnull
   protected <T> MembersInjector<T> createInjector( @Nonnull final TypeEncounter<T> typeEncounter,
                                                    @Nonnull final Annotation annotation,

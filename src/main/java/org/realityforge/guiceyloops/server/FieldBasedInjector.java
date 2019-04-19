@@ -67,9 +67,6 @@ public class FieldBasedInjector<T>
     _provider = provider;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   public void injectMembers( final T t )
   {
     try
