@@ -14,9 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public final class DatabaseAsserts
 {
@@ -58,10 +56,10 @@ public final class DatabaseAsserts
    * @throws SQLException if a database access error occurs
    */
   @SafeVarargs
-  protected static boolean execute( @Nonnull final Connection connection,
-                                    @Nonnull final String sql,
-                                    final boolean orderImportant,
-                                    @Nonnull final Map<String, Matcher<Object>>... expectations )
+  public static boolean execute( @Nonnull final Connection connection,
+                                 @Nonnull final String sql,
+                                 final boolean orderImportant,
+                                 @Nonnull final Map<String, Matcher<Object>>... expectations )
     throws SQLException
   {
     try ( Statement statement = connection.createStatement() )
@@ -121,9 +119,9 @@ public final class DatabaseAsserts
    * @throws SQLException if a database access error occurs
    */
   @SafeVarargs
-  protected static void assertResultSet( @Nonnull final ResultSet resultSet,
-                                         final boolean orderImportant,
-                                         @Nonnull final Map<String, Matcher<Object>>... expectations )
+  public static void assertResultSet( @Nonnull final ResultSet resultSet,
+                                      final boolean orderImportant,
+                                      @Nonnull final Map<String, Matcher<Object>>... expectations )
     throws SQLException
   {
     final ResultSetMetaData metaData = resultSet.getMetaData();
@@ -219,9 +217,9 @@ public final class DatabaseAsserts
   }
 
   @SafeVarargs
-  protected static boolean execute( @Nonnull final Connection connection,
-                                    @Nonnull final String sql,
-                                    @Nonnull final Map<String, Matcher<Object>>... expectations )
+  public static boolean execute( @Nonnull final Connection connection,
+                                 @Nonnull final String sql,
+                                 @Nonnull final Map<String, Matcher<Object>>... expectations )
     throws SQLException
   {
     return execute( connection, sql, false, expectations );
@@ -238,9 +236,9 @@ public final class DatabaseAsserts
    * @return <code>true</code> if the first result is a <code>ResultSet</code> object; <code>false</code> if it is an update count or there are no results
    * @throws SQLException if a database access error occurs
    */
-  protected static boolean execute( @Nonnull final Connection connection,
-                                    @Nonnull final String sql,
-                                    final int expectedRowCount )
+  public static boolean execute( @Nonnull final Connection connection,
+                                 @Nonnull final String sql,
+                                 final int expectedRowCount )
     throws SQLException
   {
     try ( final Statement statement = connection.createStatement() )
@@ -265,15 +263,15 @@ public final class DatabaseAsserts
     }
   }
 
-  protected static boolean execute( @Nonnull final Connection connection, @Nonnull final String sql )
+  public static boolean execute( @Nonnull final Connection connection, @Nonnull final String sql )
     throws SQLException
   {
     return execute( connection, sql, -1 );
   }
 
-  protected static void executeAndFail( @Nonnull final Connection connection,
-                                        @Nonnull final String sql,
-                                        @Nullable final Matcher<String> messageMatcher )
+  public static void executeAndFail( @Nonnull final Connection connection,
+                                     @Nonnull final String sql,
+                                     @Nullable final Matcher<String> messageMatcher )
   {
     try
     {

@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Fix access levels in `org.realityforge.guiceyloops.server.DatabaseAsserts`.
+
 ### [v0.99](https://github.com/realityforge/guiceyloops/tree/v0.99) (2019-04-26)
 [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.98...v0.99)
 
