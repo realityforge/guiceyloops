@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.99](https://github.com/realityforge/guiceyloops/tree/v0.99) (2019-04-26)
+[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.98...v0.99)
 
 * Remove `{@inheritDoc}` as it only explicitly indicates that the default behaviour at the expense of significant visual clutter.
 * Add `org.realityforge.guiceyloops.server.DatabaseAsserts` utility class.
