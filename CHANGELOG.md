@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.100](https://github.com/realityforge/guiceyloops/tree/v0.100) (2019-04-26)
+[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.99...v0.100)
 
 * Fix access levels in `org.realityforge.guiceyloops.server.DatabaseAsserts`.
 
