@@ -26,14 +26,14 @@ public final class DatabaseAsserts
 
   /**
    * Executes the given <code>sql</code> statement and verifies that it matches the <code>expectations</code>.
-   * <p/>
-   * When the given <code>sql</code> does not return any result sets, expectations must be an empty array.
+   *
+   * <p>When the given <code>sql</code> does not return any result sets, expectations must be an empty array.
    * However, in such a case, it makes sense to use the variation of execute that only takes a sql statement
-   * and executes it without any extra verifications.
-   * <p/>
-   * The number of expectations must match the number of rows returned by the query.
-   * <p/>
-   * Example usage:
+   * and executes it without any extra verifications.</p>
+   *
+   * <p>The number of expectations must match the number of rows returned by the query.</p>
+   *
+   * <p>Example usage:</p>
    * <pre>{@code
    * public class EntityTest extends AbstractDatabaseTest
    * {
@@ -89,14 +89,14 @@ public final class DatabaseAsserts
 
   /**
    * Executes the given <code>sql</code> statement and verifies that it matches the <code>expectations</code>.
-   * <p/>
-   * When the given <code>sql</code> does not return any result sets, expectations must be an empty array.
+   *
+   * <p>When the given <code>sql</code> does not return any result sets, expectations must be an empty array.
    * However, in such a case, it makes sense to use the variation of execute that only takes a sql statement
-   * and executes it without any extra verifications.
-   * <p/>
-   * The number of expectations must match the number of rows returned by the query.
-   * <p/>
-   * Example usage:
+   * and executes it without any extra verifications.</p>
+   *
+   * <p>The number of expectations must match the number of rows returned by the query.</p>
+   *
+   * <p>Example usage:</p>
    * <pre>{@code
    * public class EntityTest extends AbstractDatabaseTest
    * {
@@ -230,8 +230,8 @@ public final class DatabaseAsserts
   /**
    * Runs the given <code>sql</code> query and verifies that it returns the same number of rows
    * as <code>expectedRowCount</code>.
-   * <p/>
-   * When -1 is passed as <code>expectedRowCount</code>, no row count checking will be performed.
+   *
+   * <p>When -1 is passed as <code>expectedRowCount</code>, no row count checking will be performed.</p>
    *
    * @param sql              the query to test
    * @param expectedRowCount the expected size of the result set
