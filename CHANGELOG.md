@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.101](https://github.com/realityforge/guiceyloops/tree/v0.101) (2019-05-22)
+[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.100...v0.101)
 
 * Add `AbstractServerTest.addPostTestSqlAction(...)` method to help reversing destructive actions after a test has completed.
 
