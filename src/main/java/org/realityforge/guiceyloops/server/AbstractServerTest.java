@@ -35,6 +35,7 @@ public abstract class AbstractServerTest
   extends AbstractSharedTest
   implements Flushable
 {
+  private final List<String> _postTestSqlActions = new ArrayList<>();
   private Thread _testThread;
   private boolean _inFlush;
 
@@ -42,6 +43,7 @@ public abstract class AbstractServerTest
   public void preTest()
     throws Exception
   {
+    _postTestSqlActions.clear();
     resetJndiContext();
     super.preTest();
     startDbCleaner();
@@ -57,11 +59,31 @@ public abstract class AbstractServerTest
     shutdownMailServer();
     shutdownTransactionSynchronizationRegistry();
     finishDbCleaner();
+    if ( !_postTestSqlActions.isEmpty() )
+    {
+      inTransaction( this::runPostTestSqlActions );
+    }
     shutdownBeanManager();
     shutdownEntityManagers();
     super.postTest();
     clearJndiContext();
     _testThread = null;
+  }
+
+  /**
+   * If a test performs destructive actions on a database and needs to reverse these actions after the
+   * test has completed, then the test can invoke this method with the sql that will reverse the destructive
+   * action. This is useful if the test disables a trigger which needs to be re-enabled prior to completing the
+   * test.
+   */
+  protected final void addPostTestSqlAction( @Nonnull final String sql )
+  {
+    _postTestSqlActions.add( sql );
+  }
+
+  private void runPostTestSqlActions()
+  {
+    _postTestSqlActions.forEach( sql -> em().createNativeQuery( sql ).executeUpdate() );
   }
 
   /**
