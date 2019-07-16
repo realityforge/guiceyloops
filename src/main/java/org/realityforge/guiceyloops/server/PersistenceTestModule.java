@@ -1,12 +1,13 @@
 package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
+import org.eclipse.persistence.descriptors.DescriptorEventListener;
 import org.eclipse.persistence.descriptors.DescriptorEventManager;
 import org.eclipse.persistence.internal.jpa.metadata.listeners.EntityListener;
 import org.eclipse.persistence.sessions.Session;
@@ -134,14 +135,14 @@ public abstract class PersistenceTestModule
     requestInjectionForEntityListeners( eventManager.getEntityListenerEventListeners() );
   }
 
-  private void requestInjectionForEntityListeners( final Vector eventListeners )
+  private void requestInjectionForEntityListeners( @Nonnull final List<DescriptorEventListener> eventListeners )
   {
     for ( final Object o : eventListeners )
     {
       if ( o instanceof EntityListener )
       {
         final EntityListener listener = (EntityListener) o;
-        requestInjection( listener.getListener( listener.getOwningSession() ) );
+        requestInjection( listener.getListener() );
       }
     }
   }
