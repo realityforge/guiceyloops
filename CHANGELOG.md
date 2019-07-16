@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Lock down the code style for the module.
+
 ### [v0.101](https://github.com/realityforge/guiceyloops/tree/v0.101) (2019-05-22)
 [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.100...v0.101)
 
