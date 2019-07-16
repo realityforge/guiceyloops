@@ -15,10 +15,15 @@ import org.realityforge.guiceyloops.shared.AbstractModule;
 public abstract class PersistenceTestModule
   extends AbstractModule
 {
+  @Nonnull
   private final String _persistenceUnitName;
+  @Nonnull
   private final String _bindName;
+  @Nonnull
   private final String[] _tablesToClean;
+  @Nullable
   private final String _databasePrefix;
+  @Nullable
   private final Properties _additionalDatabaseProperties;
   private EntityManager _entityManager;
 
@@ -97,6 +102,7 @@ public abstract class PersistenceTestModule
   /**
    * @return the name under which to bind EntityManager.
    */
+  @Nonnull
   protected final String getBindName()
   {
     return _bindName;
@@ -121,7 +127,7 @@ public abstract class PersistenceTestModule
     }
   }
 
-  private void requestInjectionForEntityListeners( final ClassDescriptor descriptor )
+  private void requestInjectionForEntityListeners( @Nonnull final ClassDescriptor descriptor )
   {
     final DescriptorEventManager eventManager = descriptor.getEventManager();
     requestInjectionForEntityListeners( eventManager.getDefaultEventListeners() );
