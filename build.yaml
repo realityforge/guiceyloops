@@ -22,5 +22,5 @@ artifacts:
 
   h2db: com.h2database:h2:jar:1.3.159
 
-  glassfish_embedded: fish.payara.extras:payara-embedded-all:jar:4.1.1.164
+  glassfish_embedded: fish.payara.extras:payara-embedded-all:jar:5.192
   jtds: net.sourceforge.jtds:jtds:jar:1.3.1

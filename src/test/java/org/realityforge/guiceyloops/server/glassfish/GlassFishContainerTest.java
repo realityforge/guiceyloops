@@ -12,7 +12,7 @@ public class GlassFishContainerTest
   public void basicWorkflow()
     throws Exception
   {
-    final GlassFishContainer container = new GlassFishContainer( GlassFishVersion.V_4_1 );
+    final GlassFishContainer container = new GlassFishContainer( GlassFishVersion.V_5_192 );
     final int port = container.getPort();
 
     assertEquals( container.getBaseHttpURL(),
