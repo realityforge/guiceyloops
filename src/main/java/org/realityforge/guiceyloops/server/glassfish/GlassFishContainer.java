@@ -130,7 +130,7 @@ public class GlassFishContainer
 
       final ClassLoader loader = ClassLoader.getSystemClassLoader().getParent();
       assert null != loader;
-      final URL[] classpath = _glassfishClasspath.toArray( new URL[ _glassfishClasspath.size() ] );
+      final URL[] classpath = _glassfishClasspath.toArray( new URL[ 0 ] );
       final ClassLoader classLoader = new URLClassLoader( classpath, loader );
 
       final Object properties = classLoader.loadClass( "org.glassfish.embeddable.GlassFishProperties" ).newInstance();
