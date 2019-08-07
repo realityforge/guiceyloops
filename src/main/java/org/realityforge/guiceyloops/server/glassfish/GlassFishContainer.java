@@ -551,6 +551,7 @@ public class GlassFishContainer
              username );
   }
 
+  @Nonnull
   public final String execute( @Nonnull final String command, @Nonnull final String... args )
     throws Exception
   {
