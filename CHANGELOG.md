@@ -3,6 +3,7 @@
 ### Unreleased
 
 * Cleanup the output returned from `GlassFishContainer.execute()` to strip out the prefix not output on the commandline.
+* Setup the ContextClassLoader prio to invoking methods on `GlassFish` instance.
 
 ### [v0.102](https://github.com/realityforge/guiceyloops/tree/v0.102) (2019-07-16)
 [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.101...v0.102)

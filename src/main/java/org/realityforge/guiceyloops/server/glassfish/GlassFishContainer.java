@@ -132,28 +132,30 @@ public class GlassFishContainer
       assert null != loader;
       final URL[] classpath = _glassfishClasspath.toArray( new URL[ 0 ] );
       final ClassLoader classLoader = new URLClassLoader( classpath, loader );
+      inContextClassLoader( classLoader, () -> {
+        final Object properties = classLoader.loadClass( "org.glassfish.embeddable.GlassFishProperties" ).newInstance();
 
-      final Object properties = classLoader.loadClass( "org.glassfish.embeddable.GlassFishProperties" ).newInstance();
+        properties.getClass().
+          getMethod( "setPort", new Class[]{ String.class, int.class } ).
+          invoke( properties, "http-listener", _port );
 
-      properties.getClass().
-        getMethod( "setPort", new Class[]{ String.class, int.class } ).
-        invoke( properties, "http-listener", _port );
+        LOG.info( "Configuring Glassfish on port: " + _port );
 
-      LOG.info( "Configuring Glassfish on port: " + _port );
+        final Object runtime =
+          classLoader.loadClass( "org.glassfish.embeddable.GlassFishRuntime" ).getMethod( "bootstrap" ).invoke( null );
 
-      final Object runtime =
-        classLoader.loadClass( "org.glassfish.embeddable.GlassFishRuntime" ).getMethod( "bootstrap" ).invoke( null );
+        _glassfish = runtime.getClass().
+          getMethod( "newGlassFish", new Class[]{ properties.getClass() } ).invoke( runtime, properties );
+        System.getProperties().remove( "java.naming.factory.initial" );
+        doStart();
 
-      _glassfish = runtime.getClass().
-        getMethod( "newGlassFish", new Class[]{ properties.getClass() } ).invoke( runtime, properties );
-      System.getProperties().remove( "java.naming.factory.initial" );
-      doStart();
+        // Need to set java.security.auth.login.config otherwise the embedded container will
+        // fail to find the login config ... even though it creates it...
+        final String instanceRoot = System.getProperty( "com.sun.aas.instanceRoot" );
+        System.setProperty( "java.security.auth.login.config",
+                            instanceRoot + File.separator + "config" + File.separator + "login.conf" );
+      } );
 
-      // Need to set java.security.auth.login.config otherwise the embedded container will
-      // fail to find the login config ... even though it creates it...
-      final String instanceRoot = System.getProperty( "com.sun.aas.instanceRoot" );
-      System.setProperty( "java.security.auth.login.config",
-                          instanceRoot + File.separator + "config" + File.separator + "login.conf" );
       LOG.info( "GlassFish started." );
     }
     else
@@ -165,7 +167,7 @@ public class GlassFishContainer
   private void doStart()
     throws Exception
   {
-    _glassfish.getClass().getMethod( "start" ).invoke( _glassfish );
+    inContextClassLoader( () -> _glassfish.getClass().getMethod( "start" ).invoke( _glassfish ) );
   }
 
   public void restart()
@@ -183,7 +185,7 @@ public class GlassFishContainer
       try
       {
         doStop();
-        _glassfish.getClass().getMethod( "dispose" ).invoke( _glassfish );
+        inContextClassLoader( () -> _glassfish.getClass().getMethod( "dispose" ).invoke( _glassfish ) );
       }
       catch ( final Exception e )
       {
@@ -201,7 +203,7 @@ public class GlassFishContainer
   private void doStop()
     throws Exception
   {
-    _glassfish.getClass().getMethod( "stop" ).invoke( _glassfish );
+    inContextClassLoader( () -> _glassfish.getClass().getMethod( "stop" ).invoke( _glassfish ) );
   }
 
   @Nonnull
@@ -552,22 +554,56 @@ public class GlassFishContainer
   public final String execute( @Nonnull final String command, @Nonnull final String... args )
     throws Exception
   {
-    final Object runner = _glassfish.getClass().getMethod( "getCommandRunner" ).invoke( _glassfish );
-    final Object commandResult =
-      runner.getClass().getMethod( "run", new Class[]{ String.class, String[].class } ).invoke( runner, command, args );
+    final AtomicReference<String> result = new AtomicReference<>();
+    inContextClassLoader( () -> {
+      final Object runner = _glassfish.getClass().getMethod( "getCommandRunner" ).invoke( _glassfish );
+      final Object commandResult =
+        runner.getClass()
+          .getMethod( "run", new Class[]{ String.class, String[].class } )
+          .invoke( runner, command, args );
 
-    final Enum exitStatus = invokeMethod( commandResult, "getExitStatus" );
-    final boolean failed = !"SUCCESS".equals( exitStatus.name() );
-    final String output = invokeMethod( commandResult, "getOutput" );
-    final Throwable throwable = invokeMethod( commandResult, "getFailureCause" );
-    if ( failed || null != throwable )
+      final Enum exitStatus = invokeMethod( commandResult, "getExitStatus" );
+      final boolean failed = !"SUCCESS".equals( exitStatus.name() );
+      final String output = invokeMethod( commandResult, "getOutput" );
+      final Throwable throwable = invokeMethod( commandResult, "getFailureCause" );
+      if ( failed || null != throwable )
+      {
+        throw new Exception( output, throwable );
+      }
+      else
+      {
+        // Remove "PlainTextActionReporter" magic string, then SUCCESS, and should be left with actual output
+        result.set( output.substring( "PlainTextActionReporterSUCCESS".length() ) );
+      }
+    } );
+    return result.get();
+  }
+
+  interface Action
+  {
+    void call()
+      throws Exception;
+  }
+
+  private <T> void inContextClassLoader( @Nonnull final Action action )
+    throws Exception
+  {
+    inContextClassLoader( _glassfish.getClass().getClassLoader(), action );
+  }
+
+  private <T> void inContextClassLoader( @Nonnull final ClassLoader classLoader, @Nonnull final Action action )
+    throws Exception
+  {
+    final Thread thread = Thread.currentThread();
+    final ClassLoader existing = thread.getContextClassLoader();
+    try
     {
-      throw new Exception( output, throwable );
+      thread.setContextClassLoader( classLoader );
+      action.call();
     }
-    else
+    finally
     {
-      // Remove "PlainTextActionReporter" magic string, then SUCCESS, and should be left with actual output
-      return output.substring( "PlainTextActionReporterSUCCESS".length() );
+      thread.setContextClassLoader( existing );
     }
   }
 
