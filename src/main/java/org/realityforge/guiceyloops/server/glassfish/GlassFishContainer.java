@@ -22,7 +22,6 @@ import org.realityforge.guiceyloops.server.DatabaseUtil;
 public class GlassFishContainer
 {
   private static final Logger LOG = Logger.getLogger( GlassFishContainer.class.getName() );
-
   private final int _port;
   private final List<URL> _glassfishClasspath;
   private Object _glassfish;
