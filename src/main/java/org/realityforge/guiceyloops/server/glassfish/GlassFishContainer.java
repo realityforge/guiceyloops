@@ -566,7 +566,8 @@ public class GlassFishContainer
     }
     else
     {
-      return output;
+      // Remove "PlainTextActionReporter" magic string, then SUCCESS, and should be left with actual output
+      return output.substring( "PlainTextActionReporterSUCCESS".length() );
     }
   }
 
