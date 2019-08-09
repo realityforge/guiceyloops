@@ -5,7 +5,8 @@ public enum GlassFishVersion
   V_3_1_2_2( "org.glassfish.main.extras:glassfish-embedded-all:jar:3.1.2.2" ),
   V_4_0( "org.glassfish.main.extras:glassfish-embedded-all:jar:4.0" ),
   V_4_1( "org.glassfish.main.extras:glassfish-embedded-all:jar:4.1" ),
-  V_5_192( "fish.payara.extras:payara-embedded-all:jar:5.192" );
+  V_5_192( "fish.payara.extras:payara-embedded-all:jar:5.192" ),
+  V_5_192_rf( "fish.payara.extras:payara-embedded-all:jar:5.192-rf" );
 
   private final String[] _specs;
 
