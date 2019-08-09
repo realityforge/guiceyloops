@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.104](https://github.com/realityforge/guiceyloops/tree/v0.104) (2019-08-09)
+[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.103...v0.104)
 
 * Ensure that the correct GlassFish jar is used when launching container in custom classloader.
 
