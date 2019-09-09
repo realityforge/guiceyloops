@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.javax.annotation` artifact to version `1.0.1`.
+
 ### [v0.104](https://github.com/realityforge/guiceyloops/tree/v0.104) (2019-08-09)
 [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.103...v0.104)
 
