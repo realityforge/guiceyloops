@@ -7,7 +7,9 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.icegreen.greenmail.util.GreenMail;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,7 @@ import javax.jms.QueueBrowser;
 import javax.naming.Context;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.transaction.TransactionSynchronizationRegistry;
@@ -29,6 +32,7 @@ import org.realityforge.guiceyloops.server.glassfish.OpenMQContainer;
 import org.realityforge.guiceyloops.shared.AbstractSharedTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import static com.sun.xml.rpc.wsdl.parser.Util.*;
 
 @SuppressWarnings( "WeakerAccess" )
 public abstract class AbstractServerTest
@@ -50,7 +54,41 @@ public abstract class AbstractServerTest
     setupBeanManager();
     setupTransactionSynchronizationRegistry();
     startupMailServer();
+    verifyNoJpaEntitiesCachedAsFields();
     _testThread = Thread.currentThread();
+  }
+
+  protected void verifyNoJpaEntitiesCachedAsFields()
+  {
+    final List<String> fields = new ArrayList<>();
+    Class<?> type = getClass();
+    while ( null != type )
+    {
+      for ( final Field field : type.getDeclaredFields() )
+      {
+        if ( !Modifier.isStatic( field.getModifiers() ) &&
+             null != field.getType().getAnnotation( Entity.class ) &&
+             !isCachedJpaFieldAllowed( field ) )
+        {
+          fields.add( field.getName() );
+        }
+      }
+      type = type.getSuperclass();
+    }
+    if ( !fields.isEmpty() )
+    {
+      final StringBuilder sb = new StringBuilder();
+      sb.append( "The following fields included in tests reference jpa entities.\n" +
+                 "This is not a desired pattern and usually a result of over-creation of fixture data in preTest().\n" +
+                 "The construction of test data should be in-lined into tests.\n" );
+      fields.forEach( f -> sb.append( " - " ).append( f ).append( "\n" ) );
+      fail( sb.toString() );
+    }
+  }
+
+  protected boolean isCachedJpaFieldAllowed( @Nonnull final Field field )
+  {
+    return false;
   }
 
   @AfterMethod
