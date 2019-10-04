@@ -2,57 +2,48 @@
 
 ### Unreleased
 
-### [v0.105](https://github.com/realityforge/guiceyloops/tree/v0.105) (2019-09-25)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.104...v0.105)
+### [v0.105](https://github.com/realityforge/guiceyloops/tree/v0.105) (2019-09-25) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.104...v0.105)
 
 * Upgrade the `org.realityforge.javax.annotation` artifact to version `1.0.1`.
 * Rework `AbstractServerTest` to generate errors if fields exist that cache JPA entities.
 
-### [v0.104](https://github.com/realityforge/guiceyloops/tree/v0.104) (2019-08-09)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.103...v0.104)
+### [v0.104](https://github.com/realityforge/guiceyloops/tree/v0.104) (2019-08-09) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.103...v0.104)
 
 * Ensure that the correct GlassFish jar is used when launching container in custom classloader.
 
-### [v0.103](https://github.com/realityforge/guiceyloops/tree/v0.103) (2019-08-07)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.102...v0.103)
+### [v0.103](https://github.com/realityforge/guiceyloops/tree/v0.103) (2019-08-07) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.102...v0.103)
 
 * Cleanup the output returned from `GlassFishContainer.execute()` to strip out the prefix not output on the commandline.
 * Setup the ContextClassLoader prio to invoking methods on `GlassFish` instance.
 * Upgrade payara to `fish.payara.extras:payara-embedded-all:jar:5.192-rf` to work around bug exhibited when restarting GlassFish server.
 
-### [v0.102](https://github.com/realityforge/guiceyloops/tree/v0.102) (2019-07-16)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.101...v0.102)
+### [v0.102](https://github.com/realityforge/guiceyloops/tree/v0.102) (2019-07-16) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.101...v0.102)
 
 * Lock down the code style for the module.
 * Improve nullability annotations on `PersistenceTestModule`
 * Update `PersistenceTestModule` to work with more modern versions of eclipselink.
 * Add initial support for Payara version 5.192.
 
-### [v0.101](https://github.com/realityforge/guiceyloops/tree/v0.101) (2019-05-22)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.100...v0.101)
+### [v0.101](https://github.com/realityforge/guiceyloops/tree/v0.101) (2019-05-22) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.100...v0.101)
 
 * Add `AbstractServerTest.addPostTestSqlAction(...)` method to help reversing destructive actions after a test has completed.
 
-### [v0.100](https://github.com/realityforge/guiceyloops/tree/v0.100) (2019-04-26)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.99...v0.100)
+### [v0.100](https://github.com/realityforge/guiceyloops/tree/v0.100) (2019-04-26) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.99...v0.100)
 
 * Fix access levels in `org.realityforge.guiceyloops.server.DatabaseAsserts`.
 
-### [v0.99](https://github.com/realityforge/guiceyloops/tree/v0.99) (2019-04-26)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.98...v0.99)
+### [v0.99](https://github.com/realityforge/guiceyloops/tree/v0.99) (2019-04-26) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.98...v0.99)
 
 * Remove `{@inheritDoc}` as it only explicitly indicates that the default behaviour at the expense of significant visual clutter.
 * Add `org.realityforge.guiceyloops.server.DatabaseAsserts` utility class.
 
-### [v0.98](https://github.com/realityforge/guiceyloops/tree/v0.98) (2019-02-15)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.96...v0.98)
+### [v0.98](https://github.com/realityforge/guiceyloops/tree/v0.98) (2019-02-15) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.96...v0.98)
 
 * Make `OpenMQContainer` implement `AutoCloseable`.
 * Remove deployment from TravisCI infrastructure as it is no longer feasible.
 * Ensure that all `EntityManager` bindings are closed in `AbstractServerTest.postTest()`.
 
-### [v0.96](https://github.com/realityforge/guiceyloops/tree/v0.96) (2018-09-10)
-[Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.95...v0.96)
+### [v0.96](https://github.com/realityforge/guiceyloops/tree/v0.96) (2018-09-10) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.95...v0.96)
 
 * Add the method `OpenMQUtil.purgeTopic(...)` as a compliment of `OpenMQUtil.purgeQueue(...)` that is
   useful when resetting state during tests. Submitted by James Walker.
