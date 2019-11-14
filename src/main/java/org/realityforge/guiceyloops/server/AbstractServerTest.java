@@ -202,19 +202,7 @@ public abstract class AbstractServerTest
         //A small sleep to ensure that all listeners have established server sockets
         Thread.sleep( 1 );
       }
-      catch ( final IllegalAccessException iae )
-      {
-        //Ignored
-      }
-      catch ( final InvocationTargetException ite )
-      {
-        //Ignored
-      }
-      catch ( final NoSuchMethodException nsme )
-      {
-        //Ignored
-      }
-      catch ( final InterruptedException ie )
+      catch ( final IllegalAccessException | InvocationTargetException | NoSuchMethodException | InterruptedException ignored )
       {
         //Ignored
       }
