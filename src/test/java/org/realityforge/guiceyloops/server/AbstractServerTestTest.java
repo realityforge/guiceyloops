@@ -111,7 +111,7 @@ public class AbstractServerTestTest
       final ArrayList<Module> modules = new ArrayList<>();
       modules.addAll( Arrays.asList( super.getModules() ) );
       addModule( modules, null );
-      return modules.toArray( new Module[ modules.size() ] );
+      return modules.toArray( new Module[ 0 ] );
     }
 
     @SuppressWarnings( "deprecation" )

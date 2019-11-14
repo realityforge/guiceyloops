@@ -345,7 +345,7 @@ public abstract class AbstractServerTest
     modules.add( new ServerTestModule() );
     addModule( modules, getEntityModule() );
     addModule( modules, getMailTestModule() );
-    return modules.toArray( new Module[ modules.size() ] );
+    return modules.toArray( new Module[ 0 ] );
   }
 
   @Nullable

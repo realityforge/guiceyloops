@@ -57,6 +57,6 @@ public final class JaxbUtil
     types.add( type );
     types.addAll( Arrays.asList( additionalTypes ) );
 
-    return types.toArray( new Class[ types.size() ] );
+    return types.toArray( new Class[ 0 ] );
   }
 }

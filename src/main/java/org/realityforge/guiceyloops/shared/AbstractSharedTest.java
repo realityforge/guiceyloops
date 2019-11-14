@@ -62,7 +62,7 @@ public abstract class AbstractSharedTest
   {
     final ArrayList<Module> modules = new ArrayList<>();
     addModule( modules, getTestModule() );
-    return modules.toArray( new Module[ modules.size() ] );
+    return modules.toArray( new Module[ 0 ] );
   }
 
   protected final void addModule( final ArrayList<Module> modules, @Nullable final Module module )

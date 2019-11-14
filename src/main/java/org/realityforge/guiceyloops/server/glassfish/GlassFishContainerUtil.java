@@ -169,7 +169,7 @@ public final class GlassFishContainerUtil
         elements.add( file.toURI().toURL() );
       }
     }
-    return elements.toArray( new URL[ elements.size() ] );
+    return elements.toArray( new URL[ 0 ] );
   }
 
   static File specToFile( final String m2Repository, final String spec )
