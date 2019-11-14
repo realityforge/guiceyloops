@@ -32,7 +32,7 @@ import org.realityforge.guiceyloops.server.glassfish.OpenMQContainer;
 import org.realityforge.guiceyloops.shared.AbstractSharedTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import static com.sun.xml.rpc.wsdl.parser.Util.*;
+import static org.testng.Assert.*;
 
 @SuppressWarnings( "WeakerAccess" )
 public abstract class AbstractServerTest
