@@ -237,6 +237,16 @@ public final class ValueUtil
   }
 
   @Nonnull
+  public static Date addSeconds( @Nonnull final Date time, final int count )
+  {
+    final Calendar cal = Calendar.getInstance();
+    cal.setTimeZone( TimeZone.getTimeZone( "Australia/Melbourne" ) );
+    cal.setTime( time );
+    cal.add( Calendar.SECOND, count );
+    return cal.getTime();
+  }
+
+  @Nonnull
   public static String randomEmail()
   {
     return randomEmail( "example.com" );
