@@ -17,11 +17,9 @@ public final class ValueUtil
 {
   private static final int DEFAULT_MAX_STRING_LENGTH = 50;
   private static final int INITIAL_VALUE = 1;
-
   private static final AtomicInteger c_currentID = new AtomicInteger( INITIAL_VALUE );
   private static final Random c_random = new Random();
   private static Date c_now;
-
   private static int c_seed;
 
   private ValueUtil()
@@ -207,6 +205,12 @@ public final class ValueUtil
   }
 
   @Nonnull
+  public static Date minusDays( @Nonnull final Date time, final int count )
+  {
+    return addDays( time, -count );
+  }
+
+  @Nonnull
   public static Date addMonths( @Nonnull final Date time, final int monthCount )
   {
     final Calendar cal = Calendar.getInstance();
@@ -214,6 +218,12 @@ public final class ValueUtil
     cal.setTime( time );
     cal.add( Calendar.MONTH, monthCount );
     return cal.getTime();
+  }
+
+  @Nonnull
+  public static Date minusMonths( @Nonnull final Date time, final int count )
+  {
+    return addMonths( time, -count );
   }
 
   @Nonnull
@@ -227,6 +237,12 @@ public final class ValueUtil
   }
 
   @Nonnull
+  public static Date minusHours( @Nonnull final Date time, final int count )
+  {
+    return addHours( time, -count );
+  }
+
+  @Nonnull
   public static Date addMinutes( @Nonnull final Date time, final int count )
   {
     final Calendar cal = Calendar.getInstance();
@@ -237,6 +253,12 @@ public final class ValueUtil
   }
 
   @Nonnull
+  public static Date minusMinutes( @Nonnull final Date time, final int count )
+  {
+    return addMonths( time, -count );
+  }
+
+  @Nonnull
   public static Date addSeconds( @Nonnull final Date time, final int count )
   {
     final Calendar cal = Calendar.getInstance();
@@ -244,6 +266,12 @@ public final class ValueUtil
     cal.setTime( time );
     cal.add( Calendar.SECOND, count );
     return cal.getTime();
+  }
+
+  @Nonnull
+  public static Date minusSeconds( @Nonnull final Date time, final int count )
+  {
+    return addSeconds( time, -count );
   }
 
   @Nonnull
