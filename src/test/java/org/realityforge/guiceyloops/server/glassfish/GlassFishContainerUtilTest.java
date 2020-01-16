@@ -15,7 +15,6 @@ public class GlassFishContainerUtilTest
 
   @AfterMethod
   public void cleanupDir()
-    throws IOException
   {
     if ( null != _wardir )
     {

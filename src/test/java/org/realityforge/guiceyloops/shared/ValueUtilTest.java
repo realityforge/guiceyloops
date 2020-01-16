@@ -13,7 +13,6 @@ public class ValueUtilTest
 {
   @Test
   public void resetWillResetSeeds()
-    throws Exception
   {
     ValueUtil.setSeed( 23 );
     ValueUtil.reset();
@@ -43,14 +42,12 @@ public class ValueUtilTest
 
   @Test
   public void trunc()
-    throws Exception
   {
     assertEquals( new Date( 12000 ), ValueUtil.trunc( new Date( 12345 ) ) );
   }
 
   @Test
   public void now()
-    throws Exception
   {
     final long time = ValueUtil.now().getTime();
     assertEquals( ( time / 1000L ) * 1000, time );
@@ -59,7 +56,6 @@ public class ValueUtilTest
 
   @Test
   public void randomString()
-    throws Exception
   {
     final String v1 = ValueUtil.randomString();
     final String v2 = ValueUtil.randomString();
@@ -75,7 +71,6 @@ public class ValueUtilTest
 
   @Test
   public void randomEmail()
-    throws Exception
   {
     final String v1 = ValueUtil.randomEmail();
     final String v2 = ValueUtil.randomEmail();
@@ -93,7 +88,6 @@ public class ValueUtilTest
 
   @Test
   public void dates()
-    throws Exception
   {
     assertDate( ValueUtil.createDate( 2015, 1, 1 ), "2015-01-01T00:00:00+11:00" );
     assertDate( ValueUtil.createDate( 2015, 1, 1, 13, 20, 10 ), "2015-01-01T13:20:10+11:00" );

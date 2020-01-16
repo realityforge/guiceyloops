@@ -248,7 +248,6 @@ public class AbstractServerTestTest
 
   @Test
   public void inTransaction_Runnable()
-    throws Exception
   {
     final CountDownLatch latch = new CountDownLatch( 1 );
     final MyServerTest test = new MyServerTest( null, false );
@@ -262,7 +261,6 @@ public class AbstractServerTestTest
 
   @Test
   public void inTransaction_Runnable_named()
-    throws Exception
   {
     final CountDownLatch latch = new CountDownLatch( 1 );
     final MyServerTest test = new MyServerTest( null, false );
@@ -319,7 +317,6 @@ public class AbstractServerTestTest
 
   @Test
   public void tran_Runnable()
-    throws Exception
   {
     final CountDownLatch latch = new CountDownLatch( 1 );
     final MyServerTest test = new MyServerTest( null, false );
@@ -333,7 +330,6 @@ public class AbstractServerTestTest
 
   @Test
   public void tran_Runnable_named()
-    throws Exception
   {
     final CountDownLatch latch = new CountDownLatch( 1 );
     final MyServerTest test = new MyServerTest( null, false );

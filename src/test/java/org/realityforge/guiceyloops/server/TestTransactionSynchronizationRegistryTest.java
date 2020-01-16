@@ -8,7 +8,6 @@ public class TestTransactionSynchronizationRegistryTest
 {
   @Test
   public void putResource_getResource_clear()
-    throws Exception
   {
     final TestTransactionSynchronizationRegistry registry =
       new TestTransactionSynchronizationRegistry();

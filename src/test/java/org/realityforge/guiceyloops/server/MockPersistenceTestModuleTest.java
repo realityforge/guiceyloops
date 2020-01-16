@@ -14,7 +14,6 @@ public class MockPersistenceTestModuleTest
 {
   @Test
   public void basicOperation()
-    throws Throwable
   {
     final Injector injector =
       Guice.createInjector( new MockPersistenceTestModule( "TestUnit" ), new JEETestingModule() );

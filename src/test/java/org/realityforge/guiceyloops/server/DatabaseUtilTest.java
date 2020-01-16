@@ -25,14 +25,12 @@ public final class DatabaseUtilTest
 
   @Test
   public void initDatabaseProperties_default()
-    throws Exception
   {
     assertPersistenceUnitProperties( null, "DATABASE_DRIVER_UNSET", "DATABASE_URL_UNSET", null, null );
   }
 
   @Test
   public void initDatabaseProperties_sysProperties()
-    throws Exception
   {
     final String driver = "MyDriver";
     final String url = "MyURL";
@@ -45,7 +43,6 @@ public final class DatabaseUtilTest
 
   @Test
   public void initDatabaseProperties_sysPropertiesWithPrefix()
-    throws Exception
   {
     final String driver = "MyDriver";
     final String url = "MyURL";
@@ -58,7 +55,6 @@ public final class DatabaseUtilTest
 
   @Test
   public void setAdditionalPersistenceUnitProperties()
-    throws Exception
   {
     final String key = "MyMagicKey";
     final String value = "value";
@@ -78,7 +74,6 @@ public final class DatabaseUtilTest
 
   @Test( expectedExceptions = { IllegalArgumentException.class } )
   public void getGlassFishDataSourceProperties_unknownJdbc()
-    throws Exception
   {
     TestUtil.setDBProperties( null,
                               "",
@@ -90,7 +85,6 @@ public final class DatabaseUtilTest
 
   @Test
   public void getGlassFishDataSourceProperties_sqlsvr_allProperties()
-    throws Exception
   {
     TestUtil.setDBProperties( null,
                               "",
@@ -107,7 +101,6 @@ public final class DatabaseUtilTest
 
   @Test
   public void getGlassFishDataSourceProperties_sqlsvr_minimal()
-    throws Exception
   {
     TestUtil.setDBProperties( null,
                               "",
@@ -123,7 +116,6 @@ public final class DatabaseUtilTest
 
   @Test
   public void getGlassFishDataSourceProperties_pgsql_allProperties()
-    throws Exception
   {
     TestUtil.setDBProperties( null,
                               "",
@@ -140,7 +132,6 @@ public final class DatabaseUtilTest
 
   @Test
   public void getGlassFishDataSourceProperties_pgsql_minimal()
-    throws Exception
   {
     TestUtil.setDBProperties( null,
                               "",

@@ -27,7 +27,6 @@ public class PersistenceTestModuleTest
 
   @AfterMethod
   public final void tearDownEntityManager()
-    throws Exception
   {
     if ( null != _databaseFile )
     {
@@ -62,7 +61,6 @@ public class PersistenceTestModuleTest
 
   @Test
   public void noTablesToClean()
-    throws Throwable
   {
     final TestPersistenceTestModule module =
       new TestPersistenceTestModule( new String[ 0 ] );

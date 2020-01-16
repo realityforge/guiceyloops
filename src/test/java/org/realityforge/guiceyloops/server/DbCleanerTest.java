@@ -25,7 +25,6 @@ public class DbCleanerTest
 
   @AfterMethod
   public final void tearDownEntityManager()
-    throws Exception
   {
     if ( null != _entityManager )
     {
