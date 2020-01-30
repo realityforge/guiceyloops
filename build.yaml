@@ -1,7 +1,7 @@
 repositories:
   remote:
    - https://repo.maven.apache.org/maven2
-   - https://stocksoftware.jfrog.io/stocksoftware/oss
+   - https://stocksoftware.jfrog.io/stocksoftware/maven2
    - https://stocksoftware.jfrog.io/stocksoftware/staging
    # TODO: Remove thirdparty-local once payara is no longer version 5.192-rf
    - https://stocksoftware.jfrog.io/stocksoftware/thirdparty-local
