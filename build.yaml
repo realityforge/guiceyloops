@@ -3,8 +3,6 @@ repositories:
    - https://repo.maven.apache.org/maven2
    - https://stocksoftware.jfrog.io/stocksoftware/maven2
    - https://stocksoftware.jfrog.io/stocksoftware/staging
-   # TODO: Remove thirdparty-local once payara is no longer version 5.192-rf
-   - https://stocksoftware.jfrog.io/stocksoftware/thirdparty-local
 
 artifacts:
   idea_codestyle: au.com.stocksoftware.idea.codestyle:idea-codestyle:xml:1.14
@@ -24,6 +22,5 @@ artifacts:
 
   h2db: com.h2database:h2:jar:1.3.159
 
-  # TODO: Remove thirdparty-local repository once payara is no longer version 5.192-rf
   glassfish_embedded: fish.payara.extras:payara-embedded-all:jar:5.192-rf
   jtds: net.sourceforge.jtds:jtds:jar:1.3.1
