@@ -1,6 +1,6 @@
 # guiceyloops
 
-[![Build Status](https://api.travis-ci.com/realityforge/guiceyloops.svg?branch=master)](http://travis-ci.org/realityforge/guiceyloops)
+[![Build Status](https://api.travis-ci.com/realityforge/guiceyloops.svg?branch=master)](http://travis-ci.com/realityforge/guiceyloops)
 [<img src="https://img.shields.io/maven-central/v/org.realityforge.guiceyloops/guiceyloops.svg?label=latest%20release"/>](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.realityforge.guiceyloops%22%20a%3A%22guiceyloops%22)
 [![codecov](https://codecov.io/gh/realityforge/guiceyloops/branch/master/graph/badge.svg)](https://codecov.io/gh/realityforge/guiceyloops)
 
