@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Upgrade the `javax` artifact to version `8.0`.
+
 ### [v0.106](https://github.com/realityforge/guiceyloops/tree/v0.106) (2020-01-17) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.105...v0.106)
 
 * Add `ValueUtil.addSeconds(...)` utility method.
