@@ -13,6 +13,8 @@ import javax.el.ExpressionFactory;
 import javax.enterprise.context.spi.Context;
 import javax.enterprise.context.spi.Contextual;
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.AnnotatedField;
 import javax.enterprise.inject.spi.AnnotatedMember;
 import javax.enterprise.inject.spi.AnnotatedMethod;
@@ -26,6 +28,7 @@ import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.InjectionTarget;
 import javax.enterprise.inject.spi.InjectionTargetFactory;
+import javax.enterprise.inject.spi.InterceptionFactory;
 import javax.enterprise.inject.spi.InterceptionType;
 import javax.enterprise.inject.spi.Interceptor;
 import javax.enterprise.inject.spi.ObserverMethod;
@@ -274,6 +277,24 @@ public class TestBeanManager
   public <T, X> Bean<T> createBean( final BeanAttributes<T> attributes,
                                     final Class<X> beanClass,
                                     final ProducerFactory<X> producerFactory )
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public <T> InterceptionFactory<T> createInterceptionFactory( final CreationalContext<T> ctx, final Class<T> clazz )
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public Event<Object> getEvent()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public Instance<Object> createInstance()
   {
     throw new UnsupportedOperationException();
   }

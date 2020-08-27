@@ -7,7 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletionStage;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.NotificationOptions;
 import javax.enterprise.util.TypeLiteral;
 
 public final class EventStub<T>
@@ -75,6 +77,18 @@ public final class EventStub<T>
   }
 
   @Override
+  public <U extends T> CompletionStage<U> fireAsync( final U event )
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public <U extends T> CompletionStage<U> fireAsync( final U event, final NotificationOptions options )
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public <U extends T> Event<U> select( final TypeLiteral<U> subtype, final Annotation... qualifiers )
   {
     throw new UnsupportedOperationException();
@@ -113,6 +127,18 @@ public final class EventStub<T>
     public <U extends T> Event<U> select( final TypeLiteral<U> subtype, final Annotation... qualifiers )
     {
       return EventStub.this.select( subtype, qualifiers );
+    }
+
+    @Override
+    public <U extends T> CompletionStage<U> fireAsync( final U event )
+    {
+      return EventStub.this.fireAsync( event );
+    }
+
+    @Override
+    public <U extends T> CompletionStage<U> fireAsync( final U event, final NotificationOptions options )
+    {
+      return EventStub.this.fireAsync( event, options );
     }
   }
 }
