@@ -27,7 +27,7 @@ public abstract class FlushingTestModule
   {
     try
     {
-      final Class interfaceClass = Class.forName( interfaceName );
+      final Class<?> interfaceClass = Class.forName( interfaceName );
       final Class implClass = Class.forName( implementationName );
       bindService( interfaceClass, implClass );
     }
