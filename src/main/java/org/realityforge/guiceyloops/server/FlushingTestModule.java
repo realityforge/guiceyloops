@@ -23,6 +23,7 @@ public abstract class FlushingTestModule
     _interceptor = new FlushingInterceptor( flushAtStart, flushable );
   }
 
+  @SuppressWarnings( { "rawtypes", "unchecked" } )
   protected final void bindService( final String interfaceName, final String implementationName )
   {
     try
