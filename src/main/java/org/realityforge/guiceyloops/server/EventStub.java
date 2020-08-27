@@ -71,13 +71,13 @@ public final class EventStub<T>
   @Override
   public <U extends T> Event<U> select( final Class<U> subtype, final Annotation... qualifiers )
   {
-    throw new RuntimeException( "Not yet implemented." );
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public <U extends T> Event<U> select( final TypeLiteral<U> subtype, final Annotation... qualifiers )
   {
-    throw new RuntimeException( "Not yet implemented." );
+    throw new UnsupportedOperationException();
   }
 
   private class QualifiedEvent
