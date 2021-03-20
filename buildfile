@@ -2,6 +2,8 @@ require 'buildr/git_auto_version'
 require 'buildr/gpg'
 require 'buildr/jacoco'
 
+Buildr::MavenCentral.define_publish_tasks(:profile_name => 'org.realityforge', :username => 'realityforge')
+
 PROVIDED_DEPS = [:javax_javaee, :javax_annotation]
 
 OPTIONAL_DEPS = [:jndikit, :greenmail, :glassfish_embedded]
