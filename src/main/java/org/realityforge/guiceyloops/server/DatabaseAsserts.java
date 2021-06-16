@@ -119,6 +119,7 @@ public final class DatabaseAsserts
    * @throws SQLException if a database access error occurs
    */
   @SafeVarargs
+  @SuppressWarnings( "varargs" )
   public static void assertResultSet( @Nonnull final ResultSet resultSet,
                                       final boolean orderImportant,
                                       @Nonnull final Map<String, Matcher<Object>>... expectations )
