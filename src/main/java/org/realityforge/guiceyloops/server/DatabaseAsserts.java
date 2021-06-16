@@ -211,7 +211,7 @@ public final class DatabaseAsserts
     for ( final Map.Entry<String, Matcher<Object>> colExpectation : expectations.entrySet() )
     {
       final Object val = resultSet.getObject( colExpectation.getKey() );
-      final Matcher matcher = colExpectation.getValue();
+      final Matcher<Object> matcher = colExpectation.getValue();
       matched &= matcher.matches( val );
     }
     return matched;
