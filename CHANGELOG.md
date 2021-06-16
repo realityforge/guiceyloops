@@ -3,6 +3,7 @@
 ### Unreleased
 
 * Upgrade the `au.com.stocksoftware.idea.codestyle` artifact to version `1.17`.
+* Fix matching rules in `DatabaseAsserts` so that columns defined as `Clob` are matched as if they were defined as strings.
 
 ### [v0.107](https://github.com/realityforge/guiceyloops/tree/v0.107) (2020-09-03) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.106...v0.107)
 

@@ -1,5 +1,6 @@
 package org.realityforge.guiceyloops.server;
 
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -210,7 +211,12 @@ public final class DatabaseAsserts
     boolean matched = true;
     for ( final Map.Entry<String, Matcher<Object>> colExpectation : expectations.entrySet() )
     {
-      final Object val = resultSet.getObject( colExpectation.getKey() );
+      Object val = resultSet.getObject( colExpectation.getKey() );
+      if ( val instanceof Clob )
+      {
+        final Clob clob = (Clob) val;
+        val = clob.getSubString( 1, (int) clob.length() );
+      }
       final Matcher<Object> matcher = colExpectation.getValue();
       matched &= matcher.matches( val );
     }
