@@ -424,7 +424,7 @@ public abstract class AbstractServerTest
   }
 
   @Nonnull
-  protected <T> T getEvent( @Nonnull final TypeLiteral<Event<T>> literal, final int index )
+  protected final <T> T getEvent( @Nonnull final TypeLiteral<Event<T>> literal, final int index )
   {
     final List<T> events = getEvents( literal );
     assertTrue( events.size() > index, "Expected at least " + index + " events but only received " + events );
