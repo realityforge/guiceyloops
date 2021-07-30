@@ -423,6 +423,34 @@ public abstract class AbstractServerTest
     return super.s( name, type );
   }
 
+  @Nonnull
+  protected <T> T getEvent( @Nonnull final TypeLiteral<Event<T>> literal, final int index )
+  {
+    final List<T> events = getEvents( literal );
+    assertTrue( events.size() > index, "Expected at least " + index + " events but only received " + events );
+    final T event = events.get( index );
+    assertNotNull( event );
+    return event;
+  }
+
+  protected final <T> List<T> getEvents( @Nonnull final TypeLiteral<Event<T>> literal,
+                                         final int messageCount )
+  {
+    assertEventCount( literal, messageCount );
+    return eventStub( literal ).getEvents();
+  }
+
+  protected final <T> List<T> getEvents( @Nonnull final TypeLiteral<Event<T>> literal )
+  {
+    return eventStub( literal ).getEvents();
+  }
+
+  protected final <T> void assertEventCount( @Nonnull final TypeLiteral<Event<T>> literal,
+                                             final int messageCount )
+  {
+    assertEquals( eventStub( literal ).count(), messageCount );
+  }
+
   /**
    * Retrieve the EventStub implementation associated with event literal.
    * It is assumed that the event stub is bound in the associated module.

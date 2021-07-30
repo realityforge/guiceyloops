@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Enhance `AbstractServerTest` to add the methods `getEvent(..)`, `getEvents(...)` and `assertEventCount(...)` to simplify code that tests CDI event code.
+
 ### [v0.108](https://github.com/realityforge/guiceyloops/tree/v0.108) (2021-06-16) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.107...v0.108)
 
 * Upgrade the `au.com.stocksoftware.idea.codestyle` artifact to version `1.17`.
