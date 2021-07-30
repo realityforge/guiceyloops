@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.109](https://github.com/realityforge/guiceyloops/tree/v0.109) (2021-07-30) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.108...v0.109)
+
+Changes in this release:
 
 * Enhance `AbstractServerTest` to add the methods `getEvent(..)`, `getEvents(...)` and `assertEventCount(...)` to simplify code that tests CDI event code.
 
