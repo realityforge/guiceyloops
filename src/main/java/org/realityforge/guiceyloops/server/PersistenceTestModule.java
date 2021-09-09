@@ -61,6 +61,7 @@ public abstract class PersistenceTestModule
     _additionalDatabaseProperties = additionalDatabaseProperties;
   }
 
+  @Nonnull
   protected final EntityManager getEntityManager()
   {
     return _entityManager;
