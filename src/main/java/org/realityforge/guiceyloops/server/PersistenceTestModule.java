@@ -125,6 +125,7 @@ public abstract class PersistenceTestModule
    */
   private void requestInjectionForAllEntityListeners()
   {
+    assert null != _entityManager;
     final Session session = _entityManager.unwrap( Session.class );
     for ( final ClassDescriptor descriptor : session.getDescriptors().values() )
     {
