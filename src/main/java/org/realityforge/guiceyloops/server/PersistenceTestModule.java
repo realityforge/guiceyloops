@@ -2,6 +2,7 @@ package org.realityforge.guiceyloops.server;
 
 import com.google.inject.name.Names;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,9 +55,9 @@ public abstract class PersistenceTestModule
                                 @Nullable final String databasePrefix,
                                 @Nullable final Properties additionalDatabaseProperties )
   {
-    _bindName = bindName;
-    _persistenceUnitName = persistenceUnitName;
-    _tablesToClean = tablesToClean;
+    _bindName = Objects.requireNonNull( bindName );
+    _persistenceUnitName = Objects.requireNonNull( persistenceUnitName );
+    _tablesToClean = Objects.requireNonNull( tablesToClean );
     _databasePrefix = databasePrefix;
     _additionalDatabaseProperties = additionalDatabaseProperties;
   }
