@@ -97,7 +97,7 @@ public abstract class PersistenceTestModule
     requestInjectionForAllEntityListeners();
     if ( 0 != _tablesToClean.length )
     {
-      requestCleaningOfTables( _tablesToClean );
+      requestCleaningOfTables();
     }
   }
 
@@ -110,11 +110,11 @@ public abstract class PersistenceTestModule
     return _bindName;
   }
 
-  private void requestCleaningOfTables( @Nonnull final String[] tables )
+  private void requestCleaningOfTables()
   {
     bind( DbCleaner.class ).
       annotatedWith( Names.named( getBindName() ) ).
-      toInstance( new DbCleaner( tables, getEntityManager() ) );
+      toInstance( new DbCleaner( _tablesToClean, getEntityManager() ) );
   }
 
   /**
