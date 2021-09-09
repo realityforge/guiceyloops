@@ -1,5 +1,6 @@
 package org.realityforge.guiceyloops.server;
 
+import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 
@@ -16,17 +17,18 @@ import javax.persistence.EntityManager;
  */
 public class DbCleaner
 {
+  @Nonnull
   private final String[] _tableNames;
+  @Nonnull
   private final EntityManager _em;
-
   private boolean _inTransaction;
   private boolean _active;
   private boolean _clean;
 
   public DbCleaner( @Nonnull final String[] tableNames, @Nonnull final EntityManager em )
   {
-    _tableNames = tableNames;
-    _em = em;
+    _tableNames = Objects.requireNonNull( tableNames );
+    _em = Objects.requireNonNull( em );
   }
 
   public boolean isActive()
