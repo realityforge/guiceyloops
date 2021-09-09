@@ -45,31 +45,43 @@ import javax.persistence.Persistence;
  */
 public final class DatabaseUtil
 {
+  @Nonnull
   static final String URL_KEY = "javax.persistence.jdbc.url";
+  @Nonnull
   static final String DRIVER_KEY = "javax.persistence.jdbc.driver";
+  @Nonnull
   static final String USER_KEY = "javax.persistence.jdbc.user";
+  @Nonnull
   static final String PASSWORD_KEY = "javax.persistence.jdbc.password";
-
+  @Nonnull
   static final String DB_DRIVER_SYS_PROPERTY = "test.db.driver";
+  @Nonnull
   static final String DEFAULT_DRIVER = "DATABASE_DRIVER_UNSET";
-
+  @Nonnull
   static final String DB_URL_SYS_PROPERTY = "test.db.url";
+  @Nonnull
   static final String DEFAULT_URL = "DATABASE_URL_UNSET";
-
+  @Nonnull
   static final String DB_USER_SYS_PROPERTY = "test.db.user";
+  @Nullable
   static final String DEFAULT_USER = null;
-
+  @Nonnull
   static final String DB_PASSWORD_SYS_PROPERTY = "test.db.password";
+  @Nullable
   static final String DEFAULT_PASSWORD = null;
+  @Nonnull
   public static final String JTDS_SQL_SERVER_JDBC_URL_PREFIX = "jdbc:jtds:sqlserver://";
+  @Nonnull
   public static final String POSTGRES_SERVER_JDBC_URL_PREFIX = "jdbc:postgresql://";
 
   private DatabaseUtil()
   {
   }
 
+  @Nonnull
   private static final Properties c_additionalPersistenceUnitProperties = new Properties();
 
+  @Nonnull
   static Properties initDatabaseProperties( @Nullable final String databasePrefix )
   {
     final Properties properties = new Properties();
@@ -94,6 +106,7 @@ public final class DatabaseUtil
     c_additionalPersistenceUnitProperties.putAll( properties );
   }
 
+  @Nonnull
   static Properties initPersistenceUnitProperties( @Nullable final String databasePrefix )
   {
     final Properties properties = initDatabaseProperties( databasePrefix );
@@ -117,11 +130,13 @@ public final class DatabaseUtil
     }
   }
 
+  @Nonnull
   public static Properties getGlassFishDataSourceProperties()
   {
     return getGlassFishDataSourceProperties( null );
   }
 
+  @Nonnull
   public static Properties getGlassFishDataSourceProperties( @Nullable final String databasePrefix )
   {
     final Properties properties = initDatabaseProperties( databasePrefix );
@@ -145,7 +160,7 @@ public final class DatabaseUtil
     return gfProperties;
   }
 
-  private static void parseSqlServerURL( final Properties gfProperties, final String jdbcUrl )
+  private static void parseSqlServerURL( @Nonnull final Properties gfProperties, @Nonnull final String jdbcUrl )
   {
     final int paramSeparator = jdbcUrl.indexOf( ";" );
     if ( -1 != paramSeparator )
@@ -189,7 +204,7 @@ public final class DatabaseUtil
     setProperty( gfProperties, "jdbc30DataSource", "true" );
   }
 
-  private static void parsePostgresURL( final Properties gfProperties, final String jdbcUrl )
+  private static void parsePostgresURL( @Nonnull final Properties gfProperties, @Nonnull final String jdbcUrl )
   {
     final int paramSeparator = jdbcUrl.indexOf( "?" );
     if ( -1 != paramSeparator )
@@ -241,17 +256,20 @@ public final class DatabaseUtil
     }
   }
 
+  @Nonnull
   public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName )
   {
     return createEntityManager( persistenceUnitName, null );
   }
 
+  @Nonnull
   public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName,
                                                    @Nullable final String databasePrefix )
   {
     return createEntityManager( persistenceUnitName, databasePrefix, null );
   }
 
+  @Nonnull
   public static EntityManager createEntityManager( @Nonnull final String persistenceUnitName,
                                                    @Nullable final String databasePrefix,
                                                    @Nullable final Properties additionalDatabaseProperties )
@@ -270,7 +288,7 @@ public final class DatabaseUtil
    *
    * @param connection the database connection.
    */
-  public static void disposeConnection( final Connection connection )
+  public static void disposeConnection( @Nullable final Connection connection )
   {
     if ( null != connection )
     {
@@ -290,6 +308,7 @@ public final class DatabaseUtil
    *
    * @return the database connection.
    */
+  @Nonnull
   public static Connection initConnection()
   {
     return initConnection( null );
@@ -300,6 +319,7 @@ public final class DatabaseUtil
    *
    * @return the database connection.
    */
+  @Nonnull
   public static Connection initConnection( @Nullable final String databasePrefix )
   {
     final Properties properties = initDatabaseProperties( databasePrefix );
