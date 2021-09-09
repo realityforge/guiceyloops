@@ -27,6 +27,7 @@ public abstract class PersistenceTestModule
   private final String _databasePrefix;
   @Nullable
   private final Properties _additionalDatabaseProperties;
+  @Nullable
   private EntityManager _entityManager;
 
   public PersistenceTestModule( @Nonnull final String persistenceUnitName, @Nonnull final String[] tablesToClean )
@@ -65,6 +66,7 @@ public abstract class PersistenceTestModule
   @Nonnull
   protected final EntityManager getEntityManager()
   {
+    assert null != _entityManager;
     return _entityManager;
   }
 
