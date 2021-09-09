@@ -136,6 +136,7 @@ public abstract class PersistenceTestModule
     requestInjectionForEntityListeners( eventManager.getEntityListenerEventListeners() );
   }
 
+  @SuppressWarnings( "rawtypes" )
   private void requestInjectionForEntityListeners( @Nonnull final List<DescriptorEventListener> eventListeners )
   {
     for ( final DescriptorEventListener o : eventListeners )
