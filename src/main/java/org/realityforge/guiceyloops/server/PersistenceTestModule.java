@@ -138,7 +138,7 @@ public abstract class PersistenceTestModule
 
   private void requestInjectionForEntityListeners( @Nonnull final List<DescriptorEventListener> eventListeners )
   {
-    for ( final Object o : eventListeners )
+    for ( final DescriptorEventListener o : eventListeners )
     {
       if ( o instanceof EntityListener )
       {
