@@ -21,6 +21,16 @@ public abstract class PersistenceTestModule
   private final String _persistenceUnitName;
   @Nonnull
   private final String _bindName;
+  /**
+   * SQL to run prior to cleaning tables.
+   */
+  @Nonnull
+  private final String[] _preCleanSql;
+  /**
+   * SQL to run after cleaning tables.
+   */
+  @Nonnull
+  private final String[] _postCleanSql;
   @Nonnull
   private final String[] _tablesToClean;
   @Nullable
@@ -47,17 +57,42 @@ public abstract class PersistenceTestModule
                                 @Nullable final String databasePrefix,
                                 @Nullable final Properties additionalDatabaseProperties )
   {
-    this( persistenceUnitName, persistenceUnitName, tablesToClean, databasePrefix, additionalDatabaseProperties );
+    this( persistenceUnitName,
+          persistenceUnitName,
+          new String[ 0 ],
+          new String[ 0 ],
+          tablesToClean,
+          databasePrefix,
+          additionalDatabaseProperties );
   }
 
+  public PersistenceTestModule( @Nonnull final String persistenceUnitName,
+                                @Nonnull final String[] preCleanSql,
+                                @Nonnull final String[] postCleanSql,
+                                @Nonnull final String[] tablesToClean,
+                                @Nullable final String databasePrefix,
+                                @Nullable final Properties additionalDatabaseProperties )
+  {
+    this( persistenceUnitName,
+          persistenceUnitName,
+          preCleanSql,
+          postCleanSql,
+          tablesToClean,
+          databasePrefix,
+          additionalDatabaseProperties );
+  }
   public PersistenceTestModule( @Nonnull final String bindName,
                                 @Nonnull final String persistenceUnitName,
+                                @Nonnull final String[] preCleanSql,
+                                @Nonnull final String[] postCleanSql,
                                 @Nonnull final String[] tablesToClean,
                                 @Nullable final String databasePrefix,
                                 @Nullable final Properties additionalDatabaseProperties )
   {
     _bindName = Objects.requireNonNull( bindName );
     _persistenceUnitName = Objects.requireNonNull( persistenceUnitName );
+    _preCleanSql = Objects.requireNonNull( preCleanSql );
+    _postCleanSql = Objects.requireNonNull( postCleanSql );
     _tablesToClean = Objects.requireNonNull( tablesToClean );
     _databasePrefix = databasePrefix;
     _additionalDatabaseProperties = additionalDatabaseProperties;
@@ -100,7 +135,9 @@ public abstract class PersistenceTestModule
     requestInjectionForAllEntityListeners();
     if ( 0 != _tablesToClean.length )
     {
-      requestCleaningOfTables();
+      bind( DbCleaner.class ).
+        annotatedWith( Names.named( getBindName() ) ).
+        toInstance( new DbCleaner( _preCleanSql, _postCleanSql, _tablesToClean, getEntityManager() ) );
     }
   }
 
@@ -111,13 +148,6 @@ public abstract class PersistenceTestModule
   protected final String getBindName()
   {
     return _bindName;
-  }
-
-  private void requestCleaningOfTables()
-  {
-    bind( DbCleaner.class ).
-      annotatedWith( Names.named( getBindName() ) ).
-      toInstance( new DbCleaner( _tablesToClean, getEntityManager() ) );
   }
 
   /**

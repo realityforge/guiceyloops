@@ -19,6 +19,6 @@ class DbCleanerTestModule
   protected void configure()
   {
     bind( EntityManager.class ).toInstance( _entityManager );
-    bind( DbCleaner.class ).toInstance( new DbCleaner( _tables, _entityManager ) );
+    bind( DbCleaner.class ).toInstance( new DbCleaner( new String[ 0 ], new String[ 0 ], _tables, _entityManager ) );
   }
 }

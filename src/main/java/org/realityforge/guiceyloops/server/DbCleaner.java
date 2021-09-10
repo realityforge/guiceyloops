@@ -17,6 +17,16 @@ import javax.persistence.EntityManager;
  */
 public class DbCleaner
 {
+  /**
+   * SQL to run prior to cleaning tables.
+   */
+  @Nonnull
+  private final String[] _preCleanSql;
+  /**
+   * SQL to run after cleaning tables.
+   */
+  @Nonnull
+  private final String[] _postCleanSql;
   @Nonnull
   private final String[] _tableNames;
   @Nonnull
@@ -25,8 +35,13 @@ public class DbCleaner
   private boolean _active;
   private boolean _clean;
 
-  public DbCleaner( @Nonnull final String[] tableNames, @Nonnull final EntityManager em )
+  public DbCleaner( @Nonnull final String[] preCleanSql,
+                    @Nonnull final String[] postCleanSql,
+                    @Nonnull final String[] tableNames,
+                    @Nonnull final EntityManager em )
   {
+    _preCleanSql = Objects.requireNonNull( preCleanSql );
+    _postCleanSql = Objects.requireNonNull( postCleanSql );
     _tableNames = Objects.requireNonNull( tableNames );
     _em = Objects.requireNonNull( em );
   }
@@ -85,9 +100,17 @@ public class DbCleaner
       _em.getTransaction().begin();
       try
       {
+        for ( final String sql : _preCleanSql )
+        {
+          _em.createNativeQuery( sql ).executeUpdate();
+        }
         for ( final String tableName : _tableNames )
         {
           _em.createNativeQuery( "DELETE FROM " + tableName ).executeUpdate();
+        }
+        for ( final String sql : _postCleanSql )
+        {
+          _em.createNativeQuery( sql ).executeUpdate();
         }
       }
       finally

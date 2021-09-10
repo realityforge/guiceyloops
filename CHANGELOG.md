@@ -3,6 +3,7 @@
 ### Unreleased
 
 * Make `DbCleaner` more resilient to failures during the cleaning process so that a failure will not leave open transactions.
+* Enhance `DbCleaer` and `PersistenceTestModule` to support pre and post clean sql hooks.
 
 ### [v0.109](https://github.com/realityforge/guiceyloops/tree/v0.109) (2021-07-30) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.108...v0.109)
 
