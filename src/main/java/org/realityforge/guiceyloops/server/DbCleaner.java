@@ -77,6 +77,7 @@ public class DbCleaner
     rollbackTransaction();
   }
 
+  @SuppressWarnings( { "SqlWithoutWhere", "SqlNoDataSourceInspection" } )
   private void clean()
   {
     if ( !_clean )
