@@ -83,11 +83,24 @@ public class DbCleaner
     if ( !_clean )
     {
       _em.getTransaction().begin();
-      for ( final String tableName : _tableNames )
+      try
       {
-        _em.createNativeQuery( "DELETE FROM " + tableName ).executeUpdate();
+        for ( final String tableName : _tableNames )
+        {
+          _em.createNativeQuery( "DELETE FROM " + tableName ).executeUpdate();
+        }
       }
-      _em.getTransaction().commit();
+      finally
+      {
+        if ( _em.getTransaction().getRollbackOnly() )
+        {
+          _em.getTransaction().rollback();
+        }
+        else
+        {
+          _em.getTransaction().commit();
+        }
+      }
       _em.getEntityManagerFactory().getCache().evictAll();
       _clean = true;
     }
