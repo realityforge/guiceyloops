@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.111](https://github.com/realityforge/guiceyloops/tree/v0.111) (2021-12-27) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.110...v0.111)
 
 Changes in this release:
