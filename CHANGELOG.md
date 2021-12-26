@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+* Add a `ValueUtil.nextId()` method that is equivalent to `ValueUtil.nextID()` to support coding conventions in some downstream projects.
+* Add a `ValueUtil.nextId(String)` method that creates scopes the id to the specified type string.
+
 ### [v0.110](https://github.com/realityforge/guiceyloops/tree/v0.110) (2021-09-10) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.109...v0.110)
 
 Changes in this release:

@@ -2,6 +2,8 @@ package org.realityforge.guiceyloops.shared;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -17,7 +19,8 @@ public final class ValueUtil
 {
   private static final int DEFAULT_MAX_STRING_LENGTH = 50;
   private static final int INITIAL_VALUE = 1;
-  private static final AtomicInteger c_currentID = new AtomicInteger( INITIAL_VALUE );
+  @Nonnull
+  private static final Map<String, AtomicInteger> c_typeToCurrentId = new HashMap<>();
   private static final Random c_random = new Random();
   private static Date c_now;
   private static int c_seed;
@@ -85,7 +88,7 @@ public final class ValueUtil
   public static void reset()
   {
     c_now = null;
-    c_currentID.set( INITIAL_VALUE );
+    c_typeToCurrentId.clear();
     if ( 0 != c_seed )
     {
       c_random.setSeed( c_seed );
@@ -97,7 +100,23 @@ public final class ValueUtil
    */
   public static int nextID()
   {
-    return c_currentID.getAndIncrement();
+    return nextId();
+  }
+
+  /**
+   * Return a monotonically increasing integer. Only decreases when reset() is invoked.
+   */
+  public static int nextId()
+  {
+    return nextId( "**default**" );
+  }
+
+  /**
+   * Return a monotonically increasing integer scoped to a particular type. Only decreases when reset() is invoked.
+   */
+  public static int nextId( @Nonnull final String type )
+  {
+    return c_typeToCurrentId.computeIfAbsent( type, t -> new AtomicInteger( INITIAL_VALUE ) ).getAndIncrement();
   }
 
   /**
