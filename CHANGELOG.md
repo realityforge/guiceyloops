@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.111](https://github.com/realityforge/guiceyloops/tree/v0.111) (2021-12-27) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.110...v0.111)
+
+Changes in this release:
 
 * Add a `ValueUtil.nextId()` method that is equivalent to `ValueUtil.nextID()` to support coding conventions in some downstream projects.
 * Add a `ValueUtil.nextId(String)` method that creates scopes the id to the specified type string.
