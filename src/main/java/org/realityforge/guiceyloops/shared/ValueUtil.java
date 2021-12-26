@@ -93,7 +93,7 @@ public final class ValueUtil
   }
 
   /**
-   * Retrun a monotonically increasing integer. Only decreases when reset() is invoked.
+   * Return a monotonically increasing integer. Only decreases when reset() is invoked.
    */
   public static int nextID()
   {
