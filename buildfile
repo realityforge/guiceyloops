@@ -49,4 +49,7 @@ define 'guiceyloops' do
   package(:javadoc)
 
   ipr.add_component_from_artifact(:idea_codestyle)
+  ipr.add_testng_configuration('core',
+                               :jvm_args => "-ea -Duser.timezone=Australia/Melbourne -Dembedded.glassfish.artifacts=#{artifact(:glassfish_embedded).to_spec}")
+
 end
