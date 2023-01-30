@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.112](https://github.com/realityforge/guiceyloops/tree/v0.112) (2023-01-30) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.111...v0.112)
+
+Changes in this release:
 
 * Update the `fish.payara.extras:payara-embedded-all:jar` artifact to version `5.2022.5`.
 * Upgrade the minimum version of Java to version `17`.
