@@ -10,8 +10,10 @@ artifacts:
   javax_annotation: org.realityforge.javax.annotation:javax.annotation:jar:1.0.1
   javax_javaee: javax:javaee-api:jar:8.0
 
-  google_guice: au.com.stocksoftware.com.google.inject:guice:jar:4.1.1-stock
-  asm: org.ow2.asm:asm:jar:5.0.3 # Required for guice
+  guava: com.google.guava:guava:jar:30.1-jre
+  guava_failureaccess: com.google.guava:failureaccess:jar:1.0.1
+  google_guice: com.google.inject:guice:jar:5.1.0
+  asm: org.ow2.asm:asm:jar:9.2 # Required for guice
   aopalliance: aopalliance:aopalliance:jar:1.0 # Required for guice
 
   testng: org.testng:testng:jar:6.8

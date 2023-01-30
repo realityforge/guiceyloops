@@ -27,6 +27,8 @@ define 'guiceyloops' do
                :testng,
                :mockito,
                :google_guice,
+               :guava,
+               :guava_failureaccess,
                :aopalliance,
                :asm
 
