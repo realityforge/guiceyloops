@@ -5,6 +5,7 @@
 * Update the `fish.payara.extras:payara-embedded-all:jar` artifact to version `5.2022.5`.
 * Upgrade the minimum version of Java to version `17`.
 * Upgrade the guava version to `30.1-jre` to support java 17 environments.
+* Upgrade the mockito version to `4.5.1` to support java 17 environments.
 
 ### [v0.111](https://github.com/realityforge/guiceyloops/tree/v0.111) (2021-12-27) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.110...v0.111)
 

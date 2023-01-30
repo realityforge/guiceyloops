@@ -6,7 +6,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import javax.persistence.EntityManager;
-import org.mockito.cglib.proxy.Factory;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -28,7 +27,7 @@ public class MockPersistenceTestModuleTest
   private void assertMockEntityManager( final EntityManager entityManager )
   {
     assertNotNull( entityManager );
-    assertTrue( entityManager instanceof Factory );
+    assertTrue( entityManager instanceof org.mockito.internal.creation.bytebuddy.MockAccess );
   }
 
   private void assertNoDbCleaner( final Injector injector )

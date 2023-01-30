@@ -8,7 +8,6 @@ import com.google.inject.name.Names;
 import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionSynchronizationRegistry;
-import org.mockito.cglib.proxy.Factory;
 import org.realityforge.guiceyloops.server.Flushable;
 import org.realityforge.guiceyloops.server.FlushingTestModule;
 import org.realityforge.guiceyloops.server.JEETestingModule;
@@ -87,11 +86,11 @@ public class AbstractModuleTest
     final Runnable m1 = injector.getInstance( Runnable.class );
     final Runnable m2 = injector.getInstance( Runnable.class );
     assertEquals( m1, m2 );
-    assertTrue( m1 instanceof Factory );
+    assertTrue( m1 instanceof org.mockito.internal.creation.bytebuddy.MockAccess );
 
     final Provider<Runnable> runnerProvider =
       injector.getProvider( Key.get( Runnable.class, Names.named( "MySpecialRunner" ) ) );
-    assertTrue( runnerProvider.get() instanceof Factory );
+    assertTrue( runnerProvider.get() instanceof org.mockito.internal.creation.bytebuddy.MockAccess );
 
     final Provider<String> provider =
       injector.getProvider( Key.get( String.class, Names.named( "MyKey" ) ) );
@@ -140,7 +139,7 @@ public class AbstractModuleTest
     final Flushable flushable = mock( Flushable.class );
     final Injector injector =
       Guice.createInjector( new MyServerTestModule( flushable ), new JEETestingModule(), new ServerTestModule() );
-    assertTrue( injector.getInstance( SessionContext.class ) instanceof Factory );
+    assertTrue( injector.getInstance( SessionContext.class ) instanceof org.mockito.internal.creation.bytebuddy.MockAccess );
     assertTrue( injector.getInstance(
       TransactionSynchronizationRegistry.class ) instanceof TestTransactionSynchronizationRegistry );
 
