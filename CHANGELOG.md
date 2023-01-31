@@ -2,13 +2,13 @@
 
 ### Unreleased
 
-### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.112...v0.113)
+### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.112...v0.113)
 
 Changes in this release:
 
 * Change `TestBeanManager.getExtension(..)` so that it returns `null` rather than generating an exception otherwise this will trigger downstream products that test for the existence of extensions.
 
-### [v0.112](https://github.com/realityforge/guiceyloops/tree/v0.112) (2023-01-30) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.111...v0.112)
+### [v0.112](https://github.com/realityforge/guiceyloops/tree/v0.112) (2023-01-30) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.111...v0.112)
 
 Changes in this release:
 
@@ -17,21 +17,21 @@ Changes in this release:
 * Upgrade the guava version to `30.1-jre` to support java 17 environments.
 * Upgrade the mockito version to `4.5.1` to support java 17 environments.
 
-### [v0.111](https://github.com/realityforge/guiceyloops/tree/v0.111) (2021-12-27) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.110...v0.111)
+### [v0.111](https://github.com/realityforge/guiceyloops/tree/v0.111) (2021-12-27) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.110...v0.111)
 
 Changes in this release:
 
 * Add a `ValueUtil.nextId()` method that is equivalent to `ValueUtil.nextID()` to support coding conventions in some downstream projects.
 * Add a `ValueUtil.nextId(String)` method that creates scopes the id to the specified type string.
 
-### [v0.110](https://github.com/realityforge/guiceyloops/tree/v0.110) (2021-09-10) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.109...v0.110)
+### [v0.110](https://github.com/realityforge/guiceyloops/tree/v0.110) (2021-09-10) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.109...v0.110)
 
 Changes in this release:
 
 * Make `DbCleaner` more resilient to failures during the cleaning process so that a failure will not leave open transactions.
 * Enhance `DbCleaer` and `PersistenceTestModule` to support pre and post clean sql hooks.
 
-### [v0.109](https://github.com/realityforge/guiceyloops/tree/v0.109) (2021-07-30) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.108...v0.109)
+### [v0.109](https://github.com/realityforge/guiceyloops/tree/v0.109) (2021-07-30) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.108...v0.109)
 
 Changes in this release:
 
