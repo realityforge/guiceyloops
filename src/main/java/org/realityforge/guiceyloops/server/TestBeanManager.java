@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
 import javax.enterprise.context.spi.Context;
@@ -52,30 +53,32 @@ public class TestBeanManager
   }
 
   @Override
-  public Object getReference( final Bean<?> bean, final Type beanType, final CreationalContext<?> ctx )
+  public Object getReference( @Nonnull final Bean<?> bean,
+                              @Nonnull final Type beanType,
+                              @Nonnull final CreationalContext<?> ctx )
   {
-    return _injector.getInstance( (Class) beanType );
+    return _injector.getInstance( (Class<?>) beanType );
   }
 
   @Override
-  public Object getInjectableReference( final InjectionPoint ij, final CreationalContext<?> ctx )
+  public Object getInjectableReference( @Nonnull final InjectionPoint ij, @Nonnull final CreationalContext<?> ctx )
   {
     throw new UnsupportedOperationException();
   }
 
   @SuppressWarnings( "unchecked" )
   @Override
-  public <T> CreationalContext<T> createCreationalContext( final Contextual<T> contextual )
+  public <T> CreationalContext<T> createCreationalContext( @Nonnull final Contextual<T> contextual )
   {
     return (CreationalContext<T>) mock( CreationalContext.class );
   }
 
   @Override
-  public Set<Bean<?>> getBeans( final Type beanType, final Annotation... qualifiers )
+  public Set<Bean<?>> getBeans( @Nonnull final Type beanType, @Nonnull final Annotation... qualifiers )
   {
     try
     {
-      _injector.getProvider( (Class) beanType );
+      _injector.getProvider( (Class<?>) beanType );
       final HashSet<Bean<?>> beans = new HashSet<>();
       beans.add( mock( Bean.class ) );
       return beans;
@@ -87,236 +90,253 @@ public class TestBeanManager
   }
 
   @Override
-  public Set<Bean<?>> getBeans( final String name )
+  @Nonnull
+  public Set<Bean<?>> getBeans( @Nonnull final String name )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Bean<?> getPassivationCapableBean( final String id )
+  @Nonnull
+  public Bean<?> getPassivationCapableBean( @Nonnull final String id )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <X> Bean<? extends X> resolve( final Set<Bean<? extends X>> beans )
+  @Nonnull
+  public <X> Bean<? extends X> resolve( @Nonnull final Set<Bean<? extends X>> beans )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void validate( final InjectionPoint injectionPoint )
+  public void validate( @Nonnull final InjectionPoint injectionPoint )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void fireEvent( final Object event, final Annotation... qualifiers )
+  public void fireEvent( @Nonnull final Object event, @Nonnull final Annotation... qualifiers )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> Set<ObserverMethod<? super T>> resolveObserverMethods( final T event, final Annotation... qualifiers )
+  @Nonnull
+  public <T> Set<ObserverMethod<? super T>> resolveObserverMethods( @Nonnull final T event,
+                                                                    @Nonnull final Annotation... qualifiers )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public List<Decorator<?>> resolveDecorators( final Set<Type> types, final Annotation... qualifiers )
+  @Nonnull
+  public List<Decorator<?>> resolveDecorators( @Nonnull final Set<Type> types, @Nonnull final Annotation... qualifiers )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public List<Interceptor<?>> resolveInterceptors( final InterceptionType type,
-                                                   final Annotation... interceptorBindings )
+  @Nonnull
+  public List<Interceptor<?>> resolveInterceptors( @Nonnull final InterceptionType type,
+                                                   @Nonnull final Annotation... interceptorBindings )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isScope( final Class<? extends Annotation> annotationType )
+  public boolean isScope( @Nonnull final Class<? extends Annotation> annotationType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isNormalScope( final Class<? extends Annotation> annotationType )
+  public boolean isNormalScope( @Nonnull final Class<? extends Annotation> annotationType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isPassivatingScope( final Class<? extends Annotation> annotationType )
+  public boolean isPassivatingScope( @Nonnull final Class<? extends Annotation> annotationType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isQualifier( final Class<? extends Annotation> annotationType )
+  public boolean isQualifier( @Nonnull final Class<? extends Annotation> annotationType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isInterceptorBinding( final Class<? extends Annotation> annotationType )
+  public boolean isInterceptorBinding( @Nonnull final Class<? extends Annotation> annotationType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean isStereotype( final Class<? extends Annotation> annotationType )
+  public boolean isStereotype( @Nonnull final Class<? extends Annotation> annotationType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Set<Annotation> getInterceptorBindingDefinition( final Class<? extends Annotation> bindingType )
+  @Nonnull
+  public Set<Annotation> getInterceptorBindingDefinition( @Nonnull final Class<? extends Annotation> bindingType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Set<Annotation> getStereotypeDefinition( final Class<? extends Annotation> stereotype )
+  @Nonnull
+  public Set<Annotation> getStereotypeDefinition( @Nonnull final Class<? extends Annotation> stereotype )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean areQualifiersEquivalent( final Annotation qualifier1, final Annotation qualifier2 )
+  public boolean areQualifiersEquivalent( @Nonnull final Annotation qualifier1, @Nonnull final Annotation qualifier2 )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public boolean areInterceptorBindingsEquivalent( final Annotation interceptorBinding1,
-                                                   final Annotation interceptorBinding2 )
+  public boolean areInterceptorBindingsEquivalent( @Nonnull final Annotation interceptorBinding1,
+                                                   @Nonnull final Annotation interceptorBinding2 )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int getQualifierHashCode( final Annotation qualifier )
+  public int getQualifierHashCode( @Nonnull final Annotation qualifier )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int getInterceptorBindingHashCode( final Annotation interceptorBinding )
+  public int getInterceptorBindingHashCode( @Nonnull final Annotation interceptorBinding )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Context getContext( final Class<? extends Annotation> scopeType )
+  @Nonnull
+  public Context getContext( @Nonnull final Class<? extends Annotation> scopeType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
+  @Nonnull
   public ELResolver getELResolver()
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ExpressionFactory wrapExpressionFactory( final ExpressionFactory expressionFactory )
+  public ExpressionFactory wrapExpressionFactory( @Nonnull final ExpressionFactory expressionFactory )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> AnnotatedType<T> createAnnotatedType( final Class<T> type )
+  @Nonnull
+  public <T> AnnotatedType<T> createAnnotatedType( @Nonnull final Class<T> type )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> InjectionTarget<T> createInjectionTarget( final AnnotatedType<T> type )
+  @Nonnull
+  public <T> InjectionTarget<T> createInjectionTarget( @Nonnull final AnnotatedType<T> type )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> InjectionTargetFactory<T> getInjectionTargetFactory( final AnnotatedType<T> annotatedType )
+  @Nonnull
+  public <T> InjectionTargetFactory<T> getInjectionTargetFactory( @Nonnull final AnnotatedType<T> annotatedType )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <X> ProducerFactory<X> getProducerFactory( final AnnotatedField<? super X> field, final Bean<X> declaringBean )
+  @Nonnull
+  public <X> ProducerFactory<X> getProducerFactory( @Nonnull final AnnotatedField<? super X> field,
+                                                    @Nonnull final Bean<X> declaringBean )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <X> ProducerFactory<X> getProducerFactory( final AnnotatedMethod<? super X> method,
-                                                    final Bean<X> declaringBean )
+  @Nonnull public <X> ProducerFactory<X> getProducerFactory(@Nonnull  final AnnotatedMethod<? super X> method,
+                                                            @Nonnull     final Bean<X> declaringBean )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> BeanAttributes<T> createBeanAttributes( final AnnotatedType<T> type )
+  @Nonnull public <T> BeanAttributes<T> createBeanAttributes(@Nonnull  final AnnotatedType<T> type )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public BeanAttributes<?> createBeanAttributes( final AnnotatedMember<?> type )
+  @Nonnull public BeanAttributes<?> createBeanAttributes(@Nonnull  final AnnotatedMember<?> type )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> Bean<T> createBean( final BeanAttributes<T> attributes,
-                                 final Class<T> beanClass,
-                                 final InjectionTargetFactory<T> injectionTargetFactory )
+  @Nonnull public <T> Bean<T> createBean( @Nonnull final BeanAttributes<T> attributes,
+                                          @Nonnull    final Class<T> beanClass,
+                                          @Nonnull     final InjectionTargetFactory<T> injectionTargetFactory )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T, X> Bean<T> createBean( final BeanAttributes<T> attributes,
-                                    final Class<X> beanClass,
-                                    final ProducerFactory<X> producerFactory )
+  @Nonnull public <T, X> Bean<T> createBean( @Nonnull final BeanAttributes<T> attributes,
+                                    @Nonnull final Class<X> beanClass,
+                                    @Nonnull final ProducerFactory<X> producerFactory )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T> InterceptionFactory<T> createInterceptionFactory( final CreationalContext<T> ctx, final Class<T> clazz )
+  @Nonnull public <T> InterceptionFactory<T> createInterceptionFactory(@Nonnull  final CreationalContext<T> ctx,@Nonnull  final Class<T> clazz )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Event<Object> getEvent()
+  @Nonnull public Event<Object> getEvent()
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Instance<Object> createInstance()
+  @Nonnull public Instance<Object> createInstance()
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public InjectionPoint createInjectionPoint( final AnnotatedField<?> field )
+  @Nonnull public InjectionPoint createInjectionPoint(@Nonnull  final AnnotatedField<?> field )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public InjectionPoint createInjectionPoint( final AnnotatedParameter<?> parameter )
+  @Nonnull public InjectionPoint createInjectionPoint( @Nonnull final AnnotatedParameter<?> parameter )
   {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public <T extends Extension> T getExtension( final Class<T> extensionClass )
+  @Nullable
+  public <T extends Extension> T getExtension(@Nonnull  final Class<T> extensionClass )
   {
     throw new UnsupportedOperationException();
   }
