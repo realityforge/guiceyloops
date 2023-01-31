@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.112...v0.113)
+
+Changes in this release:
 
 * Change `TestBeanManager.getExtension(..)` so that it returns `null` rather than generating an exception otherwise this will trigger downstream products that test for the existence of extensions.
 
