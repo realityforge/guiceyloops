@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Change `TestBeanManager.getExtension(..)` so that it returns `null` rather than generating an exception otherwise this will trigger downstream products that test for the existence of extensions.
+
 ### [v0.112](https://github.com/realityforge/guiceyloops/tree/v0.112) (2023-01-30) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.111...v0.112)
 
 Changes in this release:

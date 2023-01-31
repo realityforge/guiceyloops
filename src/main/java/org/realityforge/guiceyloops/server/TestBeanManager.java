@@ -338,6 +338,6 @@ public class TestBeanManager
   @Nullable
   public <T extends Extension> T getExtension(@Nonnull  final Class<T> extensionClass )
   {
-    throw new UnsupportedOperationException();
+    return null;
   }
 }
