@@ -41,6 +41,7 @@ public class TestBeanManager
 {
   private final Injector _injector;
 
+  @SuppressWarnings( "CdiInjectionPointsInspection" )
   @Inject
   public TestBeanManager( final Injector injector )
   {
