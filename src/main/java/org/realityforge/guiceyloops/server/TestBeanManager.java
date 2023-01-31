@@ -7,7 +7,9 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
 import javax.enterprise.context.spi.Context;
@@ -39,13 +41,14 @@ import static org.mockito.Mockito.*;
 public class TestBeanManager
   implements BeanManager
 {
+  @Nonnull
   private final Injector _injector;
 
   @SuppressWarnings( "CdiInjectionPointsInspection" )
   @Inject
-  public TestBeanManager( final Injector injector )
+  public TestBeanManager( @Nonnull final Injector injector )
   {
-    _injector = injector;
+    _injector = Objects.requireNonNull( injector );
   }
 
   @Override
