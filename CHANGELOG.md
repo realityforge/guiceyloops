@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.116](https://github.com/realityforge/guiceyloops/tree/v0.116) (2025-02-04) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.115...v0.116)
 
 Changes in this release:
