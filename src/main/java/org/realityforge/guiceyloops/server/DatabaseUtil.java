@@ -89,7 +89,7 @@ public final class DatabaseUtil
   static Properties initDatabaseProperties( @Nullable final String databasePrefix )
   {
     final String qualifiedPrefix = null == databasePrefix ? "" : databasePrefix + ".";
-    final Properties sourceProperties = getSourceProperties();
+    final Properties sourceProperties = getDatabaseProperties();
     final Properties targetProperties = new Properties();
 
     setProperty( sourceProperties,
@@ -120,7 +120,7 @@ public final class DatabaseUtil
   }
 
   @Nonnull
-  private static Properties getSourceProperties()
+  public static Properties getDatabaseProperties()
   {
     final String propertyFilename = System.getProperty( DB_PROPERTY_FILE, null );
     if ( null != propertyFilename )
