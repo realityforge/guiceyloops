@@ -316,13 +316,21 @@ public final class DatabaseUtil
                                                    @Nullable final String databasePrefix,
                                                    @Nullable final Properties additionalDatabaseProperties )
   {
+    final Properties properties = getPersistenceUnitProperties( databasePrefix, additionalDatabaseProperties );
+    final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
+    return factory.createEntityManager();
+  }
+
+  @Nonnull
+  public static Properties getPersistenceUnitProperties( @Nullable final String databasePrefix,
+                                                         @Nullable final Properties additionalDatabaseProperties )
+  {
     final Properties properties = initPersistenceUnitProperties( databasePrefix );
     if ( null != additionalDatabaseProperties )
     {
       properties.putAll( additionalDatabaseProperties );
     }
-    final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
-    return factory.createEntityManager();
+    return properties;
   }
 
   /**
