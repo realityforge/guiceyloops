@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.118](https://github.com/realityforge/guiceyloops/tree/v0.118) (2025-04-11) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.117...v0.118)
+
+Changes in this release:
 
 * Make `DatabaseAsserts.toRowData()` public.
 
