@@ -77,6 +77,8 @@ public final class DatabaseUtil
   public static final String JTDS_SQL_SERVER_JDBC_URL_PREFIX = "jdbc:jtds:sqlserver://";
   @Nonnull
   public static final String POSTGRES_SERVER_JDBC_URL_PREFIX = "jdbc:postgresql://";
+  @Nonnull
+  public static final String ENV_PREFIX = "GLDB.";
 
   private DatabaseUtil()
   {
@@ -122,6 +124,12 @@ public final class DatabaseUtil
   @Nonnull
   public static Properties getDatabaseProperties()
   {
+    final Properties envProperties = getGuiceyloopsEnvDatabaseProperties();
+    if ( !envProperties.isEmpty() )
+    {
+      return envProperties;
+    }
+
     final String propertyFilename = System.getProperty( DB_PROPERTY_FILE, null );
     if ( null != propertyFilename )
     {
@@ -140,6 +148,19 @@ public final class DatabaseUtil
     {
       return System.getProperties();
     }
+  }
+
+  @Nonnull
+  private static Properties getGuiceyloopsEnvDatabaseProperties()
+  {
+    final Properties properties = new Properties();
+    System
+      .getenv()
+      .keySet()
+      .stream()
+      .filter( key -> key.startsWith( ENV_PREFIX ) )
+      .forEach( key -> properties.setProperty( key.substring( 5 ), System.getenv( key ) ) );
+    return properties;
   }
 
   public static void setAdditionalPersistenceUnitProperties( @Nonnull final Properties properties )
