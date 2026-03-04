@@ -37,7 +37,7 @@ Changes in this release:
 * Update the `org.realityforge.javax.annotation` artifact to version `1.1.1`.
 * Add support for sourcing database properties from a properties file. This property file is specified using the system property `test.db.property_file`.
 
-### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.112...v0.113)
+### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.112...v0.113)
 
 Changes in this release:
 
