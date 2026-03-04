@@ -8,7 +8,6 @@ Buildr::ReleaseTool.define_release_task do |t|
   t.build
   t.patch_changelog('realityforge/guiceyloops')
   t.tag_project
-  t.stage_release(:release_to => { :url => 'https://stocksoftware.jfrog.io/stocksoftware/staging', :username => ENV['STAGING_USERNAME'], :password => ENV['STAGING_PASSWORD'] })
   t.maven_central_publish
   t.patch_changelog_post_release
   t.push_changes

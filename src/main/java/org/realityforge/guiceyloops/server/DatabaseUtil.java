@@ -1,5 +1,7 @@
 package org.realityforge.guiceyloops.server;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -54,6 +56,8 @@ public final class DatabaseUtil
   @Nonnull
   static final String PASSWORD_KEY = "javax.persistence.jdbc.password";
   @Nonnull
+  static final String DB_PROPERTY_FILE = "test.db.property_file";
+  @Nonnull
   static final String DB_DRIVER_SYS_PROPERTY = "test.db.driver";
   @Nonnull
   static final String DEFAULT_DRIVER = "DATABASE_DRIVER_UNSET";
@@ -73,6 +77,8 @@ public final class DatabaseUtil
   public static final String JTDS_SQL_SERVER_JDBC_URL_PREFIX = "jdbc:jtds:sqlserver://";
   @Nonnull
   public static final String POSTGRES_SERVER_JDBC_URL_PREFIX = "jdbc:postgresql://";
+  @Nonnull
+  public static final String ENV_PREFIX = "GLDB.";
 
   private DatabaseUtil()
   {
@@ -84,19 +90,76 @@ public final class DatabaseUtil
   @Nonnull
   static Properties initDatabaseProperties( @Nullable final String databasePrefix )
   {
-    final Properties properties = new Properties();
-    setProperty( properties,
-                 databasePrefix,
-                 DRIVER_KEY,
+    final String qualifiedPrefix = null == databasePrefix ? "" : databasePrefix + ".";
+    final Properties sourceProperties = getDatabaseProperties();
+    final Properties targetProperties = new Properties();
+
+    setProperty( sourceProperties,
                  DB_DRIVER_SYS_PROPERTY,
-                 ( databasePrefix == null ? "" : databasePrefix ) + DEFAULT_DRIVER );
-    setProperty( properties,
-                 databasePrefix,
-                 URL_KEY,
+                 targetProperties,
+                 DRIVER_KEY,
+                 qualifiedPrefix,
+                 qualifiedPrefix + DEFAULT_DRIVER );
+    setProperty( sourceProperties,
                  DB_URL_SYS_PROPERTY,
-                 ( databasePrefix == null ? "" : databasePrefix ) + DEFAULT_URL );
-    setProperty( properties, databasePrefix, USER_KEY, DB_USER_SYS_PROPERTY, DEFAULT_USER );
-    setProperty( properties, databasePrefix, PASSWORD_KEY, DB_PASSWORD_SYS_PROPERTY, DEFAULT_PASSWORD );
+                 targetProperties,
+                 URL_KEY,
+                 qualifiedPrefix,
+                 qualifiedPrefix + DEFAULT_URL );
+    setProperty( sourceProperties,
+                 DB_USER_SYS_PROPERTY,
+                 targetProperties,
+                 USER_KEY,
+                 qualifiedPrefix,
+                 DEFAULT_USER );
+    setProperty( sourceProperties,
+                 DB_PASSWORD_SYS_PROPERTY,
+                 targetProperties,
+                 PASSWORD_KEY,
+                 qualifiedPrefix,
+                 DEFAULT_PASSWORD );
+    return targetProperties;
+  }
+
+  @Nonnull
+  public static Properties getDatabaseProperties()
+  {
+    final Properties envProperties = getGuiceyloopsEnvDatabaseProperties();
+    if ( !envProperties.isEmpty() )
+    {
+      return envProperties;
+    }
+
+    final String propertyFilename = System.getProperty( DB_PROPERTY_FILE, null );
+    if ( null != propertyFilename )
+    {
+      try
+      {
+        final Properties sourceProperties = new Properties();
+        sourceProperties.load( new FileInputStream( propertyFilename ) );
+        return sourceProperties;
+      }
+      catch ( IOException e )
+      {
+        throw new RuntimeException( "Failed to load database properties from file: " + propertyFilename );
+      }
+    }
+    else
+    {
+      return System.getProperties();
+    }
+  }
+
+  @Nonnull
+  private static Properties getGuiceyloopsEnvDatabaseProperties()
+  {
+    final Properties properties = new Properties();
+    System
+      .getenv()
+      .keySet()
+      .stream()
+      .filter( key -> key.startsWith( ENV_PREFIX ) )
+      .forEach( key -> properties.setProperty( key.substring( 5 ), System.getenv( key ) ) );
     return properties;
   }
 
@@ -116,17 +179,17 @@ public final class DatabaseUtil
     return properties;
   }
 
-  private static void setProperty( @Nonnull final Properties properties,
-                                   @Nullable final String databasePrefix,
-                                   @Nonnull final String key,
-                                   @Nonnull final String systemPropertyKey,
+  private static void setProperty( @Nonnull final Properties sourceProperties,
+                                   @Nonnull final String sourceKey,
+                                   @Nonnull final Properties targetProperties,
+                                   @Nonnull final String targetKey,
+                                   @Nullable final String prefix,
                                    @Nullable final String defaultValue )
   {
-    final String prefix = null == databasePrefix ? "" : databasePrefix + ".";
-    final String value = System.getProperty( prefix + systemPropertyKey, defaultValue );
+    final String value = sourceProperties.getProperty( prefix + sourceKey, defaultValue );
     if ( null != value )
     {
-      properties.put( key, value );
+      targetProperties.put( targetKey, value );
     }
   }
 
@@ -274,13 +337,21 @@ public final class DatabaseUtil
                                                    @Nullable final String databasePrefix,
                                                    @Nullable final Properties additionalDatabaseProperties )
   {
+    final Properties properties = getPersistenceUnitProperties( databasePrefix, additionalDatabaseProperties );
+    final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
+    return factory.createEntityManager();
+  }
+
+  @Nonnull
+  public static Properties getPersistenceUnitProperties( @Nullable final String databasePrefix,
+                                                         @Nullable final Properties additionalDatabaseProperties )
+  {
     final Properties properties = initPersistenceUnitProperties( databasePrefix );
     if ( null != additionalDatabaseProperties )
     {
       properties.putAll( additionalDatabaseProperties );
     }
-    final EntityManagerFactory factory = Persistence.createEntityManagerFactory( persistenceUnitName, properties );
-    return factory.createEntityManager();
+    return properties;
   }
 
   /**

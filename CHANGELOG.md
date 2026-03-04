@@ -2,7 +2,42 @@
 
 ### Unreleased
 
-### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.112...v0.113)
+### [v0.119](https://github.com/realityforge/guiceyloops/tree/v0.119) (2025-05-09) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.118...v0.119)
+
+Changes in this release:
+
+* Add support for extracting database properties from environment variables prefixed with `GLDB.`.
+
+### [v0.118](https://github.com/realityforge/guiceyloops/tree/v0.118) (2025-04-11) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.117...v0.118)
+
+Changes in this release:
+
+* Make `DatabaseAsserts.toRowData()` public.
+
+### [v0.117](https://github.com/realityforge/guiceyloops/tree/v0.117) (2025-02-04) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.116...v0.117)
+
+Changes in this release:
+
+* Expose `DatabaseUtil.getDatabaseProperties(...)` helper method.
+
+### [v0.116](https://github.com/realityforge/guiceyloops/tree/v0.116) (2025-02-04) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.115...v0.116)
+
+Changes in this release:
+
+* Expose `DatabaseUtil.getPersistenceUnitProperties(...)` helper method.
+
+### [v0.115](https://github.com/realityforge/guiceyloops/tree/v0.115) (2025-02-03) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.114...v0.115)
+
+Changes in this release:
+
+### [v0.114](https://github.com/realityforge/guiceyloops/tree/v0.114) (2025-02-03) · [Full Changelog](https://github.com/realityforge/guiceyloops/compare/v0.113...v0.114)
+
+Changes in this release:
+
+* Update the `org.realityforge.javax.annotation` artifact to version `1.1.1`.
+* Add support for sourcing database properties from a properties file. This property file is specified using the system property `test.db.property_file`.
+
+### [v0.113](https://github.com/realityforge/guiceyloops/tree/v0.113) (2023-01-31) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.112...v0.113)
 
 Changes in this release:
 

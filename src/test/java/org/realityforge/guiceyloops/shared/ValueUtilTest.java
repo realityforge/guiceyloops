@@ -43,7 +43,7 @@ public class ValueUtilTest
   @Test
   public void trunc()
   {
-    assertEquals( new Date( 12000 ), ValueUtil.trunc( new Date( 12345 ) ) );
+    assertEquals( ValueUtil.trunc( new Date( 12345 ) ), new Date( 12000 ) );
   }
 
   @Test

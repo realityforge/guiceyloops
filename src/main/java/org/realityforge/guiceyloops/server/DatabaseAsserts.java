@@ -191,7 +191,7 @@ public final class DatabaseAsserts
   }
 
   @Nonnull
-  private static Map<String, Object> toRowData( @Nonnull final ResultSet resultSet )
+  public static Map<String, Object> toRowData( @Nonnull final ResultSet resultSet )
     throws SQLException
   {
     final Map<String, Object> results = new HashMap<>();
